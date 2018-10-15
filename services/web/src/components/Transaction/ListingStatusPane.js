@@ -9,27 +9,19 @@ import Failed from './HandshakeModals/Failed';
 import { AUTH_TOKEN } from '../../constants';
 import Expired from './HandshakeModals/Expired';
 import './HandshakeLister.css';
+import { toggleToReserved, toggleToLooking } from '../../utilities/mapHelper';
 
 class ListingStatusDrawer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerShow: true,
-      homeRedirect: false
+      drawerShow: true
     };
     this.handleClose = this.handleClose.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
-    this.handleCloseAndRemove = this.handleCloseAndRemove.bind(this);
   };
 
   handleClose() {
-    this.setState({
-      drawerShow: false
-    })
-  }
-
-  handleCloseAndRemove() {
-
     this.setState({
       drawerShow: false
     })
@@ -40,35 +32,8 @@ class ListingStatusDrawer extends Component {
       drawerShow: true
     })
   }
-
-  _subscribeToUpdatedListings = subscribeToMore => {
-    subscribeToMore({
-      document: CHANGED_LISTINGS_SUBSCRIPTION,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
-        console.log(subscriptionData.data.listingUpdate.node)
-        this.openDrawer();
-        const listingUpdate = subscriptionData.data.listingUpdate.node;
-        let newArray = [listingUpdate, ...prev.myListings];
-        newArray = this._removeDups(newArray);
-        var toReturn = Object.assign({}, prev, {
-          myListings: newArray,
-        })
-        return toReturn;
-      }
-    })
-  }
-
-  _removeDups = data => {
-    let obj = {};
-    data.forEach((item) => {
-      obj[item.id] = item;
-    })
-    let newArray = [];
-    for (let keys in obj) {
-      newArray.push(obj[keys]);
-    }
-    return newArray;
+  componentDidMount() {
+    this.openDrawer();
   }
 
   displayListingStatus(listing) {
@@ -79,13 +44,31 @@ class ListingStatusDrawer extends Component {
     } else if (listing.status === 2) {
       return <Claimed listing={listing} handleClose={this.handleClose}  key={listing.id}/>
     } else if (listing.status === 8) {
-      return <Success listing={listing} handleCloseAndRemove={this.handleCloseAndRemove}  key={listing.id}/>;
+      return <Success listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
     } else if (listing.status > 3) {
       return <Failed listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
     } else {
       if (this.state.Show) {
         this.handleClose();
       }
+    }
+  }
+
+  displayIt() {
+    if (this.props.myListings && this.props.myListings.length > 0) {
+      return (
+        <div id="drawer-content">
+          {
+            (this.props.myListings[0]) && this.displayListingStatus(this.props.myListings[0])
+          }
+        </div>
+      );
+    } else {
+      return (
+        <div id="drawer-content">
+          You have no swaps in progress.
+        </div>
+      )
     }
   }
 
@@ -99,29 +82,9 @@ class ListingStatusDrawer extends Component {
               <div onClick={this.handleClose}>
                 <img src="/down.png" width="80" height="30" alt="" />
               </div>
-              <Query query={getListingsQuery} >
-              {({ loading, error, data, subscribeToMore }) => {
-                if (loading) return <div>Fetching</div>;
-                if (error) return <div>Error</div>;
-                this._subscribeToUpdatedListings(subscribeToMore);
-                console.log(data);
-                if (data.myListings && data.myListings.length > 0) {
-                  return (
-                    <div id="drawer-content">
-                      {
-                        (data.myListings[0]) && this.displayListingStatus(data.myListings[data.myListings.length - 1])
-                      }
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div>
-                      You have no swaps in progress.
-                    </div>
-                  )
-                }
-              }}
-              </Query>
+
+              {this.displayIt()}
+
             </div>
           </React.Fragment>
         );

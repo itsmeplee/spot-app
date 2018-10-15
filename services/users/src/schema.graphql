@@ -30,7 +30,7 @@ type Mutation {
   editSpot (id: ID, start_time: DateTime, end_time: DateTime) : Spot
   deleteSpot (id: ID) : Spot
   addListing (lat: String, lng: String, type: Int, status: Int, start_time: DateTime, end_time: DateTime, street1: String, street2: String, city: String, state: String, zip: Int) : Listing
-  editListing (id: ID, status: Int, time_complete: DateTime, spot_id: ID, claimer: Boolean) : Listing
+  editListing (id: ID, status: Int, time_complete: DateTime, spot_id: ID, claimer: Boolean, time_complete: DateTime) : Listing
   editSpotListing (spot_id: ID, listing_id: ID, status: Int, claimer: Boolean) : Spot
   expireSpot (date: DateTime, isWorker: Boolean ): BatchPayload
   updateUserRanking (rating: String, userid: String, isWorker: Boolean ): User

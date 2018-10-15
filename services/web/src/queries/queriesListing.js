@@ -4,7 +4,7 @@ const editListingMutation = gql`
 mutation(
   $spot_id: ID, 
   $listing_id: ID, 
-  $status: Int,
+  $status: Int
 ) {
   editSpotListing(
     spot_id: $spot_id
@@ -20,12 +20,14 @@ const updateListingMutation = gql`
 mutation(
   $id: ID, 
   $spot_id: ID, 
-  $claimer: Boolean
+  $claimer: Boolean,
+  $time_complete: DateTime
 ) {
   editListing(
     id: $id
     claimer: $claimer
     spot_id: $spot_id
+    time_complete: $time_complete
   ){
     id
   }
@@ -37,6 +39,7 @@ query{
   myListings{
     id
     status
+    time_complete
     claiming_user{
       id
       user_name
@@ -70,6 +73,8 @@ query{
       street2
       state
       city
+      lng
+      lat
     }
   }
 }
@@ -81,6 +86,7 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
       node {
         id
         status
+        time_complete
         spot{
           id
           is_available

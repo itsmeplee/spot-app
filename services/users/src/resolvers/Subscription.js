@@ -2,7 +2,7 @@ const { getUserIdForSockets } = require('../utils');
 
 function newSpotSubscribe (parent, args, context, info) {
   return context.db.subscription.spot(
-    { where: { mutation_in: ['CREATED', 'UPDATED'] } },
+    { where: { mutation_in: ['CREATED', 'UPDATED', 'DELETED'] } },
     info,
   );
 }
@@ -16,11 +16,12 @@ function changedListingSubscribe (parent, args, context, info) {
   return context.db.subscription.listing(
     { 
       where: { 
-        mutation_in: ['CREATED', 'UPDATED'],
+        mutation_in: ['CREATED', 'UPDATED', 'DELETED'],
         node: {
           OR: [{ listing_user: {id: userId} }, { claiming_user: {id: userId} }],
-          type: 1
-        } 
+          type: 1,
+          // time_complete: null 
+        }  
       }
     },
     info, 

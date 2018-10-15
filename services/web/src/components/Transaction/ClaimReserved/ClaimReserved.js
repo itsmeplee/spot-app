@@ -103,12 +103,16 @@ class ClaimReserved extends Component {
               <Modal.Body>
                 <div>
                   <div>Are you sure?</div>
+
+
+
                   <Mutation
                     mutation={editListingMutation}
                     onCompleted={() => {
                       this.setState({
                         homeRedirect: true
                       })
+                      
                     }}
                   >
                     {editSpotListing => (
@@ -116,10 +120,13 @@ class ClaimReserved extends Component {
                         mutation={updateListingMutation}
                       >
 
-                      {(updateListing) => <button onClick={this.twoFunctionMutation(editSpotListing, updateListing)}>Claim Spot</button>}
+                      {(updateListing) => <button onClick={() => {this.twoFunctionMutation(editSpotListing, updateListing)}}>Claim Spot</button>}
                       </Mutation>
                     )}
                   </Mutation>
+
+
+
                 </div>
               </Modal.Body>
               <Modal.Footer>
