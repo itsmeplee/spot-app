@@ -235,7 +235,8 @@ function addListing (parent, args, context, info) { //working
           }
         },
         type: args.type,
-        status: args.status
+        status: args.status,
+        value: args.value
       }
     },
     info
