@@ -26,27 +26,26 @@ class ListingStatusDrawer extends Component {
     this.setState({
       drawerShow: false
     })
-  }
+  };
 
   handleCloseAndRemove() {
 
     this.setState({
       drawerShow: false
     })
-  }
+  };
 
   openDrawer() {
     this.setState({
       drawerShow: true
     })
-  }
+  };
 
   _subscribeToUpdatedListings = subscribeToMore => {
     subscribeToMore({
       document: CHANGED_LISTINGS_SUBSCRIPTION,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
-        console.log(subscriptionData.data.listingUpdate.node)
         this.openDrawer();
         const listingUpdate = subscriptionData.data.listingUpdate.node;
         let newArray = [listingUpdate, ...prev.myListings];
@@ -57,7 +56,7 @@ class ListingStatusDrawer extends Component {
         return toReturn;
       }
     })
-  }
+  };
 
   _removeDups = data => {
     let obj = {};
@@ -87,7 +86,7 @@ class ListingStatusDrawer extends Component {
         this.handleClose();
       }
     }
-  }
+  };
 
   render() {
     const authToken = localStorage.getItem(AUTH_TOKEN);
@@ -104,7 +103,6 @@ class ListingStatusDrawer extends Component {
                 if (loading) return <div>Fetching</div>;
                 if (error) return <div>Error</div>;
                 this._subscribeToUpdatedListings(subscribeToMore);
-                console.log(data);
                 if (data.myListings && data.myListings.length > 0) {
                   return (
                     <div id="drawer-content">
@@ -141,8 +139,7 @@ class ListingStatusDrawer extends Component {
         <React.Fragment></React.Fragment>
       )
     }
-    
-  }
+  };
 };
 
 export default ListingStatusDrawer;

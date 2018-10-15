@@ -31,6 +31,7 @@ class Map extends Component {
       listSpotLat: 0,
       modalShow: true,
       spotType: 0,
+      spotValue: null,
       spotId: '',
       listingId: '',
       spotStartTime: '',
@@ -74,7 +75,6 @@ class Map extends Component {
 
     if ("geolocation" in navigator) {
       /* geolocation is available */
-      console.log('Geo is available');
       navigator.geolocation.watchPosition((position) => {
         this.updateUserLocation(position);
       }, (err) => {
@@ -135,6 +135,7 @@ class Map extends Component {
   claimSpot(spot) {
     this.setState({
       listingId: spot.listing.id,
+      spotValue: spot.listing.value,
       spotType: spot.type,
       spotId: spot.id,
       spotStartTime: spot.start_time,
@@ -148,7 +149,8 @@ class Map extends Component {
           spotId: this.state.spotId, 
           listingId: this.state.listingId, 
           start_time: this.state.spotStartTime, 
-          end_time: this.state.spotEndTime
+          end_time: this.state.spotEndTime,
+          value: this.state.spotValue
         }
       });
     } else if (spot.type === 2) {

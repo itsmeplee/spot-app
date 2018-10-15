@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/milton-lopez/spotswap/dev
-# timestamp: Sat Oct 13 2018 10:45:26 GMT-0400 (EDT)
+# timestamp: Mon Oct 15 2018 11:01:52 GMT-0400 (EDT)
 
 type AggregateCar {
   count: Int!
@@ -489,6 +489,7 @@ type Listing implements Node {
   type: Int
   status: Int
   time_complete: DateTime
+  value: Int
 }
 
 """A connection to a list of items."""
@@ -505,6 +506,7 @@ input ListingCreateInput {
   type: Int
   status: Int
   time_complete: DateTime
+  value: Int
   listing_user: UserCreateOneWithoutList_listingsInput
   claiming_user: UserCreateOneWithoutClaim_listingsInput
   spot: SpotCreateOneWithoutListingInput
@@ -529,6 +531,7 @@ input ListingCreateWithoutClaiming_userInput {
   type: Int
   status: Int
   time_complete: DateTime
+  value: Int
   listing_user: UserCreateOneWithoutList_listingsInput
   spot: SpotCreateOneWithoutListingInput
 }
@@ -537,6 +540,7 @@ input ListingCreateWithoutListing_userInput {
   type: Int
   status: Int
   time_complete: DateTime
+  value: Int
   claiming_user: UserCreateOneWithoutClaim_listingsInput
   spot: SpotCreateOneWithoutListingInput
 }
@@ -545,6 +549,7 @@ input ListingCreateWithoutSpotInput {
   type: Int
   status: Int
   time_complete: DateTime
+  value: Int
   listing_user: UserCreateOneWithoutList_listingsInput
   claiming_user: UserCreateOneWithoutClaim_listingsInput
 }
@@ -567,6 +572,8 @@ enum ListingOrderByInput {
   status_DESC
   time_complete_ASC
   time_complete_DESC
+  value_ASC
+  value_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -578,6 +585,7 @@ type ListingPreviousValues {
   type: Int
   status: Int
   time_complete: DateTime
+  value: Int
 }
 
 type ListingSubscriptionPayload {
@@ -623,6 +631,7 @@ input ListingUpdateInput {
   type: Int
   status: Int
   time_complete: DateTime
+  value: Int
   listing_user: UserUpdateOneWithoutList_listingsInput
   claiming_user: UserUpdateOneWithoutClaim_listingsInput
   spot: SpotUpdateOneWithoutListingInput
@@ -659,6 +668,7 @@ input ListingUpdateWithoutClaiming_userDataInput {
   type: Int
   status: Int
   time_complete: DateTime
+  value: Int
   listing_user: UserUpdateOneWithoutList_listingsInput
   spot: SpotUpdateOneWithoutListingInput
 }
@@ -667,6 +677,7 @@ input ListingUpdateWithoutListing_userDataInput {
   type: Int
   status: Int
   time_complete: DateTime
+  value: Int
   claiming_user: UserUpdateOneWithoutClaim_listingsInput
   spot: SpotUpdateOneWithoutListingInput
 }
@@ -675,6 +686,7 @@ input ListingUpdateWithoutSpotDataInput {
   type: Int
   status: Int
   time_complete: DateTime
+  value: Int
   listing_user: UserUpdateOneWithoutList_listingsInput
   claiming_user: UserUpdateOneWithoutClaim_listingsInput
 }
@@ -821,6 +833,28 @@ input ListingWhereInput {
 
   """All values greater than or equal the given value."""
   time_complete_gte: DateTime
+  value: Int
+
+  """All values that are not equal to given value."""
+  value_not: Int
+
+  """All values that are contained in given list."""
+  value_in: [Int!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [Int!]
+
+  """All values less than the given value."""
+  value_lt: Int
+
+  """All values less than or equal the given value."""
+  value_lte: Int
+
+  """All values greater than the given value."""
+  value_gt: Int
+
+  """All values greater than or equal the given value."""
+  value_gte: Int
   listing_user: UserWhereInput
   claiming_user: UserWhereInput
   spot: SpotWhereInput
@@ -2071,6 +2105,7 @@ type User implements Node {
   current_lat: String
   claim_listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing!]
   list_listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing!]
+  balance: Int
 }
 
 """A connection to a list of items."""
@@ -2093,6 +2128,7 @@ input UserCreateInput {
   password: String!
   current_lng: String
   current_lat: String
+  balance: Int
   locations: LocationCreateManyWithoutUserInput
   user_cars: CarCreateManyWithoutUserInput
   claim_listings: ListingCreateManyWithoutClaiming_userInput
@@ -2134,6 +2170,7 @@ input UserCreateWithoutClaim_listingsInput {
   password: String!
   current_lng: String
   current_lat: String
+  balance: Int
   locations: LocationCreateManyWithoutUserInput
   user_cars: CarCreateManyWithoutUserInput
   list_listings: ListingCreateManyWithoutListing_userInput
@@ -2149,6 +2186,7 @@ input UserCreateWithoutList_listingsInput {
   password: String!
   current_lng: String
   current_lat: String
+  balance: Int
   locations: LocationCreateManyWithoutUserInput
   user_cars: CarCreateManyWithoutUserInput
   claim_listings: ListingCreateManyWithoutClaiming_userInput
@@ -2164,6 +2202,7 @@ input UserCreateWithoutLocationsInput {
   password: String!
   current_lng: String
   current_lat: String
+  balance: Int
   user_cars: CarCreateManyWithoutUserInput
   claim_listings: ListingCreateManyWithoutClaiming_userInput
   list_listings: ListingCreateManyWithoutListing_userInput
@@ -2179,6 +2218,7 @@ input UserCreateWithoutUser_carsInput {
   password: String!
   current_lng: String
   current_lat: String
+  balance: Int
   locations: LocationCreateManyWithoutUserInput
   claim_listings: ListingCreateManyWithoutClaiming_userInput
   list_listings: ListingCreateManyWithoutListing_userInput
@@ -2214,6 +2254,8 @@ enum UserOrderByInput {
   current_lng_DESC
   current_lat_ASC
   current_lat_DESC
+  balance_ASC
+  balance_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -2231,6 +2273,7 @@ type UserPreviousValues {
   password: String!
   current_lng: String
   current_lat: String
+  balance: Int
 }
 
 type UserSubscriptionPayload {
@@ -2282,6 +2325,7 @@ input UserUpdateDataInput {
   password: String
   current_lng: String
   current_lat: String
+  balance: Int
   locations: LocationUpdateManyWithoutUserInput
   user_cars: CarUpdateManyWithoutUserInput
   claim_listings: ListingUpdateManyWithoutClaiming_userInput
@@ -2298,6 +2342,7 @@ input UserUpdateInput {
   password: String
   current_lng: String
   current_lat: String
+  balance: Int
   locations: LocationUpdateManyWithoutUserInput
   user_cars: CarUpdateManyWithoutUserInput
   claim_listings: ListingUpdateManyWithoutClaiming_userInput
@@ -2359,6 +2404,7 @@ input UserUpdateWithoutClaim_listingsDataInput {
   password: String
   current_lng: String
   current_lat: String
+  balance: Int
   locations: LocationUpdateManyWithoutUserInput
   user_cars: CarUpdateManyWithoutUserInput
   list_listings: ListingUpdateManyWithoutListing_userInput
@@ -2374,6 +2420,7 @@ input UserUpdateWithoutList_listingsDataInput {
   password: String
   current_lng: String
   current_lat: String
+  balance: Int
   locations: LocationUpdateManyWithoutUserInput
   user_cars: CarUpdateManyWithoutUserInput
   claim_listings: ListingUpdateManyWithoutClaiming_userInput
@@ -2389,6 +2436,7 @@ input UserUpdateWithoutLocationsDataInput {
   password: String
   current_lng: String
   current_lat: String
+  balance: Int
   user_cars: CarUpdateManyWithoutUserInput
   claim_listings: ListingUpdateManyWithoutClaiming_userInput
   list_listings: ListingUpdateManyWithoutListing_userInput
@@ -2404,6 +2452,7 @@ input UserUpdateWithoutUser_carsDataInput {
   password: String
   current_lng: String
   current_lat: String
+  balance: Int
   locations: LocationUpdateManyWithoutUserInput
   claim_listings: ListingUpdateManyWithoutClaiming_userInput
   list_listings: ListingUpdateManyWithoutListing_userInput
@@ -2825,6 +2874,28 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   current_lat_not_ends_with: String
+  balance: Int
+
+  """All values that are not equal to given value."""
+  balance_not: Int
+
+  """All values that are contained in given list."""
+  balance_in: [Int!]
+
+  """All values that are not contained in given list."""
+  balance_not_in: [Int!]
+
+  """All values less than the given value."""
+  balance_lt: Int
+
+  """All values less than or equal the given value."""
+  balance_lte: Int
+
+  """All values greater than the given value."""
+  balance_gt: Int
+
+  """All values greater than or equal the given value."""
+  balance_gte: Int
   locations_every: LocationWhereInput
   locations_some: LocationWhereInput
   locations_none: LocationWhereInput

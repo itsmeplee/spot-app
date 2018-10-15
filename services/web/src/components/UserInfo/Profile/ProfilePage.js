@@ -105,6 +105,9 @@ class ProfilePage extends Component {
             </Mutation>
             <Form.Group>
               <Form.Label>Default Car: </Form.Label>
+              <div>
+                {this.state.default_car.make}
+              </div>
             </Form.Group>
             <Form.Group>
               <CarList changeDefaultCar={this.changeDefaultCar}/>
