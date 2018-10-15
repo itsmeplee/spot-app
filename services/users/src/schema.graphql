@@ -19,7 +19,7 @@ type Query {
 type Mutation {
   signup (email: String!, password: String!, user_name: String!) : AuthPayload
   login (email: String!, password: String!) : AuthPayload
-  editUser (user_name: String, first_name: String, last_name: String, email: String, phone_number: String, password: String, current_lat: String, current_lng: String) : User
+  editUser (user_name: String, first_name: String, last_name: String, email: String, phone_number: String, password: String, current_lat: String, current_lng: String, balance: Int) : User
   addLocation (name: String, street1: String, street2: String, city: String, state: String, zip: Int) : Location
   editLocation (id: ID!, name: String, street1: String, street2: String, city: String, state: String, zip: Int) : Location
   deleteLocation (id: ID) : Location
@@ -34,6 +34,7 @@ type Mutation {
   editSpotListing (spot_id: ID, listing_id: ID, status: Int, claimer: Boolean) : Spot
   expireSpot (date: DateTime, isWorker: Boolean ): BatchPayload
   updateUserRanking (rating: String, userid: String, isWorker: Boolean ): User
+  updateBalance (value: Int, listerId: ID) : User
 }
 
 type UserRankingInfo {
@@ -54,18 +55,18 @@ type AuthPayload {
 }
 
 type User {
-    id: ID!
-    user_name: String!
-    rating: Int
-    first_name: String
-    last_name: String
-    email: String!
-    phone_number: String
-    locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
-    user_cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car!]
-    claim_listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing!]
-    list_listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing!]
-    current_lat: String
-    current_lng: String
-    balance: Int
+  id: ID!
+  user_name: String!
+  rating: Int
+  first_name: String
+  last_name: String
+  email: String!
+  phone_number: String
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+  user_cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car!]
+  claim_listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing!]
+  list_listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing!]
+  current_lat: String
+  current_lng: String
+  balance: Int
 }

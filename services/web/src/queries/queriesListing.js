@@ -36,10 +36,12 @@ const getListingsQuery = gql`
 query{
   myListings{
     id
+    value
     status
     claiming_user{
       id
       user_name
+      balance
       user_cars {
         id
         color
@@ -52,6 +54,7 @@ query{
     listing_user{
       id
       user_name
+      balance
       user_cars {
         id
         color

@@ -11,6 +11,7 @@ const getSpotsQuery = gql`
       end_time
       listing {
         id
+        value
       }
     }
   }
@@ -77,6 +78,7 @@ const NEW_SPOTS_SUBSCRIPTION = gql`
         type
         listing {
           id
+          value
         }
       }
     }
