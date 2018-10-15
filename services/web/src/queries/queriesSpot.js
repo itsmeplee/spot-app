@@ -29,6 +29,7 @@ const addSpotMutation = gql`
     $city: String,
     $state: String,
     $zip: Int,
+    $value: Int
   ) {
     addListing(
       lat: $lat
@@ -42,6 +43,7 @@ const addSpotMutation = gql`
       state: $state
       zip: $zip
       city: $city
+      value: $value
     ){
       id
     }
