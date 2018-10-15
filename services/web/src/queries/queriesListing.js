@@ -40,7 +40,7 @@ query{
     claiming_user{
       id
       user_name
-      user_cars (where: {default_car: true }) {
+      user_cars {
         id
         color
         default_car
@@ -52,7 +52,7 @@ query{
     listing_user{
       id
       user_name
-      user_cars (where: {default_car: true }) {
+      user_cars {
         id
         color
         default_car
@@ -94,7 +94,7 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
         claiming_user {
           user_name
           id
-          user_cars (where: {default_car: true }) {
+          user_cars {
             id
             color
             default_car
@@ -106,7 +106,7 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
         listing_user {
           user_name
           id
-          user_cars (where: {default_car: true }) {
+          user_cars {
             id
             color
             default_car

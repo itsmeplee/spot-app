@@ -23,7 +23,7 @@ function changedListingSubscribe (parent, args, context, info) {
         } 
       }
     },
-    info,
+    info, 
   );
   // return context.db.subscription.listing(
   //   { where: { mutation_in: 'UPDATED' } },

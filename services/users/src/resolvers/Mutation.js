@@ -45,7 +45,9 @@ function editUser (parent, args, context, info) {
         last_name: args.last_name,
         email: args.email,
         phone_number: args.phone_number,
-        password: args.password
+        password: args.password,
+        current_lat: args.current_lat,
+        current_lng: args.current_lng
       },
       where: {id: userId}
     },

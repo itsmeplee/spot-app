@@ -39,7 +39,7 @@ class App extends Component {
           <div className="App">
             <MapComp />
             <br></br><br></br>
-            {this.handshake()}
+            {/* {this.handshake()} */}
           </div>
         </Switch>
       </React.Fragment>

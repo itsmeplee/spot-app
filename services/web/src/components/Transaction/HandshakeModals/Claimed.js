@@ -29,7 +29,7 @@ var Reserving = function({listing, handleClose}) {
         variables={{
           spot_id: listing.spot.id,
           listing_id: listing.id,
-          status: 6
+          status: 5
         }}
         onCompleted={() => this.props.history.push('/')}
       >

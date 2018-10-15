@@ -8,7 +8,9 @@ type User {
   phone_number: String
   password: String!
   locations: [Location!]!
-  user_cars: [Car!]!
+  user_cars: [Car!]! 
+  current_lng: String
+  current_lat: String
   claim_listings : [Listing!]! @relation(name: "Claimer")
   list_listings : [Listing!]! @relation(name: "Lister")
 }
@@ -22,7 +24,7 @@ type Car {
   color: String
   plate: String
   state: String
-  user: User @relation(name: "Anything")
+  user: User
 }
 
 type Location {

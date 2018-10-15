@@ -1,0 +1,15 @@
+#status-tracker-open {
+  height: 40vh;
+  bottom: 0;
+  position: absolute;
+  width: 90vw;
+  background-color: grey;
+}
+
+#status-tracker-closed {
+  height: 5vh;
+  bottom: 0;
+  position: absolute;
+  width: 100vw;
+  background-color: grey;
+}

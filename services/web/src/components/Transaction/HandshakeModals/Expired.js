@@ -1,7 +1,6 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
 import { editListingMutation } from '../../../queries/queriesListing';
-import moment from 'moment';
 
 var Expired = function({listing, handleClose}) {
   return (

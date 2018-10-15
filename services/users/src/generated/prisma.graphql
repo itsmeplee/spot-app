@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/milton-lopez/spotswap/dev
-# timestamp: Sat Oct 13 2018 08:32:45 GMT-0400 (EDT)
+# timestamp: Sat Oct 13 2018 10:45:26 GMT-0400 (EDT)
 
 type AggregateCar {
   count: Int!
@@ -2067,6 +2067,8 @@ type User implements Node {
   password: String!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
   user_cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car!]
+  current_lng: String
+  current_lat: String
   claim_listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing!]
   list_listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing!]
 }
@@ -2089,6 +2091,8 @@ input UserCreateInput {
   email: String!
   phone_number: String
   password: String!
+  current_lng: String
+  current_lat: String
   locations: LocationCreateManyWithoutUserInput
   user_cars: CarCreateManyWithoutUserInput
   claim_listings: ListingCreateManyWithoutClaiming_userInput
@@ -2128,6 +2132,8 @@ input UserCreateWithoutClaim_listingsInput {
   email: String!
   phone_number: String
   password: String!
+  current_lng: String
+  current_lat: String
   locations: LocationCreateManyWithoutUserInput
   user_cars: CarCreateManyWithoutUserInput
   list_listings: ListingCreateManyWithoutListing_userInput
@@ -2141,6 +2147,8 @@ input UserCreateWithoutList_listingsInput {
   email: String!
   phone_number: String
   password: String!
+  current_lng: String
+  current_lat: String
   locations: LocationCreateManyWithoutUserInput
   user_cars: CarCreateManyWithoutUserInput
   claim_listings: ListingCreateManyWithoutClaiming_userInput
@@ -2154,6 +2162,8 @@ input UserCreateWithoutLocationsInput {
   email: String!
   phone_number: String
   password: String!
+  current_lng: String
+  current_lat: String
   user_cars: CarCreateManyWithoutUserInput
   claim_listings: ListingCreateManyWithoutClaiming_userInput
   list_listings: ListingCreateManyWithoutListing_userInput
@@ -2167,6 +2177,8 @@ input UserCreateWithoutUser_carsInput {
   email: String!
   phone_number: String
   password: String!
+  current_lng: String
+  current_lat: String
   locations: LocationCreateManyWithoutUserInput
   claim_listings: ListingCreateManyWithoutClaiming_userInput
   list_listings: ListingCreateManyWithoutListing_userInput
@@ -2198,6 +2210,10 @@ enum UserOrderByInput {
   phone_number_DESC
   password_ASC
   password_DESC
+  current_lng_ASC
+  current_lng_DESC
+  current_lat_ASC
+  current_lat_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -2213,6 +2229,8 @@ type UserPreviousValues {
   email: String!
   phone_number: String
   password: String!
+  current_lng: String
+  current_lat: String
 }
 
 type UserSubscriptionPayload {
@@ -2262,6 +2280,8 @@ input UserUpdateDataInput {
   email: String
   phone_number: String
   password: String
+  current_lng: String
+  current_lat: String
   locations: LocationUpdateManyWithoutUserInput
   user_cars: CarUpdateManyWithoutUserInput
   claim_listings: ListingUpdateManyWithoutClaiming_userInput
@@ -2276,6 +2296,8 @@ input UserUpdateInput {
   email: String
   phone_number: String
   password: String
+  current_lng: String
+  current_lat: String
   locations: LocationUpdateManyWithoutUserInput
   user_cars: CarUpdateManyWithoutUserInput
   claim_listings: ListingUpdateManyWithoutClaiming_userInput
@@ -2335,6 +2357,8 @@ input UserUpdateWithoutClaim_listingsDataInput {
   email: String
   phone_number: String
   password: String
+  current_lng: String
+  current_lat: String
   locations: LocationUpdateManyWithoutUserInput
   user_cars: CarUpdateManyWithoutUserInput
   list_listings: ListingUpdateManyWithoutListing_userInput
@@ -2348,6 +2372,8 @@ input UserUpdateWithoutList_listingsDataInput {
   email: String
   phone_number: String
   password: String
+  current_lng: String
+  current_lat: String
   locations: LocationUpdateManyWithoutUserInput
   user_cars: CarUpdateManyWithoutUserInput
   claim_listings: ListingUpdateManyWithoutClaiming_userInput
@@ -2361,6 +2387,8 @@ input UserUpdateWithoutLocationsDataInput {
   email: String
   phone_number: String
   password: String
+  current_lng: String
+  current_lat: String
   user_cars: CarUpdateManyWithoutUserInput
   claim_listings: ListingUpdateManyWithoutClaiming_userInput
   list_listings: ListingUpdateManyWithoutListing_userInput
@@ -2374,6 +2402,8 @@ input UserUpdateWithoutUser_carsDataInput {
   email: String
   phone_number: String
   password: String
+  current_lng: String
+  current_lat: String
   locations: LocationUpdateManyWithoutUserInput
   claim_listings: ListingUpdateManyWithoutClaiming_userInput
   list_listings: ListingUpdateManyWithoutListing_userInput
@@ -2715,6 +2745,86 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
+  current_lng: String
+
+  """All values that are not equal to given value."""
+  current_lng_not: String
+
+  """All values that are contained in given list."""
+  current_lng_in: [String!]
+
+  """All values that are not contained in given list."""
+  current_lng_not_in: [String!]
+
+  """All values less than the given value."""
+  current_lng_lt: String
+
+  """All values less than or equal the given value."""
+  current_lng_lte: String
+
+  """All values greater than the given value."""
+  current_lng_gt: String
+
+  """All values greater than or equal the given value."""
+  current_lng_gte: String
+
+  """All values containing the given string."""
+  current_lng_contains: String
+
+  """All values not containing the given string."""
+  current_lng_not_contains: String
+
+  """All values starting with the given string."""
+  current_lng_starts_with: String
+
+  """All values not starting with the given string."""
+  current_lng_not_starts_with: String
+
+  """All values ending with the given string."""
+  current_lng_ends_with: String
+
+  """All values not ending with the given string."""
+  current_lng_not_ends_with: String
+  current_lat: String
+
+  """All values that are not equal to given value."""
+  current_lat_not: String
+
+  """All values that are contained in given list."""
+  current_lat_in: [String!]
+
+  """All values that are not contained in given list."""
+  current_lat_not_in: [String!]
+
+  """All values less than the given value."""
+  current_lat_lt: String
+
+  """All values less than or equal the given value."""
+  current_lat_lte: String
+
+  """All values greater than the given value."""
+  current_lat_gt: String
+
+  """All values greater than or equal the given value."""
+  current_lat_gte: String
+
+  """All values containing the given string."""
+  current_lat_contains: String
+
+  """All values not containing the given string."""
+  current_lat_not_contains: String
+
+  """All values starting with the given string."""
+  current_lat_starts_with: String
+
+  """All values not starting with the given string."""
+  current_lat_not_starts_with: String
+
+  """All values ending with the given string."""
+  current_lat_ends_with: String
+
+  """All values not ending with the given string."""
+  current_lat_not_ends_with: String
   locations_every: LocationWhereInput
   locations_some: LocationWhereInput
   locations_none: LocationWhereInput

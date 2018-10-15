@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { getSpotsQuery, NEW_SPOTS_SUBSCRIPTION } from '../../../queries/queriesSpot';
-import gql from 'graphql-tag';
 import { addSpot, removeSpot } from '../../../utilities/mapHelper';
 
 class SpotList extends Component {

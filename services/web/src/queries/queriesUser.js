@@ -52,18 +52,39 @@ const mutationUser = gql`
   mutation(
     $user_name: String,
     $first_name: String,
-    $last_name: String
+    $last_name: String,
+    $current_lng: String,
+    $current_lat: String
   ) {
     editUser(
       user_name: $user_name
       first_name: $first_name
       last_name: $last_name
+      current_lat: $current_lat
+      current_lng: $current_lng
     ){
       user_name
       first_name
       last_name
+      current_lng
+      current_lat
     }
   }
 `;
 
-export { signupQuery, loginQuery, getUserQuery, mutationUser };
+const mutationUserCurrentLocation = gql`
+  mutation(
+    $current_lng: String,
+    $current_lat: String
+  ) {
+    editUser(
+      current_lat: $current_lat
+      current_lng: $current_lng
+    ){
+      current_lng
+      current_lat
+    }
+  }
+`;
+
+export { signupQuery, loginQuery, getUserQuery, mutationUser, mutationUserCurrentLocation };

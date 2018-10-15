@@ -26,7 +26,7 @@ const addCarMutation = gql`
     $make: String,
     $model: String,
     $color: String,
-    $plate: String,
+    $plate: String, 
     $state: String
   ) {
     addCar(

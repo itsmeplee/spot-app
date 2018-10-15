@@ -12,7 +12,10 @@ import ClaimSpotted from '../Transaction/ClaimSpotted/ClaimSpotted';
 import ClaimReserved from '../Transaction/ClaimReserved/ClaimReserved';
 import { AUTH_TOKEN } from '../../constants';
 import { initializeMap } from '../../utilities/mapHelper';
-import { Container, Navbar, Nav } from 'react-bootstrap';
+import { mutationUserCurrentLocation } from '../../queries/queriesUser';
+import { graphql, compose } from 'react-apollo';
+import ListingStatusPane from '../Transaction/ListingStatusPane';
+import { Container, Navbar, Nav, Dropdown, DropdownButton } from 'react-bootstrap';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 
@@ -56,7 +59,6 @@ class Map extends Component {
     map.on('load', () => {
       trackUser.trigger();
     });
-
     document.getElementById('track-user').appendChild(trackUser.onAdd(map));
 
     var geocoder = new MapboxGeocoder({
@@ -64,14 +66,36 @@ class Map extends Component {
       country: 'us',
       bbox: [-74.2299, 40.6778, -73.6806, 40.8789]
     });
-
     document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
     this.setState({
       map: map
     });
 
+    if ("geolocation" in navigator) {
+      /* geolocation is available */
+      console.log('Geo is available');
+      navigator.geolocation.watchPosition((position) => {
+        this.updateUserLocation(position);
+      }, (err) => {
+        console.log(err);
+      })
+    } else {
+      /* geolocation IS NOT available */
+    }
+    
     this.changeLogin();
+  };
+
+  updateUserLocation(position) {
+    this.props.userMutation({
+      variables: {
+        current_lng: (position.coords.longitude).toString(),
+        current_lat: (position.coords.latitude).toString()
+      },
+      // refetchQueries: [{query: getSpotsQuery, variables: {}}]
+    });
+    
   };
 
   moveHandler(lng, lat, zoom) {
@@ -141,39 +165,57 @@ class Map extends Component {
     }
   };
 
-  _getLatLonToRender = (data) => {
-    // const isNewPage = this.props.location.pathname.includes('new')
-    // if (isNewPage) {
-    //   return data.feed.links
-    // }
-    // const rankedLinks = data.feed.links.slice()
-    // rankedLinks.sort((l1, l2) => l2.votes.length - l1.votes.length)
-    // return rankedLinks
-  };
-
   render() {
     if (this.state.loggedIn) {
       return (
         <React.Fragment>
-        <div id="map">
-          <div ref={el => this.mapContainer = el} id="map-container" />
-          <div id="track-user" className="track-user"></div>
-          <Container>
-          <Navbar bg="dark" variant="dark" expand="xs">
-            <Navbar.Brand><img src="/favicon-256.png" width="30" height="30" alt="swapspot"/></Navbar.Brand>
-            <div id="geocoder" className="geocoder"></div>
-            <Nav.Link href="/profilePage">Profile</Nav.Link>
-              <Nav.Link href="/historyPage">History</Nav.Link>
-              <Nav.Link onClick={() => {
-                    localStorage.removeItem(AUTH_TOKEN);
-                    this.toggleLogin();
-                  }}
-              >Logout</Nav.Link>
-          </Navbar>
-          </Container>
-          <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
-        </div>
-        <Switch>
+          <div id="map">
+            <div ref={el => this.mapContainer = el} id="map-container" />
+            <div id="track-user" className="track-user"></div> 
+            <Container>
+              <Navbar bg="dark" variant="dark" expand="sm">
+                <Navbar.Brand>
+                  <img src="/favicon-256.png" width="30" height="30" alt="swapspot"/>
+                </Navbar.Brand>
+                <div id="geocoder" className="geocoder"></div>
+                  {/* <Nav.Link href="/profilePage">Profile</Nav.Link>
+                  <Nav.Link href="/historyPage">History</Nav.Link>
+                  <Nav.Link onClick={() => {
+                        localStorage.removeItem(AUTH_TOKEN);
+                        this.toggleLogin();
+                      }}
+                  >
+                    Logout
+                  </Nav.Link> */}
+                  <DropdownButton 
+                    id="dropdown-basic-button" 
+                    title={<img src="/user-outline.svg"  width="20" height="20" alt="" />} 
+                    variant="outline-secondary"
+                  >
+                    <div id="attribution">Icons made by <a href="https://www.flaticon.com/authors/spovv" title="spovv">spovv</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+                    <Dropdown.Item href="/profilePage">Profile</Dropdown.Item>
+                    <Dropdown.Item href="/historyPage">Swap History</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                        localStorage.removeItem(AUTH_TOKEN);
+                        this.toggleLogin();
+                      }}
+                    >
+                      Logout
+                    </Dropdown.Item>
+                  </DropdownButton>
+              </Navbar>
+            </Container>
+            <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
+            Can there be an alternate spots list for the Reserved scenario? 
+            Also can we track the listings (with the subscriptions) in a better way?  Why do we need one array for all.
+                       we can remove from the array if there is something that is 'closed' and then acted upon?
+                          will it stop getting subscriptions? Hopefully
+                      upon new create, we can add to the array and then track. We already know this will recieve subscriptions.
+          </div>
+          <div id="drawer">
+            <ListingStatusPane />
+          </div>
+          <Switch>
             <Route exact path="/addSpot" component={AddSpot} />
             <Route exact path="/login" render={() => {
               return <Login toggleLogin={this.toggleLogin}/>
@@ -194,7 +236,7 @@ class Map extends Component {
           <div ref={el => this.mapContainer = el} id="map-container" />
           <div id="track-user" className="track-user"></div>
           <Container>
-            <Navbar bg="dark" variant="dark" expand="xs">
+            <Navbar bg="dark" variant="dark" expand="sm">
               <Navbar.Brand><img src="/favicon-256.png" width="30" height="30" alt=""/></Navbar.Brand>
               <div id="geocoder" className="geocoder"></div>
               <Nav.Link href="/login">Login</Nav.Link>
@@ -213,4 +255,6 @@ class Map extends Component {
   };
 };
 
-export default withRouter(Map);
+export default withRouter(compose(
+  graphql(mutationUserCurrentLocation, {name: "userMutation"})
+)(Map));

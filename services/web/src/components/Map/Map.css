@@ -3,8 +3,20 @@
   top: 0;
   bottom: 0;
   left: 0;
+  height: 95vh;
   width: 100%;
-  z-index: -1;
+  z-index: 0;
+}
+
+.navbar {
+  top: 10;
+}
+
+#drawer{
+  bottom: 0;
+  position: absolute;
+  width: 100vw;
+  background-color: white;
 }
 
 #location-describe {
@@ -20,22 +32,26 @@
 
 
 .geocoder {
-  position:inline;
-  /* z-index:1;
-  width:50%;
-  left:50%;
-  margin-left:-25%;
-  top:120px; */
+  width:100vw;
+  margin-right: 16px;
 }
 .mapboxgl-ctrl-geocoder { min-width:100%; }
 
 #track-user {
   position: absolute;
-  right: 20px;
-  bottom: 30px;
+  right: 7px;
+  bottom: 65px;
 }
 
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
   width: 40px;
   height: 40px;
+}
+
+#attribution {
+  display:none;
+}
+
+.dropdown-menu{
+  left: -100px;
 }
