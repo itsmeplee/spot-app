@@ -105,8 +105,24 @@ function deleteLocation (parent, args, context, info) { //working
   )
 };
 
-function addCar (parent, args, context, info) { //Working
+async function addCar (parent, args, context, info) { //Working
   const userId = getUserId(context);
+
+  //check if default car exist
+  const defaultCar = await context.db.query.cars({
+    where: {
+      default_car : true,
+      user: {
+          id: userId
+      },
+    },
+  }, info
+  );
+
+  if(args.default_car  && defaultCar) {
+    return new Error("Default car already exists");
+  }
+
   return context.db.mutation.createCar(
     {
       data: {
@@ -116,12 +132,12 @@ function addCar (parent, args, context, info) { //Working
         color: args.color,
         plate: args.plate,
         state: args.state,
+        default_car: args.default_car,
         user: {
           connect: {
             id: userId
           }
         },
-        default_car: args.default_car
       }
     },
     info

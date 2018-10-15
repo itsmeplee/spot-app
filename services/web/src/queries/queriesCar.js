@@ -28,6 +28,7 @@ const addCarMutation = gql`
     $color: String,
     $plate: String, 
     $state: String
+    $default_car : Boolean
   ) {
     addCar(
       size: $size,
@@ -35,7 +36,8 @@ const addCarMutation = gql`
       model: $model,
       color: $color,
       plate: $plate,
-      state: $state
+      state: $state,
+      default_car: $default_car
     ) {
       id
       make
