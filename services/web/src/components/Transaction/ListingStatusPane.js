@@ -26,20 +26,20 @@ class ListingStatusDrawer extends Component {
     this.setState({
       drawerShow: false
     })
-  }
+  };
 
   handleCloseAndRemove() {
 
     this.setState({
       drawerShow: false
     })
-  }
+  };
 
   openDrawer() {
     this.setState({
       drawerShow: true
     })
-  }
+  };
 
   _subscribeToUpdatedListings = subscribeToMore => {
     subscribeToMore({
@@ -57,7 +57,7 @@ class ListingStatusDrawer extends Component {
         return toReturn;
       }
     })
-  }
+  };
 
   _removeDups = data => {
     let obj = {};
@@ -87,7 +87,7 @@ class ListingStatusDrawer extends Component {
         this.handleClose();
       }
     }
-  }
+  };
 
   render() {
     const authToken = localStorage.getItem(AUTH_TOKEN);
@@ -141,8 +141,7 @@ class ListingStatusDrawer extends Component {
         <React.Fragment></React.Fragment>
       )
     }
-    
-  }
+  };
 };
 
 export default ListingStatusDrawer;

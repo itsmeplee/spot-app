@@ -87,4 +87,21 @@ const mutationUserCurrentLocation = gql`
   }
 `;
 
-export { signupQuery, loginQuery, getUserQuery, mutationUser, mutationUserCurrentLocation };
+const editUserBalance = gql`
+  mutation(
+    $value: Int
+    $claimerId: ID
+    $listerId: ID
+  ) {
+    updateBalance(
+      value: $value
+      claimerId: $claimerId
+      listerId: $listerId
+    ){
+      balance
+    }
+  }
+`;
+
+
+export { signupQuery, loginQuery, getUserQuery, mutationUser, mutationUserCurrentLocation, editUserBalance };

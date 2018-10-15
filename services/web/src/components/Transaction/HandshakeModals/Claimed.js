@@ -1,7 +1,8 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import { Button } from 'react-bootstrap';
 import { editListingMutation } from '../../../queries/queriesListing';
+import { editUserBalance } from '../../../queries/queriesUser';
 import moment from 'moment';
 
 function hashCode(str) { // java String#hashCode
@@ -20,8 +21,29 @@ function intToRGB(i){
   return "00000".substring(0, 6 - c.length) + c;
 }
 
+
 var Reserving = function({listing, handleClose}) {
   var overtime
+
+  function twoFunctionMutation(editListing, editClaimingUser) {
+    editListing({
+      variables: {
+        spot_id: listing.spot.id,
+        listing_id: listing.id,
+        status: 8
+      }
+    })
+    .then(() => {
+      editClaimingUser({
+        variables: {
+          value: listing.value,
+          claimerId: listing.claiming_user.id,
+          listerId: listing.listing_user.id
+        }
+      })
+    })
+  };
+
   if (moment(listing.spot.end_time).isBefore(Date.now())) {
     overtime = (
       <Mutation
@@ -39,7 +61,8 @@ var Reserving = function({listing, handleClose}) {
         }}>User Never Appeared</Button>}
       </Mutation>
     )
-  }
+  };
+
   return (
     <div key={listing.id} style={{backgroundColor: '#' + intToRGB(hashCode(listing.spot.id)), height: '70vh'}}>
       <h3>CLAIMED!</h3>
@@ -52,20 +75,39 @@ var Reserving = function({listing, handleClose}) {
       {(listing.listing_user.user_cars[0])  && <p> Driving a {listing.listing_user.user_cars[0].color} {listing.listing_user.user_cars[0].make} {listing.listing_user.user_cars[0].model}</p>}
       {(listing.listing_user.user_cars[0])  && <p> Plate: {listing.listing_user.user_cars[0].plate}</p>}
       <p> Show your screen and match colors with the other driver </p>
+
       <Mutation
         mutation={editListingMutation}
-        variables={{
-          spot_id: listing.spot.id,
-          listing_id: listing.id,
-          status: 8
-        }}
         onCompleted={() => this.props.history.push('/')}
       >
-        {editListing => <Button variant="secondary" onClick={() => {
-          editListing();
-          handleClose();
-        }}>Confirm Successful Swap</Button>}
-      </Mutation>
+
+      {editListing => (
+        <Mutation
+          mutation={editUserBalance}
+        >
+
+        {(editClaimingUser) => <Button onClick={twoFunctionMutation(editListing, editClaimingUser)
+        }>Confirm Successful Swap</Button>}
+        <Mutation/>
+      )}
+      </Mutation> 
+
+
+      // <Mutation
+      //   mutation={editListingMutation}
+      //   variables={{
+      //     spot_id: listing.spot.id,
+      //     listing_id: listing.id,
+      //     status: 8
+      //   }}
+      //   onCompleted={() => this.props.history.push('/')}
+      // >
+      //   {editListing => <Button variant="secondary" onClick={() => {
+      //     editListing();
+      //     handleClose();
+      //   }}>Confirm Successful Swap</Button>}
+      // </Mutation> 
+
       <br/>
       <Mutation
         mutation={editListingMutation}
@@ -84,7 +126,7 @@ var Reserving = function({listing, handleClose}) {
       {overtime}
     </div>
   );
-}
+};
 
 export default Reserving;
 

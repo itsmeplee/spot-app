@@ -62,7 +62,7 @@ function openSpot (parent, args, context, info) {
   return context.db.query.spots({ where: {is_available: true} }, info);
 }
 
-async function getRankingInfo(parent, args, context, info ) {
+async function getRankingInfo(parent, args, context, info) {
 
   let userRankings = [];
 
@@ -135,7 +135,7 @@ async function getRankingInfo(parent, args, context, info ) {
   }));
 
   return userRankings;
-}
+};
 
 
 module.exports = {

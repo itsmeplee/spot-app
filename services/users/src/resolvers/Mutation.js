@@ -319,8 +319,7 @@ function editSpotListing (parent, args, context, info) { //working
 async function expireSpot (parent, args, context, info) {
   const userId = await getUserId(context);
   //check if worker process
-  if (args.isWorker)
-  {
+  if (args.isWorker) {
     const spots = await context.db.query.spots({
       where: {
         end_time_lte: args.date,
@@ -346,8 +345,7 @@ async function expireSpot (parent, args, context, info) {
 async function updateUserRanking (parent, args, context, info) {
   const userId = await getUserId(context);
   //check if worker process
-  if (args.isWorker)
-  {
+  if (args.isWorker) {
     return context.db.mutation.updateUser (
     {
       data: {
@@ -358,7 +356,37 @@ async function updateUserRanking (parent, args, context, info) {
     info
     )
   }
-}
+};
+
+async function updateBalance (parent, args, context, info) {
+  const userId = getUserId(context);
+  const oldBalance = await context.db.query.user({ where: { id: userId } }, ` { balance } `);
+
+  if (args.claimerId === userId) {
+    const newBalance = oldBalance - args.value
+    return context.db.mutation.updateUser(
+      {
+        data: {
+          balance: newBalance
+        },
+        where: {id: userId}
+      },
+      info
+    )
+  }
+  else if (args.listerId === userId) {
+    const newBalance = oldBalance + args.value
+    return context.db.mutation.updateUser(
+      {
+        data: {
+          balance: newBalance
+        },
+        where: {id: userId}
+      },
+      info
+    )
+  }
+};
 
 
 module.exports = {
@@ -378,5 +406,6 @@ module.exports = {
   editListing,
   editSpotListing,
   expireSpot,
-  updateUserRanking
+  updateUserRanking,
+  updateBalance
 };
