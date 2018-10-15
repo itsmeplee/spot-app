@@ -34,7 +34,7 @@ type Mutation {
   editSpotListing (spot_id: ID, listing_id: ID, status: Int, claimer: Boolean) : Spot
   expireSpot (date: DateTime, isWorker: Boolean ): BatchPayload
   updateUserRanking (rating: String, userid: String, isWorker: Boolean ): User
-  updateBalance (value: Int, claimerId: ID, listerId: ID) : User
+  updateBalance (value: Int, listerId: ID) : User
 }
 
 type UserRankingInfo {

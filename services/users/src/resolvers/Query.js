@@ -128,10 +128,7 @@ async function getRankingInfo(parent, args, context, info) {
     }, '{ aggregate { count } }');
   
     ranking.cancelCount = cancelledListings.aggregate.count + cancelledClaims.aggregate.count;
-
-    console.log(ranking);
     userRankings.push(ranking);
-
   }));
 
   return userRankings;

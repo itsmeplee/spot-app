@@ -46,7 +46,6 @@ class ListingStatusDrawer extends Component {
       document: CHANGED_LISTINGS_SUBSCRIPTION,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
-        console.log(subscriptionData.data.listingUpdate.node)
         this.openDrawer();
         const listingUpdate = subscriptionData.data.listingUpdate.node;
         let newArray = [listingUpdate, ...prev.myListings];
@@ -104,7 +103,6 @@ class ListingStatusDrawer extends Component {
                 if (loading) return <div>Fetching</div>;
                 if (error) return <div>Error</div>;
                 this._subscribeToUpdatedListings(subscribeToMore);
-                console.log(data);
                 if (data.myListings && data.myListings.length > 0) {
                   return (
                     <div id="drawer-content">

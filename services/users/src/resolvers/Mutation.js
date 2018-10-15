@@ -360,35 +360,18 @@ async function updateUserRanking (parent, args, context, info) {
 };
 
 async function updateBalance (parent, args, context, info) {
-  const userId = getUserId(context);
-  const oldBalance = await context.db.query.user({ where: { id: userId } }, ` { balance } `);
-
-  if (args.claimerId === userId) {
-    const newBalance = oldBalance - args.value
-    return context.db.mutation.updateUser(
-      {
-        data: {
-          balance: newBalance
-        },
-        where: {id: userId}
+  const oldBalance = await context.db.query.user({ where: { id: args.listerId } }, ` { balance } `);
+  const newBalance = oldBalance.balance + args.value;
+  return context.db.mutation.updateUser(
+    {
+      data: {
+        balance: newBalance
       },
-      info
-    )
-  }
-  else if (args.listerId === userId) {
-    const newBalance = oldBalance + args.value
-    return context.db.mutation.updateUser(
-      {
-        data: {
-          balance: newBalance
-        },
-        where: {id: userId}
-      },
-      info
-    )
-  }
+      where: {id: args.listerId}
+    },
+    info
+  )
 };
-
 
 module.exports = {
   signup,

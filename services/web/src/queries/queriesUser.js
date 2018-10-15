@@ -90,12 +90,10 @@ const mutationUserCurrentLocation = gql`
 const editUserBalance = gql`
   mutation(
     $value: Int
-    $claimerId: ID
     $listerId: ID
   ) {
     updateBalance(
       value: $value
-      claimerId: $claimerId
       listerId: $listerId
     ){
       balance
