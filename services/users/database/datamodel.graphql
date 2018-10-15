@@ -13,6 +13,7 @@ type User {
   current_lat: String
   claim_listings : [Listing!]! @relation(name: "Claimer")
   list_listings : [Listing!]! @relation(name: "Lister")
+  balance : Int
 }
 
 type Car {
@@ -48,6 +49,7 @@ type Listing {
   type: Int
   status: Int
   time_complete: DateTime
+  value : Int
 }
 
 type Spot {

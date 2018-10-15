@@ -67,4 +67,5 @@ type User {
     list_listings(where: ListingWhereInput, orderBy: ListingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Listing!]
     current_lat: String
     current_lng: String
+    balance: Int
 }
