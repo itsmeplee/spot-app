@@ -158,7 +158,11 @@ class Login extends Component {
           </Form>
           <Row>
               <Col className="centered">
-                <a className="footerLink" href="#" onClick={() => this.setState({ login: !login, errorText: '' })}>
+                <a className="footerLink" href='' onClick={(e) => {
+                  e.preventDefault();
+                  this.setState({ login: !login, errorText: '' });
+                }}
+                >
                   {login ? 'Need to create an account?' : 'Already have an account?'}
                 </a>
               </Col>

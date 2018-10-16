@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { Button, Modal, Form, Container, Row, Col } from 'react-bootstrap';
+import { Form, Container, Row, Col } from 'react-bootstrap';
 import './LocationList.css';
 import { getLocationsQuery } from '../../../../queries/queriesLocation';
 import Location from '../Location/Location.js';
-import AddLocation from '../AddLocation/AddLocation';
 
 
 class LocationList extends Component {

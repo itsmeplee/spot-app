@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import { withRouter } from 'react-router';
-import { Button, Form, Container, Col, Row, Card, Alert, CardDeck } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
+import { Button, Form, Container, Col, Row, Card, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import CarList from '../Car/CarList/CarList';
 import LocationList from '../Location/LocationList/LocationList';
 import { getUserQuery, mutationUser } from '../../../queries/queriesUser';
@@ -64,6 +64,9 @@ class ProfilePage extends Component {
           rating = "Yellow";
           break;
         case 3:
+          rating = "Green";
+          break;
+        default: 
           rating = "Green";
           break;
       }

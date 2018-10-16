@@ -6,7 +6,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import SpotsList from './SpotsList/SpotsList';
 import Login from '../Login/Login.js';
 import AddSpot from '../Transaction/AddSpot/AddSpot';
 import LocationList from '../UserInfo/Location/LocationList/LocationList';
@@ -100,7 +99,7 @@ class Map extends Component {
 
     map.on('load', () => {
       this.displaySpots(this.props.spots);
-      if (this.props.listings.length > 0) {
+      if (this.props.listings && this.props.listings.length > 0) {
         toggleToReserved(this.state.map, this.props.listings[0]);
       } else {
         toggleToLooking(this.state.map)
@@ -250,7 +249,7 @@ class Map extends Component {
             {this.renderNavBar()}
           </div>
           <div id="drawer">
-            <ListingStatusPane map={this.state.map} myListings={this.props.listings}/>
+            <ListingStatusPane map={this.state.map} myListings={this.props.listings} userInfo={this.props.userInfo}/>
           </div>
           <Switch>
             <Route exact path="/login" render={() => {

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { getListingsQuery, CHANGED_LISTINGS_SUBSCRIPTION } from '../../queries/queriesListing';
-import { Query } from 'react-apollo';
 // import { reduceStore } from 'apollo-live-client';
 import Reserving from './HandshakeModals/Reserving';
 import Claimed from './HandshakeModals/Claimed';
@@ -9,7 +7,6 @@ import Failed from './HandshakeModals/Failed';
 import { AUTH_TOKEN } from '../../constants';
 import Expired from './HandshakeModals/Expired';
 import './HandshakeLister.css';
-import { toggleToReserved, toggleToLooking } from '../../utilities/mapHelper';
 
 class ListingStatusDrawer extends Component {
   constructor(props) {
@@ -42,7 +39,7 @@ class ListingStatusDrawer extends Component {
     } else if (listing.status === 1 && !listing.spot.is_available) {
       return <Expired listing={listing} handleClose={this.handleClose}  key={listing.id}/>
     } else if (listing.status === 2) {
-      return <Claimed listing={listing} handleClose={this.handleClose}  key={listing.id}/>
+      return <Claimed listing={listing} handleClose={this.handleClose}  key={listing.id} userInfo={this.props.userInfo}/>
     } else if (listing.status === 8) {
       return <Success listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
     } else if (listing.status > 3) {
