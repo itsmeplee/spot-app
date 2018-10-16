@@ -2,3 +2,25 @@ button.btn-danger {
   margin-top: 10px;
   margin-bottom: 20px;
 }
+
+.background {
+  background-color:rgb(237, 237, 237, .7);
+  border-radius: 5px;
+  
+}
+
+.plate {
+  background-image: url("/plate.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height:70px;
+  width:120px;
+  margin: auto;
+  background-color:rgb(237, 237, 237, .7);
+  border-radius: 10px;
+}
+
+.license {
+  padding-top: 23px;
+}

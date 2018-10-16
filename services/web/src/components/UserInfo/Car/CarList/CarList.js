@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Mutation, Query, graphql, compose } from 'react-apollo';
-import { Button, Modal, Form, Container, Row, Col, ToggleButton } from 'react-bootstrap';
+import { Mutation } from 'react-apollo';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import './CarList.css';
-import { getCarsQuery, deleteCarMutation, editCarMutation } from '../../../../queries/queriesCar';
-import Car from '../Car/Car';
+import { deleteCarMutation } from '../../../../queries/queriesCar';
 
 class CarList extends Component {
 

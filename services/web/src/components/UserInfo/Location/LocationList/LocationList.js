@@ -1,28 +1,25 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from 'react-apollo';
-import { Button, Modal, Form, Container, Row, Col } from 'react-bootstrap';
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import './LocationList.css';
 import { getLocationsQuery, deleteLocationMutation } from '../../../../queries/queriesLocation';
-import Location from '../Location/Location.js';
 
 class LocationList extends Component {
-
   displayLocations = () => {
     return (
       <Query query={getLocationsQuery} >
         {({ loading, error, data, subscribeToMore }) => {
           if (loading) return <div>Fetching</div>;
           if (error) return <div>Error</div>;
-            return (
-              data.locations.map((location) => {
-               return (
-                <div key={location.id}>
-                  <Form.Control>
-                    <Location location={location} deleteLocation={this.deleteLocation}/>
-                    
-                  </Form.Control>
-                </div>
-               )}));
+          // return (
+          //   data.locations.map((location) => {
+          //     return (
+          //     <div key={location.id}>
+          //       <Form.Control>
+          //         <Location location={location} deleteLocation={this.deleteLocation}/>
+          //       </Form.Control>
+          //     </div>
+          // )}));
         }}
       </Query>
     )
@@ -115,7 +112,7 @@ class LocationList extends Component {
         )}
       </Container>
     );
-  }
+  };
 };
 
 export default LocationList;

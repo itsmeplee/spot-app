@@ -39,6 +39,7 @@ const loginQuery = gql`
 const getUserQuery = gql`
   query getUserQuery {
     userInfo {
+      id
       user_name
       first_name
       last_name
@@ -46,6 +47,7 @@ const getUserQuery = gql`
       rating
       balance
       user_cars {
+        id
         make
         model
         color

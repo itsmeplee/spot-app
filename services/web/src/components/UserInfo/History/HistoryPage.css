@@ -2,14 +2,17 @@
   text-align: right;
 }
 
-.redRow {
-  background-color: #d86464;
+.Green {
+  background-color: Green;
+  color: white;
 }
 
-.greenRow {
-  background-color: #b8f2b9
+.Yellow {
+  background-color: Yellow;
+  color: white;
 }
 
-.blueRow {
-  background-color: #92bcef
+.Red {
+  background-color: Red;
+  color: white;
 }

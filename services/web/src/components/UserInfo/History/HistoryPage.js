@@ -12,6 +12,29 @@ class HistoryPage extends Component {
     this.state = {};
   };
 
+  showRating = () => {
+    let rating = "N/A";
+    if (this.props.history.location.state.rating !== null) {
+      switch(this.props.history.location.state.rating) {
+        case 1:
+          rating = "Red";
+          break;
+        case 2:
+          rating = "Yellow";
+          break;
+        case 3:
+          rating = "Green";
+          break;
+        default: 
+          rating = "Green";
+          break;
+      }
+    }
+    return (
+      rating
+    );
+  };
+
   render() {
     return (
       <div>
@@ -27,7 +50,6 @@ class HistoryPage extends Component {
               )
             }
             if (data) { 
-              console.log({data});
               let rows = data.myListingsHistory.map(item => {
                 return <IndividualHistory key={item.id} item={item} />
               })
@@ -47,7 +69,7 @@ class HistoryPage extends Component {
                             <Card.Title>Your Swap History</Card.Title>
                           </Col>
                           <Col className="right">
-                            Rating: 
+                            <span className={this.showRating()}>Rating: {this.showRating()}</span>
                           </Col>
                         </Row>
                         <Table bordered>
