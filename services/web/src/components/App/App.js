@@ -39,6 +39,8 @@ class App extends Component {
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
         const listingUpdate = subscriptionData.data.listingUpdate.node;
+        console.log(prev);
+        console.log(listingUpdate);
         let newArray = [listingUpdate, ...prev.myListings];
         newArray = this._removeDups(newArray);
         var toReturn = Object.assign({}, prev, {

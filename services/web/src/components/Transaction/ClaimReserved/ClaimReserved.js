@@ -54,7 +54,15 @@ class ClaimReserved extends Component {
   };
 
   render() {
-    const timeLeft = moment(this.props.location.state.end_time).fromNow(true);    
+    const timeLeft = moment(this.props.location.state.end_time).fromNow(true);
+    let spotValue;
+    
+    if (!this.props.location.state.value) {
+      spotValue = 0;
+    }
+    else {
+      spotValue = this.props.location.state.value;
+    }
 
     if (this.state.homeRedirect) {
       return <Redirect to={{
@@ -73,7 +81,8 @@ class ClaimReserved extends Component {
               </Modal.Header>
               <Modal.Body>
                 <div>
-                  <div>This spot is being held for another {timeLeft}</div>
+                  <div>This spot is being held for another {timeLeft}.</div>
+                  <div>It can be yours for ${spotValue}.</div>
                   <button onClick={this.changeClicked}>Claim Spot</button>
                 </div>
               </Modal.Body>

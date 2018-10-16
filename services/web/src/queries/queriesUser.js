@@ -37,6 +37,7 @@ const getUserQuery = gql`
       first_name
       last_name
       rating
+      balance
       user_cars (
         where: { default_car: true }
       ){
@@ -87,4 +88,19 @@ const mutationUserCurrentLocation = gql`
   }
 `;
 
-export { signupQuery, loginQuery, getUserQuery, mutationUser, mutationUserCurrentLocation };
+const editUserBalance = gql`
+  mutation(
+    $value: Int
+    $listerId: ID
+  ) {
+    updateBalance(
+      value: $value
+      listerId: $listerId
+    ){
+      balance
+    }
+  }
+`;
+
+
+export { signupQuery, loginQuery, getUserQuery, mutationUser, mutationUserCurrentLocation, editUserBalance };

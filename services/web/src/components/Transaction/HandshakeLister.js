@@ -85,29 +85,28 @@ class HandshakeLister extends Component {
     return (
       <React.Fragment>
         <Query query={getListingsQuery} >
-        {({ loading, error, data, subscribeToMore }) => {
-          if (loading) return <div>Fetching</div>;
-          if (error) return <div>Error</div>;
-          this._subscribeToUpdatedListings(subscribeToMore);
-
-          console.log(data)
-          return (
-            <div className="modal-container">
-              <Modal show={data.myListings.length > 0 && this.state.modalShow} onHide={this.handleClose}>
-                <Modal.Header>
-                  <Modal.Title>Current Swaps</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <div id="modal-content">
-                    {
-                      (data.myListings[0]) && this.displayListingStatus(data.myListings[0])
-                    }
-                  </div>
-                </Modal.Body>
-              </Modal>
-            </div>
-          );
-        }}
+          {({ loading, error, data, subscribeToMore }) => {
+            if (loading) return <div>Fetching</div>;
+            if (error) return <div>Error</div>;
+            this._subscribeToUpdatedListings(subscribeToMore);
+            
+            return (
+              <div className="modal-container">
+                <Modal show={data.myListings.length > 0 && this.state.modalShow} onHide={this.handleClose}>
+                  <Modal.Header>
+                    <Modal.Title>Current Swaps</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <div id="modal-content">
+                      {
+                        (data.myListings[0]) && this.displayListingStatus(data.myListings[0])
+                      }
+                    </div>
+                  </Modal.Body>
+                </Modal>
+              </div>
+            );
+          }}
         </Query>
       </React.Fragment>
     );

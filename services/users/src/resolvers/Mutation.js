@@ -105,8 +105,24 @@ function deleteLocation (parent, args, context, info) { //working
   )
 };
 
-function addCar (parent, args, context, info) { //Working
+async function addCar (parent, args, context, info) { //Working
   const userId = getUserId(context);
+
+  //check if default car exist
+  const defaultCar = await context.db.query.cars({
+    where: {
+      default_car : true,
+      user: {
+          id: userId
+      },
+    },
+  }, info
+  );
+
+  if(args.default_car  && defaultCar) {
+    return new Error("Default car already exists");
+  }
+
   return context.db.mutation.createCar(
     {
       data: {
@@ -116,12 +132,12 @@ function addCar (parent, args, context, info) { //Working
         color: args.color,
         plate: args.plate,
         state: args.state,
+        default_car: args.default_car,
         user: {
           connect: {
             id: userId
           }
         },
-        default_car: args.default_car
       }
     },
     info
@@ -235,7 +251,8 @@ function addListing (parent, args, context, info) { //working
           }
         },
         type: args.type,
-        status: args.status
+        status: args.status,
+        value: args.value
       }
     },
     info
@@ -319,8 +336,7 @@ function editSpotListing (parent, args, context, info) { //working
 async function expireSpot (parent, args, context, info) {
   const userId = await getUserId(context);
   //check if worker process
-  if (args.isWorker)
-  {
+  if (args.isWorker) {
     const spots = await context.db.query.spots({
       where: {
         end_time_lte: args.date,
@@ -346,8 +362,7 @@ async function expireSpot (parent, args, context, info) {
 async function updateUserRanking (parent, args, context, info) {
   const userId = await getUserId(context);
   //check if worker process
-  if (args.isWorker)
-  {
+  if (args.isWorker) {
     return context.db.mutation.updateUser (
     {
       data: {
@@ -358,8 +373,21 @@ async function updateUserRanking (parent, args, context, info) {
     info
     )
   }
-}
+};
 
+async function updateBalance (parent, args, context, info) {
+  const oldBalance = await context.db.query.user({ where: { id: args.listerId } }, ` { balance } `);
+  const newBalance = oldBalance.balance + args.value;
+  return context.db.mutation.updateUser(
+    {
+      data: {
+        balance: newBalance
+      },
+      where: {id: args.listerId}
+    },
+    info
+  )
+};
 
 module.exports = {
   signup,
@@ -378,5 +406,6 @@ module.exports = {
   editListing,
   editSpotListing,
   expireSpot,
-  updateUserRanking
+  updateUserRanking,
+  updateBalance
 };

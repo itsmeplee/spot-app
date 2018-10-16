@@ -38,11 +38,13 @@ const getListingsQuery = gql`
 query{
   myListings{
     id
+    value
     status
     time_complete
     claiming_user{
       id
       user_name
+      balance
       user_cars {
         id
         color
@@ -55,6 +57,7 @@ query{
     listing_user{
       id
       user_name
+      balance
       user_cars {
         id
         color
@@ -85,6 +88,7 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
     listingUpdate {
       node {
         id
+        value
         status
         time_complete
         spot{
@@ -99,6 +103,7 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
         }
         claiming_user {
           user_name
+          balance
           id
           user_cars {
             id
@@ -112,6 +117,7 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
         listing_user {
           user_name
           id
+          balance
           user_cars {
             id
             color

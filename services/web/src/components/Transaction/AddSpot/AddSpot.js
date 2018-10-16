@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, Mutation } from 'react-apollo';
 import { addSpotMutation } from '../../../queries/queriesSpot';
 import moment from 'moment';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Row, Col, Container, Form, InputGroup, Alert } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
+
+import './AddSpot.css';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 
 // THIS IS THE FORM TO ADD A SPOT
 class AddSpot extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       reservedToggle: false,
       start_time: moment().format(),
       end_time:  moment().add(30, 'minute').format(),
@@ -24,30 +24,27 @@ class AddSpot extends Component {
       city: '',
       state: '',
       zip: '',
-    };
-    
-    this.handleClose = this.handleClose.bind(this);
-    this.changeView = this.changeView.bind(this);
-    this.submitForm = this.submitForm.bind(this);
-    this.displayTimeForReservedSpots = this.displayTimeForReservedSpots.bind(this);
-    this.handleInputTimeChange = this.handleInputTimeChange.bind(this);
+      value: 1,
+      extra_time: 10,
+      errorText: ''
   };
 
-  changeView(arg) {
+  changeView = (arg) => {
     this.setState({
       reservedToggle: arg
     })
   };
 
-  handleClose() {
+  handleClose = () => {
     this.setState({ homeRedirect: true });
   };
 
-  handleInputTimeChange(event) { 
+  handleInputTimeChange = (event) => { 
     let extraMin = event.target.value;
     let end_time = moment(this.state.start_time).add(extraMin, 'minute').format();
     this.setState({
-      end_time: end_time
+      end_time: end_time,
+      extra_time : extraMin
     })
   };
 
@@ -86,86 +83,138 @@ class AddSpot extends Component {
       })
   }
 
-  submitForm(event) {
+  submitForm = (mutation, event) => {
     event.preventDefault();
-    this.props.addSpotMutation({
-      variables: {
-        lng: (this.props.location.state.lng).toString(),
-        lat: (this.props.location.state.lat).toString(),
-        type: this.state.reservedToggle ? 1 : 2,
-        start_time: this.state.start_time,
-        end_time: this.state.end_time,
-        status: 1,
-        street1: this.state.street1,
-        street2: this.state.street2,
-        zip: parseInt(this.state.zip, 10),
-        city: this.state.city,
-        state: this.state.state
-      },
-      // refetchQueries: [{query: getSpotsQuery, variables: {}}]
-    });
-    this.setState({ homeRedirect: true });
+    // if holding - check for hold time and value
+    if(this.state.reservedToggle) { 
+      if (this.state.value === '' && this.state.extra_time === '')
+      {
+        this.setState({
+          errorText: 'Please enter Time and Value.'
+        });
+        return;
+      }
+    }
+
+    // run mutation to add Spot
+    mutation()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log('error', err);
+        this.setState({
+          errorText: err.message
+        })
+      });
+
   };
 
-  displayTimeForReservedSpots() {
+  displayTimeForReservedSpots = () => {
     if (this.state.reservedToggle) {
       return (
-        <div>
-          <p> I will hold this spot </p>
-          <div className="field">
-              <label>For the next: </label>
-              <input type="text" name="time" onChange={this.handleInputTimeChange}/><span> minutes</span>
-          </div>
-        </div>
+        <React.Fragment>
+          <Form.Group controlId="formHoldSpotTime">
+            <Form.Label>Holding for (min):</Form.Label>
+            <Form.Control type="text" placeholder="Minutes" value={this.state.extra_time} onChange={(e) => this.handleInputTimeChange(e)}></Form.Control>
+          </Form.Group>
+          <Form.Group controlId="formHoldSpotValue">
+            <Form.Label>Sell for:</Form.Label>
+            <InputGroup>
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
+              </InputGroup.Prepend>
+              <Form.Control type="text" placeholder="Value" value={this.state.value} onChange={e => this.setState({ value: e.target.value })} ></Form.Control>
+            </InputGroup>
+          </Form.Group>
+        </React.Fragment>
       );
     } else {
       return (
-        <div>
-          <p> I saw an open spot at </p>
-        </div>
+          <div className="clickAdd"> Click List </div>
       );
     }
   };
+
+  _confirm = (data) => {
+    this.setState({ homeRedirect: true });
+  }
 
   render() {
     if (this.state.homeRedirect) {return <Redirect to={{
       pathname: '/',
       state: {}
     }} />;};
+    const { lng =  (this.props.location.state.lng).toString(),
+        lat = (this.props.location.state.lat).toString(),
+        type =  this.state.reservedToggle ? 1 : 2,
+        start_time =  this.state.start_time,
+        end_time = this.state.end_time,
+        status = 1,
+        street1 = this.state.street1,
+        street2 = this.state.street2,
+        zip = parseInt(this.state.zip, 10),
+        city = this.state.city,
+        state = this.state.state,
+        value = this.state.value } = this.state
     return (
       <React.Fragment>
         <div className="modal-container">
           <Modal show={this.state.modalShow} onHide={this.handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
+              <Modal.Title>List a Spot</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <div>
-                <h1 className="Locations-title">List a Spot</h1>
-                <div>
-                  List a Spot for {this.state.street1} , {this.state.street2}
-                </div>
-                <div className="btn-group" role="group" aria-label="Basic example">
-                  <button 
-                    type="button" 
-                    className={'btn btn-primary ' + (this.state.reservedToggle ? '': 'active')} 
-                    onClick={() => this.changeView(false)}
-                  > I noticed a Spot </button>
-                  <button 
-                    type="button" 
-                    className={'btn btn-primary ' + (this.state.reservedToggle ? 'active': '')} 
-                    onClick={() => this.changeView(true)}
-                  > I am holding a Spot </button>
-                </div>
-
-                <form id="add-location" onSubmit={this.submitForm}>
-                  {this.displayTimeForReservedSpots()}
-                  <button>+</button>
-                </form>
-              </div>
+              <Container className="addSpot">
+                <Row>
+                    <Col>
+                      Spot located at {this.state.street1} , {this.state.street2}                    
+                    </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Button 
+                      type="button" 
+                      className={'btn btn-primary ' + (this.state.reservedToggle ? '': 'active')} 
+                      onClick={() => this.changeView(false)}
+                    > I noticed a Spot </Button>
+                  </Col>
+                  <Col className="center">
+                    OR
+                  </Col>
+                  <Col>
+                    <Button 
+                      type="button" 
+                      className={'btn btn-primary ' + (this.state.reservedToggle ? 'active': '')} 
+                      onClick={() => this.changeView(true)}
+                    > I am holding a Spot </Button>
+                  </Col>
+                </Row>
+                <Row>
+                    <Col>
+                      <Form>
+                        {this.displayTimeForReservedSpots()}
+                        {this.state.errorText && (
+                          <Alert variant="warning">
+                          {this.state.errorText}
+                        </Alert>
+                        )}
+                        <Mutation
+                          mutation={addSpotMutation}
+                          variables={{ lng, lat, type, start_time, end_time, status, street1, street2, zip, city, state, value }}
+                          onCompleted={(data) => this._confirm(data)}
+                        >
+                        {mutation => (
+                          <Button type="button" onClick={(e) => this.submitForm(mutation, e)}>List</Button> 
+                        )}
+                        </Mutation>
+                      </Form>
+                    </Col>
+                </Row>
+              </Container>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Close</Button>
+              
             </Modal.Footer>
           </Modal>
         </div>
@@ -174,6 +223,4 @@ class AddSpot extends Component {
   };
 };
 
-export default compose(
-  graphql(addSpotMutation, {name: "addSpotMutation"})
-)(AddSpot);
+export default AddSpot;

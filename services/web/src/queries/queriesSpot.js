@@ -11,6 +11,7 @@ const getSpotsQuery = gql`
       end_time
       listing {
         id
+        value
       }
     }
   }
@@ -29,6 +30,7 @@ const addSpotMutation = gql`
     $city: String,
     $state: String,
     $zip: Int,
+    $value: Int
   ) {
     addListing(
       lat: $lat
@@ -42,6 +44,7 @@ const addSpotMutation = gql`
       state: $state
       zip: $zip
       city: $city
+      value: $value
     ){
       id
     }
@@ -75,6 +78,7 @@ const NEW_SPOTS_SUBSCRIPTION = gql`
         type
         listing {
           id
+          value
         }
       }
     }

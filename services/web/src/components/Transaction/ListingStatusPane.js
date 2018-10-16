@@ -25,7 +25,7 @@ class ListingStatusDrawer extends Component {
     this.setState({
       drawerShow: false
     })
-  }
+  };
 
   openDrawer() {
     this.setState({
@@ -52,7 +52,7 @@ class ListingStatusDrawer extends Component {
         this.handleClose();
       }
     }
-  }
+  };
 
   displayIt() {
     if (this.props.myListings && this.props.myListings.length > 0) {
@@ -104,8 +104,7 @@ class ListingStatusDrawer extends Component {
         <React.Fragment></React.Fragment>
       )
     }
-    
-  }
+  };
 };
 
 export default ListingStatusDrawer;
