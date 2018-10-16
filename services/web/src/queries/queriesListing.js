@@ -93,6 +93,8 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
         time_complete
         spot{
           id
+          lat
+          lng
           is_available
           end_time
           start_time
