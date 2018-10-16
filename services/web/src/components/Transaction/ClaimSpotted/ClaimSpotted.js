@@ -5,6 +5,7 @@ import { editListingMutation } from'../../../queries/queriesListing';
 import { Button, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
+import './ClaimSpotted.css';
 
 class ClaimSpotted extends Component {
   constructor(props) {
@@ -45,26 +46,12 @@ class ClaimSpotted extends Component {
         <div className="modal-container">
           <Modal show={this.state.modalShow} onHide={this.handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
+              <Modal.Title>Claim Spot</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <div>
+              <div id="claim-screen">
                 <div>Parking spot was seen here {timeDiff}</div>
-                <Mutation
-                  mutation={editListingMutation}
-                  variables={{
-                    spot_id: spot_id,
-                    listing_id: listing_id,
-                    status: 3
-                  }}
-                  onCompleted={() => this.props.history.push('/')}
-                >
-                  {editSpotListing => <button onClick={() => {
-                    editSpotListing();
-                    this.changeClicked();
-                  }}>Spot No Longer Available</button>}
-                </Mutation>
-        
+                <br/>
                 <Mutation
                   mutation={editListingMutation}
                   variables={{
@@ -74,11 +61,29 @@ class ClaimSpotted extends Component {
                   }}
                   onCompleted={() => this.props.history.push('/')}
                 >
-                  {editSpotListing => <button onClick={() => {
+                  {editSpotListing => <Button variant="success" onClick={() => {
                     editSpotListing();
                     this.changeClicked();
-                  }}>I Parked Here</button>}
+                  }}>I Parked Here</Button>}
                 </Mutation>
+                <br/>
+                <br/>
+                <Mutation
+                  mutation={editListingMutation}
+                  variables={{
+                    spot_id: spot_id,
+                    listing_id: listing_id,
+                    status: 3
+                  }}
+                  onCompleted={() => this.props.history.push('/')}
+                >
+                  {editSpotListing => <Button variant="outline-secondary"  onClick={() => {
+                    editSpotListing();
+                    this.changeClicked();
+                  }}>Spot No Longer Available</Button>}
+                </Mutation>
+                
+                
               </div>
             </Modal.Body>
             <Modal.Footer>
