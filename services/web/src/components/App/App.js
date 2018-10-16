@@ -74,35 +74,36 @@ class App extends Component {
             <Route exact path="/addCar" component={AddCar} />
             <Route exact path="/addLocation" component={AddLocation} />
             
+          
+            <Query query={getListingsQuery} >
+              {({ loading, error, data, subscribeToMore }) => {
+                if (loading) return <div>Fetching</div>;
+                if (error) return <div>Error</div>;
+    
+                this._subscribeToUpdatedListings(subscribeToMore);
+                console.log(data);
+                let listings = data.myListings
+                return (
+    
+                  <Query query={getSpotsQuery}>
+                    {({ loading, error, data, subscribeToMore }) => {
+                      if (loading) return <div>Fetching</div>;
+                      if (error) return <div>Error</div>;
+                      this._subscribeToNewSpots(subscribeToMore);
+                      console.log(data);
+                      
+                      return (
+                        <div className="App">
+                          <MapComp listings={listings} spots={data.openSpot} spotChange={this.state.spotChange}/>
+                        </div>
+                      );
+                    }}
+                  </Query>
+    
+                );
+              }}
+            </Query>
           </Switch>
-          <Query query={getListingsQuery} >
-            {({ loading, error, data, subscribeToMore }) => {
-              if (loading) return <div>Fetching</div>;
-              if (error) return <div>Error</div>;
-  
-              this._subscribeToUpdatedListings(subscribeToMore);
-              console.log(data);
-              let listings = data.myListings
-              return (
-  
-                <Query query={getSpotsQuery}>
-                  {({ loading, error, data, subscribeToMore }) => {
-                    if (loading) return <div>Fetching</div>;
-                    if (error) return <div>Error</div>;
-                    this._subscribeToNewSpots(subscribeToMore);
-                    console.log(data);
-                    
-                    return (
-                      <div className="App">
-                        <MapComp listings={listings} spots={data.openSpot} spotChange={this.state.spotChange}/>
-                      </div>
-                    );
-                  }}
-                </Query>
-  
-              );
-            }}
-          </Query>
         </React.Fragment>
       );
     } else {

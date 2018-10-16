@@ -246,11 +246,7 @@ class Map extends Component {
               </Navbar>
             </Container>
             {/* {(Object.keys(this.state.map).length !== 0) && <SpotsList map={this.state.map} claimSpot={this.claimSpot} spots={this.props.spots}/>} */}
-            Can there be an alternate spots list for the Reserved scenario? 
-            Also can we track the listings (with the subscriptions) in a better way?  Why do we need one array for all.
-                       we can remove from the array if there is something that is 'closed' and then acted upon?
-                          will it stop getting subscriptions? Hopefully
-                      upon new create, we can add to the array and then track. We already know this will recieve subscriptions.
+            
           </div>
           <div id="drawer">
             <ListingStatusPane map={this.state.map} myListings={this.props.listings}/>
