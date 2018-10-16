@@ -112,12 +112,16 @@ class ClaimReserved extends Component {
               <Modal.Body>
                 <div>
                   <div>Are you sure?</div>
+
+
+
                   <Mutation
                     mutation={editListingMutation}
                     onCompleted={() => {
                       this.setState({
                         homeRedirect: true
                       })
+                      
                     }}
                   >
                     {editSpotListing => (
@@ -129,6 +133,9 @@ class ClaimReserved extends Component {
                       </Mutation>
                     )}
                   </Mutation>
+
+
+
                 </div>
               </Modal.Body>
               <Modal.Footer>

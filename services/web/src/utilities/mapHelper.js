@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl';
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 
 const addSpot = function (spot, map, claimSpot) {
-  if(!(map.getSource(`${spot.id}`))) {
+  if ((map.getSource(`${spot.id}`)) === undefined) {
     let geojson = {
       "type": "FeatureCollection",
       "features": [{
@@ -17,39 +17,20 @@ const addSpot = function (spot, map, claimSpot) {
           }
       }]
     };
-    if(map.isStyleLoaded()) {
-      map.addSource(`${spot.id}`, {
-        "type": "geojson",
-        "data": geojson
-      });
-      map.addLayer({
-        "id": `${spot.id}`,
-        "type": "symbol",
-        "source": `${spot.id}`,
-        "layout": {
-          "icon-image": `${spot.type === 1 ? 'blue-meter' : 'green-meter'}`,
-          "icon-size": 0.25,
-          "icon-allow-overlap": true
-        }
-      })
-    } else {
-      map.on('load', () => {
-        map.addSource(`${spot.id}`, {
-          "type": "geojson",
-          "data": geojson
-        });
-        map.addLayer({
-          "id": `${spot.id}`,
-          "type": "symbol",
-          "source": `${spot.id}`,
-          "layout": {
-            "icon-image": `${spot.type === 1 ? 'blue-meter' : 'green-meter'}`,
-            "icon-size": 0.25,
-            "icon-allow-overlap": true
-          }
-        })
-      });
-    }
+    map.addSource(`${spot.id}`, {
+      "type": "geojson",
+      "data": geojson
+    });
+    map.addLayer({
+      "id": `${spot.id}`,
+      "type": "symbol",
+      "source": `${spot.id}`,
+      "layout": {
+        "icon-image": `${spot.type === 1 ? 'blue-meter' : 'green-meter'}`,
+        "icon-size": 0.25,
+        "icon-allow-overlap": true
+      }
+    })
 
     map.on('mouseenter', `${spot.id}`, () => {
       map.getCanvas().style.cursor = 'pointer';
@@ -98,6 +79,11 @@ const initializeMap = function(lat, lng, zoom, mapContainer, moveHandler, clickH
   map.loadImage('/parking-meter-green.png', function(error, image) {
     if (error) console.log(error);
     map.addImage('green-meter', image);
+  })
+
+  map.loadImage('/swap.png', function(error, image) {
+    if (error) console.log(error);
+    map.addImage('swap-meter', image);
   })
 
   map.on('click', 'places', (e) => {
@@ -200,8 +186,65 @@ const initializeMap = function(lat, lng, zoom, mapContainer, moveHandler, clickH
   return map;
 }
 
+const toggleToReserved = function(map, listing) {
+  map.getStyle().layers.forEach((item) => {
+    if (item.layout) {
+      if (item.layout['icon-image'] === "blue-meter" || item.layout['icon-image'] === "green-meter") {
+        map.setLayoutProperty(item.id, 'visibility', 'none');
+      }
+    }
+  })
+  if(!(map.getSource(`swap`))) {
+    let geojson = {
+      "type": "FeatureCollection",
+      "features": [{
+          "type": "Feature",
+          "properties": {
+            "spot_id": 'swap',
+          },
+          "geometry": {
+              "type": "Point",
+              "coordinates": [listing.spot.lng, listing.spot.lat]
+          }
+      }]
+    };
+    map.addSource('swap', {
+      "type": "geojson",
+      "data": geojson
+    });
+    map.addLayer({
+      "id": 'swap',
+      "type": "symbol",
+      "source": `swap`,
+      "layout": {
+        "icon-image": `swap-meter`,
+        "icon-size": 0.25,
+        "icon-allow-overlap": true
+      }
+    });
+  }
+}
+
+const toggleToLooking = function(map) {
+  if((map.getSource(`swap`))) {
+    map.removeLayer('swap');
+    map.removeSource('swap');
+
+    map.getStyle().layers.forEach((item) => {
+      if (item.layout) {
+        if (item.layout['icon-image'] === "blue-meter" || item.layout['icon-image'] === "green-meter") {
+          map.setLayoutProperty(item.id, 'visibility', 'visible');
+        }
+      }
+    })
+  }
+}
+
+
 export {
   addSpot, 
   removeSpot, 
-  initializeMap
+  initializeMap,
+  toggleToReserved,
+  toggleToLooking
 };
