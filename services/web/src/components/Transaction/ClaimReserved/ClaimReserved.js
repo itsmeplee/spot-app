@@ -48,6 +48,29 @@ class ClaimReserved extends Component {
       clicked: true
     })
   };
+
+  showRating = () => {
+    let rating = "N/A";
+    if (this.props.location.state.rating !== null) {
+      switch(this.props.location.state.rating) {
+        case 1:
+          rating = "Red";
+          break;
+        case 2:
+          rating = "Yellow";
+          break;
+        case 3:
+          rating = "Green";
+          break;
+        default: 
+          rating = "Green";
+          break;
+      }
+    }
+    return (
+      rating
+    );
+  };
   
   handleClose() {
     this.setState({ homeRedirect: true });
@@ -82,8 +105,7 @@ class ClaimReserved extends Component {
               </Modal.Header>
               <Modal.Body>
                 <div>
-                  <div>This spot is being held for another {timeLeft}.</div>
-                  <div>It can be yours for <b>${spotValue}</b>.</div>
+                  <div>This spot is being held for another {timeLeft} by a <span className={this.showRating()}>{this.showRating()}</span> rating user. It can be yours for <b>${spotValue}</b>.</div>
                   <button onClick={this.changeClicked}>Claim Spot</button>
                 </div>
               </Modal.Body>
