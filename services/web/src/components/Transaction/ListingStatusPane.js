@@ -42,7 +42,7 @@ class ListingStatusDrawer extends Component {
     } else if (listing.status === 1 && !listing.spot.is_available) {
       return <Expired listing={listing} handleClose={this.handleClose}  key={listing.id}/>
     } else if (listing.status === 2) {
-      return <Claimed listing={listing} handleClose={this.handleClose}  key={listing.id}/>
+      return <Claimed listing={listing} handleClose={this.handleClose}  key={listing.id} userInfo={this.props.userInfo}/>
     } else if (listing.status === 8) {
       return <Success listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
     } else if (listing.status > 3) {

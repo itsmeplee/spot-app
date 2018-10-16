@@ -35,7 +35,7 @@ mutation(
 `;
 
 const getListingsQuery = gql`
-query{
+query getListings{
   myListings{
     id
     value

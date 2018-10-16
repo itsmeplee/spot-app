@@ -33,6 +33,7 @@ const loginQuery = gql`
 const getUserQuery = gql`
   query getUserQuery {
     userInfo {
+      id
       user_name
       first_name
       last_name

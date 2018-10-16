@@ -113,7 +113,7 @@ class Map extends Component {
 
     map.on('load', () => {
       this.displaySpots(this.props.spots);
-      if (this.props.listings.length > 0) {
+      if (this.props.listings && this.props.listings.length > 0) {
         toggleToReserved(this.state.map, this.props.listings[0]);
       } else {
         toggleToLooking(this.state.map)
@@ -251,7 +251,7 @@ class Map extends Component {
             
           </div>
           <div id="drawer">
-            <ListingStatusPane map={this.state.map} myListings={this.props.listings}/>
+            <ListingStatusPane map={this.state.map} myListings={this.props.listings} userInfo={this.props.userInfo}/>
           </div>
           <Switch>
             <Route exact path="/addSpot" component={AddSpot} />

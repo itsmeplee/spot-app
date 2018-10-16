@@ -10,13 +10,15 @@ import AddCar from '../UserInfo/Car/AddCar/AddCar';
 import AddLocation from '../UserInfo/Location/AddLocation/AddLocation';
 import { getListingsQuery, CHANGED_LISTINGS_SUBSCRIPTION } from '../../queries/queriesListing';
 import { getSpotsQuery, NEW_SPOTS_SUBSCRIPTION } from '../../queries/queriesSpot';
+import { getUserQuery } from '../../queries/queriesUser';
 import { Query } from 'react-apollo';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      spotChange: {}
+      spotChange: {},
+      user: {}
     };
   };
 
@@ -39,8 +41,6 @@ class App extends Component {
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
         const listingUpdate = subscriptionData.data.listingUpdate.node;
-        console.log(prev);
-        console.log(listingUpdate);
         let newArray = [listingUpdate, ...prev.myListings];
         newArray = this._removeDups(newArray);
         var toReturn = Object.assign({}, prev, {
@@ -76,35 +76,48 @@ class App extends Component {
             <Route exact path="/addCar" component={AddCar} />
             <Route exact path="/addLocation" component={AddLocation} />
             
-          
-            <Query query={getListingsQuery} >
-              {({ loading, error, data, subscribeToMore }) => {
+            <Query query={getUserQuery}>
+              {({ loading, error, data }) => {
                 if (loading) return <div>Fetching</div>;
                 if (error) return <div>Error</div>;
-    
-                this._subscribeToUpdatedListings(subscribeToMore);
-                console.log(data);
-                let listings = data.myListings
+                if (data.userInfo && (!this.state.user || data.userInfo.id !== this.state.user.id)) {
+                  this.setState({
+                    user: data.userInfo
+                  })
+                }
                 return (
-    
-                  <Query query={getSpotsQuery}>
-                    {({ loading, error, data, subscribeToMore }) => {
-                      if (loading) return <div>Fetching</div>;
-                      if (error) return <div>Error</div>;
-                      this._subscribeToNewSpots(subscribeToMore);
-                      console.log(data);
-                      
-                      return (
-                        <div className="App">
-                          <MapComp listings={listings} spots={data.openSpot} spotChange={this.state.spotChange}/>
-                        </div>
-                      );
-                    }}
-                  </Query>
-    
+                  <div>
+                    <Query query={getListingsQuery} >
+                      {({ loading, error, data, subscribeToMore }) => {
+                        if (loading) return <div>Fetching</div>;
+                        if (error) return <div>Error</div>;
+            
+                        this._subscribeToUpdatedListings(subscribeToMore);
+                        let listings = data.myListings
+                        return (
+            
+                          <Query query={getSpotsQuery}>
+                            {({ loading, error, data, subscribeToMore }) => {
+                              if (loading) return <div>Fetching</div>;
+                              if (error) return <div>Error</div>;
+                              this._subscribeToNewSpots(subscribeToMore);
+                              
+                              return (
+                                <div className="App">
+                                  <MapComp userInfo={this.state.user} listings={listings} spots={data.openSpot} spotChange={this.state.spotChange}/>
+                                </div>
+                              );
+                            }}
+                          </Query>
+            
+                        );
+                      }}
+                    </Query>
+                  </div>
                 );
               }}
             </Query>
+            
           </Switch>
         </React.Fragment>
       );
