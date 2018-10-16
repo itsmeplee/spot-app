@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap';
 import { getListingsQuery, CHANGED_LISTINGS_SUBSCRIPTION } from '../../queries/queriesListing';
 import { Query } from 'react-apollo';
 // import { reduceStore } from 'apollo-live-client';
+import Loader from '../App/Loader';
 import Reserving from './HandshakeModals/Reserving';
 import Claimed from './HandshakeModals/Claimed';
 import Success from './HandshakeModals/Success';
@@ -86,7 +87,7 @@ class HandshakeLister extends Component {
       <React.Fragment>
         <Query query={getListingsQuery} >
           {({ loading, error, data, subscribeToMore }) => {
-            if (loading) return <div>Fetching</div>;
+            if (loading) return <Loader></Loader>;
             if (error) return <div>Error</div>;
             this._subscribeToUpdatedListings(subscribeToMore);
             
