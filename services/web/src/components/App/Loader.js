@@ -17,7 +17,7 @@ class Loader extends Component {
           className={this.state.override}
           sizeUnit={"px"}
           size={50}
-          color={'green'}
+          color={"#495057"}
           loading={true}
         />
       </div>
