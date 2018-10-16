@@ -33,6 +33,8 @@ class Map extends Component {
     spotType: 0,
     spotValue: null,
     spotId: '',
+    spotListerRating: 0,
+    spotValue: 0,
     listingId: '',
     spotStartTime: '',
     spotEndTime: '',
@@ -104,7 +106,7 @@ class Map extends Component {
       } else {
         toggleToLooking(this.state.map)
       }
-    })
+    });
   };
 
   displaySpots = (openSpotList) => {
@@ -129,7 +131,7 @@ class Map extends Component {
       lat: lat,
       zoom: zoom
     });
-  }
+  };
 
   clickHandler = (lat, lng) => {
     this.setState({
@@ -139,6 +141,13 @@ class Map extends Component {
     this.props.history.push({
       pathname: '/addSpot',
       state: { lng: this.state.listSpotLng, lat: this.state.listSpotLat }
+    });
+  };
+
+  clickHistory = () => {
+    this.props.history.push({
+      pathname: '/historyPage',
+      state: { rating: this.props.userInfo.rating }
     });
   }
 
@@ -170,7 +179,8 @@ class Map extends Component {
       spotType: spot.type,
       spotId: spot.id,
       spotStartTime: spot.start_time,
-      spotEndTime: spot.end_time
+      spotEndTime: spot.end_time,
+      spotListerRating: spot.listing.listing_user.rating
     });
 
     if (spot.type === 1) {
@@ -181,6 +191,8 @@ class Map extends Component {
           listingId: this.state.listingId, 
           start_time: this.state.spotStartTime, 
           end_time: this.state.spotEndTime,
+          value: this.state.spotValue,
+          rating: this.state.spotListerRating,
           value: this.state.spotValue
         }
       });
@@ -216,7 +228,8 @@ class Map extends Component {
               variant="outline-secondary"
             >
               <Dropdown.Item href="/profilePage">Profile</Dropdown.Item>
-              <Dropdown.Item href="/historyPage">Swap History</Dropdown.Item>
+              <Dropdown.Item onClick={this.clickHistory}>Swap History</Dropdown.Item>
+              {/* <Dropdown.Item href="/historyPage">Swap History</Dropdown.Item> */}
               <Dropdown.Item onClick={() => {
                   localStorage.removeItem(AUTH_TOKEN);
                   this.toggleLogin();
@@ -253,7 +266,7 @@ class Map extends Component {
           </div>
           <Switch>
             <Route exact path="/login" render={() => {
-              return <Login toggleLogin={this.toggleLogin}/>
+              return <Login toggleLogin={this.toggleLogin} />
             }}/>
             <Route exact path="/addSpot" component={AddSpot} />
             <Route exact path="/locations" component={LocationList} />

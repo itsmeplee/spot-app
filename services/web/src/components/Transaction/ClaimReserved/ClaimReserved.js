@@ -48,6 +48,29 @@ class ClaimReserved extends Component {
       clicked: true
     })
   };
+
+  showRating = () => {
+    let rating = "N/A";
+    if (this.props.location.state.rating !== null) {
+      switch(this.props.location.state.rating) {
+        case 1:
+          rating = "Red";
+          break;
+        case 2:
+          rating = "Yellow";
+          break;
+        case 3:
+          rating = "Green";
+          break;
+        default: 
+          rating = "Green";
+          break;
+      }
+    }
+    return (
+      rating
+    );
+  };
   
   handleClose() {
     this.setState({ homeRedirect: true });
@@ -78,12 +101,11 @@ class ClaimReserved extends Component {
           <div className="modal-container">
             <Modal show={this.state.modalShow} onHide={this.handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>Reserve Spot</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <div>
-                  <div>This spot is being held for another {timeLeft}.</div>
-                  <div>It can be yours for ${spotValue}.</div>
+                  <div>This spot is being held for another {timeLeft} by a <span className={this.showRating()}>{this.showRating()}</span> rating user. It can be yours for <b>${spotValue}</b>.</div>
                   <button onClick={this.changeClicked}>Claim Spot</button>
                 </div>
               </Modal.Body>
@@ -93,7 +115,6 @@ class ClaimReserved extends Component {
             </Modal>
           </div>
         </React.Fragment>
-        
       );
     }
     else {
@@ -108,35 +129,27 @@ class ClaimReserved extends Component {
           <div className="modal-container">
             <Modal show={this.state.modalShow} onHide={this.handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>Reserve Spot</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <div>
-                  <div>Are you sure?</div>
-
-
-
+                  <div>This spot will cost you <b>${spotValue}</b>. Are you sure you want to claim it?</div>
                   <Mutation
                     mutation={editListingMutation}
                     onCompleted={() => {
                       this.setState({
                         homeRedirect: true
                       })
-                      
                     }}
                   >
                     {editSpotListing => (
                       <Mutation
                         mutation={updateListingMutation}
                       >
-
                       {(updateListing) => <button onClick={() => {this.twoFunctionMutation(editSpotListing, updateListing)}}>Claim Spot</button>}
                       </Mutation>
                     )}
                   </Mutation>
-
-
-
                 </div>
               </Modal.Body>
               <Modal.Footer>
@@ -151,5 +164,3 @@ class ClaimReserved extends Component {
 };
 
 export default withRouter(ClaimReserved);
-
-//need to editListing too so to change status of listing

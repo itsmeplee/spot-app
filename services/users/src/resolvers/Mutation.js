@@ -6,7 +6,7 @@ async function signup (parent, args, context, info) {
   const password = await bcrypt.hash(args.password, 10)
   const user = await context.db.mutation.createUser({
     data: { ...args, password },
-  }, `{ id }`)
+  }, `{ id rating }`)
 
   const token = jwt.sign({ userId: user.id }, APP_SECRET)
 
@@ -17,7 +17,7 @@ async function signup (parent, args, context, info) {
 };
 
 async function login (parent, args, context, info) {
-  const user = await context.db.query.user({ where: { email: args.email } }, ` { id password } `)
+  const user = await context.db.query.user({ where: { email: args.email } }, ` { id password rating } `)
   if (!user) {
     throw new Error('No such user found')
   }

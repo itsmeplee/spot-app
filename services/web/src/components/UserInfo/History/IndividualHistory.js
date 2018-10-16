@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './HistoryPage.css';
 
 class IndividualHistory extends Component {
   constructor(props) {
@@ -8,10 +9,10 @@ class IndividualHistory extends Component {
 
   render() {
     const { item } = this.props; 
-    const green = {backgroundColor: '#b8f2b9'};
-    const blue = {backgroundColor: '#92bcef'}
-    return (
-      <tr style={item.type === 1 ? blue : green}>
+  
+    if (item.status === 4 || item.status === 5 || item.status === 6 || item.status === 7) {
+      return (
+        <tr className="redRow">
         <td>{item.spot.start_time}</td>
         <td>{item.spot.end_time}</td>
         <td>{item.type}</td>
@@ -21,7 +22,22 @@ class IndividualHistory extends Component {
         <td>{item.spot.state}</td>
         <td>{item.spot.city}</td>
       </tr>
-    );
+      )
+    }
+    else {
+      return (
+        <tr className={item.type === 1 ? "blueRow" : "greenRow"}>
+          <td>{item.spot.start_time}</td>
+          <td>{item.spot.end_time}</td>
+          <td>{item.type}</td>
+          <td>{item.status}</td>
+          <td>{item.spot.street1}</td>
+          <td>{item.spot.street2}</td>
+          <td>{item.spot.state}</td>
+          <td>{item.spot.city}</td>
+        </tr>
+      );
+    };
   };
 };
 

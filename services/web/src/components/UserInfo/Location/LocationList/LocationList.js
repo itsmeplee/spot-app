@@ -1,30 +1,26 @@
 import React, { Component } from 'react';
-import { Query } from 'react-apollo';
-import { Form, Container, Row, Col } from 'react-bootstrap';
+import { Query, Mutation } from 'react-apollo';
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import Loader from '../../../App/Loader';
 import './LocationList.css';
-import { getLocationsQuery } from '../../../../queries/queriesLocation';
-import Location from '../Location/Location.js';
-
+import { getLocationsQuery, deleteLocationMutation } from '../../../../queries/queriesLocation';
 
 class LocationList extends Component {
-
   displayLocations = () => {
     return (
       <Query query={getLocationsQuery} >
         {({ loading, error, data, subscribeToMore }) => {
           if (loading) return <Loader></Loader>;
           if (error) return <div>Error</div>;
-            return (
-              data.locations.map((location) => {
-               return (
-                <div key={location.id}>
-                  <Form.Control>
-                    <Location location={location} deleteLocation={this.deleteLocation}/>
-                    
-                  </Form.Control>
-                </div>
-               )}));
+          // return (
+          //   data.locations.map((location) => {
+          //     return (
+          //     <div key={location.id}>
+          //       <Form.Control>
+          //         <Location location={location} deleteLocation={this.deleteLocation}/>
+          //       </Form.Control>
+          //     </div>
+          // )}));
         }}
       </Query>
     )
@@ -56,19 +52,19 @@ class LocationList extends Component {
     return (
       <Container>
         <Row>
-          <Col>
+          <Col className="locationColTitles">
             Street 1
           </Col>
-          <Col>
+          <Col className="locationColTitles">
             Street 2
           </Col>
-          <Col>
+          <Col className="locationColTitles">
             City
           </Col>
-          <Col>
+          <Col className="locationColTitles">
             State
           </Col>
-          <Col>
+          <Col className="locationColTitles">
             Zip
           </Col>
           <Col></Col>
@@ -98,7 +94,16 @@ class LocationList extends Component {
                       <input type="checkbox"></input>                    
                     </Col>
                     <Col>
-                    <input type="checkbox"></input>                    
+                      <Mutation
+                        mutation={deleteLocationMutation}
+                        variables={{
+                          id: location.id     
+                        }}
+                        >
+                          {deleteLocation => 
+                            <Button type="submit" variant="secondary" onClick={() => deleteLocation()}>-</Button>
+                          }
+                        </Mutation>
                     </Col>
                   </Row>
                 </Col>
@@ -108,7 +113,7 @@ class LocationList extends Component {
         )}
       </Container>
     );
-  }
+  };
 };
 
 export default LocationList;
