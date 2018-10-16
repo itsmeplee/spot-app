@@ -5,7 +5,7 @@ import { editListingMutation } from '../../../queries/queriesListing';
 import { editUserBalance } from '../../../queries/queriesUser';
 import moment from 'moment';
 
-class Reserving extends Component {
+class Claimed extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -115,4 +115,4 @@ class Reserving extends Component {
   }
 };
 
-export default Reserving;
+export default Claimed;

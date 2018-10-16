@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import { Mutation, Query } from 'react-apollo';
+import { updateListingMutation } from '../../../queries/queriesListing';
+import moment from 'moment';
 
-var Reserving = function({listing, handleClose}) {
+var Failed = function({listing, handleClose}) {
   return (
     <React.Fragment>
       <div key={listing.id}>
@@ -10,17 +13,31 @@ var Reserving = function({listing, handleClose}) {
         {listing.status === 5 && <p>Oops, your spot closed because you weren't there!</p>}
         {listing.status === 6 && <p>Sorry, the spot swap was cancelled by the other user!</p>}
         {listing.status === 7 && <p>Sorry, the spot swap was cancelled by the other user!</p>}
-        <Button onClick={() => {
+        <Mutation
+          mutation={updateListingMutation}
+          variables={{
+            spot_id: listing.spot.id,
+            id: listing.id,
+            time_complete: moment().format()
+          }}
+        >
+          {editListing => <Button onClick={() => {
+            editListing();
+            handleClose();
+          }}>Close</Button>}
+        </Mutation>
+        
+        {/* <Button onClick={() => {
             handleClose();
           }}
         >
           Close
-        </Button>
+        </Button> */}
       </div>
     </React.Fragment>
   )
 }
 
-export default Reserving;
+export default Failed;
 
 

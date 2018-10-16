@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { updateListingMutation } from '../../../queries/queriesListing';
 import moment from 'moment';
 
-var Reserving = function({listing, handleClose}) {
+var Success = function({listing, handleClose}) {
   return (
     <React.Fragment>
       <div key={listing.id}>
@@ -22,7 +22,6 @@ var Reserving = function({listing, handleClose}) {
           }}
         >
           {editListing => <Button onClick={() => {
-            console.log(moment().format())
             editListing();
             handleClose();
           }}>Close</Button>}
@@ -38,6 +37,6 @@ var Reserving = function({listing, handleClose}) {
   )
 }
 
-export default Reserving;
+export default Success;
 
 
