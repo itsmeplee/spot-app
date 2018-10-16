@@ -16,7 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      spotChange: {}
+      spotChange: {},
     };
   };
 
@@ -65,8 +65,27 @@ class App extends Component {
     return newArray;
   }
 
+  renderMap = (listings) => {
+    let maplistings = listings || [];
+    return (
+      <Query query={getSpotsQuery}>
+        {({ loading, error, data, subscribeToMore }) => {
+          if (loading) return <div>Fetching</div>;
+          if (error) return  <div>Error</div>;
+          this._subscribeToNewSpots(subscribeToMore);
+          return (
+            <div className="App">
+              <MapComp listings={maplistings} spots={data.openSpot} spotChange={this.state.spotChange}/>
+            </div>
+          );
+        }}
+      </Query>
+    );
+  }
+
   render() {
     const authToken = localStorage.getItem(AUTH_TOKEN);
+    
     if (authToken) {
       return (
         <React.Fragment>
@@ -75,33 +94,14 @@ class App extends Component {
             <Route exact path="/historyPage" component={HistoryPage} />
             <Route exact path="/addCar" component={AddCar} />
             <Route exact path="/addLocation" component={AddLocation} />
-            
-          
             <Query query={getListingsQuery} >
               {({ loading, error, data, subscribeToMore }) => {
                 if (loading) return <div>Fetching</div>;
                 if (error) return <div>Error</div>;
-    
                 this._subscribeToUpdatedListings(subscribeToMore);
-                console.log(data);
                 let listings = data.myListings
                 return (
-    
-                  <Query query={getSpotsQuery}>
-                    {({ loading, error, data, subscribeToMore }) => {
-                      if (loading) return <div>Fetching</div>;
-                      if (error) return <div>Error</div>;
-                      this._subscribeToNewSpots(subscribeToMore);
-                      console.log(data);
-                      
-                      return (
-                        <div className="App">
-                          <MapComp listings={listings} spots={data.openSpot} spotChange={this.state.spotChange}/>
-                        </div>
-                      );
-                    }}
-                  </Query>
-    
+                  this.renderMap(listings)
                 );
               }}
             </Query>
@@ -110,22 +110,7 @@ class App extends Component {
       );
     } else {
       return (
-        <React.Fragment>
-          <Query query={getSpotsQuery}>
-            {({ loading, error, data, subscribeToMore }) => {
-              if (loading) return <div>Fetching</div>;
-              if (error) return <div>Error</div>;
-              this._subscribeToNewSpots(subscribeToMore);
-              console.log(data);
-              
-              return (
-                <div className="App">
-                  <MapComp listings={[]} spots={data.openSpot} spotChange={this.state.spotChange}/>
-                </div>
-              );
-            }}
-          </Query>
-        </React.Fragment>
+        this.renderMap()
       );
     }
   };

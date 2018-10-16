@@ -9,10 +9,6 @@ const getSpotsQuery = gql`
       lng
       start_time
       end_time
-      listing {
-        id
-        value
-      }
     }
   }
 `;
@@ -76,10 +72,6 @@ const NEW_SPOTS_SUBSCRIPTION = gql`
         lng
         is_available
         type
-        listing {
-          id
-          value
-        }
       }
     }
   }
