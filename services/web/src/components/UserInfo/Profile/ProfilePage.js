@@ -95,7 +95,7 @@ class ProfilePage extends Component {
         <Query query={getUserQuery}>
           {({ loading, error, data }) => {
             if (loading) return <div>Fetching</div>;
-            if (error) return <div>Error {console.log({error})}</div>;
+            if (error) return <div>Error {console.log('Error: ',{error})}</div>;
             if (data) { 
               this.getUserInfo(data); 
               return <div></div> 
