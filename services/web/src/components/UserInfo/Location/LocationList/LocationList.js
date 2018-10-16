@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import { Button, Modal, Form, Container, Row, Col } from 'react-bootstrap';
 import './LocationList.css';
-import { getLocationsQuery } from '../../../../queries/queriesLocation';
+import { getLocationsQuery, deleteLocationMutation } from '../../../../queries/queriesLocation';
 import Location from '../Location/Location.js';
-import AddLocation from '../AddLocation/AddLocation';
-
 
 class LocationList extends Component {
 
@@ -56,19 +54,19 @@ class LocationList extends Component {
     return (
       <Container>
         <Row>
-          <Col>
+          <Col className="locationColTitles">
             Street 1
           </Col>
-          <Col>
+          <Col className="locationColTitles">
             Street 2
           </Col>
-          <Col>
+          <Col className="locationColTitles">
             City
           </Col>
-          <Col>
+          <Col className="locationColTitles">
             State
           </Col>
-          <Col>
+          <Col className="locationColTitles">
             Zip
           </Col>
           <Col></Col>
@@ -98,7 +96,16 @@ class LocationList extends Component {
                       <input type="checkbox"></input>                    
                     </Col>
                     <Col>
-                    <input type="checkbox"></input>                    
+                      <Mutation
+                        mutation={deleteLocationMutation}
+                        variables={{
+                          id: location.id     
+                        }}
+                        >
+                          {deleteLocation => 
+                            <Button type="submit" variant="secondary" onClick={() => deleteLocation()}>-</Button>
+                          }
+                        </Mutation>
                     </Col>
                   </Row>
                 </Col>

@@ -16,6 +16,7 @@ class Login extends Component {
       email: '',
       password: '',
       user_name: '',
+      rating: null,
       show: true,
       errorText : ''
     };
@@ -36,10 +37,14 @@ class Login extends Component {
   handleLogin(mutation, e){
     e.preventDefault();
     if (this.state.login){
-      if (this.state.email !== '' && this.state.password !== ''){
+      if (this.state.email !== '' && this.state.password !== '') {
         mutation()
           .then((response) => {
-            console.log(response);
+            this.setState({
+              rating: response.data.login.user.rating
+            },
+            () => {console.log(response)}
+            )
           })
           .catch((err) => {
             console.log('error', err);

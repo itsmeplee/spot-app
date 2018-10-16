@@ -1,24 +1,36 @@
 .profilePage {
   padding-top:15px;
 }
+
 .profileRow {
   padding-bottom: 15px;
 }
+
 .centered {
   text-align: center;
 }
+
 .right {
   text-align: right;
 }
 
 .Green {
-  color: Green;
+  background-color: Green;
+  color: white;
 }
 
 .Yellow {
-  color: Yellow;
+  background-color: Yellow;
+  color: white;
 }
 
 .Red {
-  color: Red;
+  background-color: Red;
+  color: white;
 }
+
+
+.profileLabels {
+  font-weight: bold
+}
+

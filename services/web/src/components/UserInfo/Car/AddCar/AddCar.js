@@ -15,7 +15,6 @@ class AddCar extends Component {
     plate: '',
     state: '',
     updateStatus: '',
-    default_car: false,
     homeRedirect: false,
     modalShow: true,
   };
@@ -95,17 +94,6 @@ class AddCar extends Component {
                 <Form.Control type="text" placeholder="State" name="state" value={state}
                   onChange={(evt) => this.handleInputChange(evt)}></Form.Control>
               </Form.Group>
-              <Form.Group>
-                <Form.Label>State: </Form.Label>
-                <Form.Check 
-                  label="Make This Your Default Car" 
-                  onClick={() => {
-                    this.setState({
-                      default_car: true
-                    })
-                  }}
-                />
-              </Form.Group>
               <Mutation
                 mutation={addCarMutation}
                 variables={{
@@ -114,8 +102,7 @@ class AddCar extends Component {
                   model: this.state.model,
                   color: this.state.color,
                   plate: this.state.plate,
-                  state: this.state.state,
-                  default_car: this.state.default_car
+                  state: this.state.state
                 }}
                 // onCompleted={() => this.props.history.push('/profilePage')}
               >              

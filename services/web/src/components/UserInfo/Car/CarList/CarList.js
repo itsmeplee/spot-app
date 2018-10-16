@@ -11,19 +11,19 @@ class CarList extends Component {
     return (
       <Container>
         <Row>
-          <Col>
+          <Col className="carColTitles">
             Make
           </Col>
-          <Col>
+          <Col className="carColTitles">
             Model
           </Col>
-          <Col>
+          <Col className="carColTitles">
             Color
           </Col>
-          <Col>
+          <Col className="carColTitles">
             State
           </Col>
-          <Col>
+          <Col className="carColTitles">
             Plate
           </Col>
           <Col></Col>
@@ -59,8 +59,8 @@ class CarList extends Component {
                         id: car.id     
                       }}
                       >
-                        {mutation => 
-                          <Button type="submit" onClick={()=>mutation()}>-</Button>
+                        {deleteCar => 
+                          <Button type="submit" variant="secondary" onClick={() => deleteCar()}>-</Button>
                         }
                       </Mutation>
                     </Col>

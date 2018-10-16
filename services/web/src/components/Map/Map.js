@@ -118,7 +118,7 @@ class Map extends Component {
       } else {
         toggleToLooking(this.state.map)
       }
-    })
+    });
   };
 
   displaySpots(openSpotList) {
@@ -256,7 +256,7 @@ class Map extends Component {
           <Switch>
             <Route exact path="/addSpot" component={AddSpot} />
             <Route exact path="/login" render={() => {
-              return <Login toggleLogin={this.toggleLogin}/>
+              return <Login toggleLogin={this.toggleLogin} />
             }}/>
             {/* <Route exact path="/spots" component={SpotsList} /> */}
             <Route exact path="/locations" component={LocationList} />
@@ -284,7 +284,7 @@ class Map extends Component {
         </div>
         <Switch>
             <Route exact path="/login" render={() => {
-              return <Login toggleLogin={this.toggleLogin}/>
+              return <Login toggleLogin={this.toggleLogin} />
             }}/>
           </Switch>
         </React.Fragment>

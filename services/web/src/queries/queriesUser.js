@@ -12,6 +12,9 @@ const signupQuery = gql`
       user_name: $user_name
     ) {
       token
+      user {
+        rating
+      }
     }
   }
 `;
@@ -26,6 +29,9 @@ const loginQuery = gql`
       password: $password
     ) {
       token
+      user {
+        rating
+      }
     }
   }
 `;
@@ -36,6 +42,7 @@ const getUserQuery = gql`
       user_name
       first_name
       last_name
+      email
       rating
       balance
       user_cars {
@@ -66,6 +73,7 @@ const mutationUser = gql`
     $user_name: String,
     $first_name: String,
     $last_name: String,
+    $email: String,
     $current_lng: String,
     $current_lat: String
   ) {
@@ -73,6 +81,7 @@ const mutationUser = gql`
       user_name: $user_name
       first_name: $first_name
       last_name: $last_name
+      email: $email
       current_lat: $current_lat
       current_lng: $current_lng
     ){
