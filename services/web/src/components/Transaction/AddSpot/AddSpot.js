@@ -106,23 +106,9 @@ class AddSpot extends Component {
           errorText: err.message
         })
       });
-
   };
 
   displayTimeForReservedSpots = () => {
-    const { lng =  (this.props.location.state.lng).toString(),
-      lat = (this.props.location.state.lat).toString(),
-      type =  this.state.reservedToggle ? 1 : 2,
-      start_time =  this.state.start_time,
-      end_time = this.state.end_time,
-      status = 1,
-      street1 = this.state.street1,
-      street2 = this.state.street2,
-      zip = parseInt(this.state.zip, 10),
-      city = this.state.city,
-      state = this.state.state,
-      value = this.state.value } = this.state
-
     if (this.state.reservedToggle) {
       return (
         <React.Fragment>
@@ -141,23 +127,13 @@ class AddSpot extends Component {
               </InputGroup>
             </Form.Group>
           </div>
-          <div> 
-            <Mutation
-              mutation={addSpotMutation}
-              variables={{ lng, lat, type, start_time, end_time, status, street1, street2, zip, city, state, value }}
-              onCompleted={(data) => this._confirm(data)}
-            >
-            {addSpot => (
-              <Button 
-                type="button" 
-                className="holdingSpotBtn"
-                onClick={(e) => this.submitForm(addSpot, e)}
-              >List</Button> 
-            )}
-            </Mutation>
-          </div>
         </React.Fragment>
       );
+    }
+    else {
+      return (
+        <div className="clickAdd"> Click List </div>
+      )
     }
   };
 
@@ -200,33 +176,22 @@ class AddSpot extends Component {
                 </Row>
                 <Row>
                   <Col>
-                    <Button 
-                      type="button" 
-                      className="holdingSpotBtn"
-                      onClick={() => this.changeView(true)}
-                    > I am holding a Spot </Button>
-                  </Col>
+                    <Button
+                      type="button"  
+                      className={'btn btn-primary ' + (this.state.reservedToggle ? '': 'active')} 
+                      onClick={() => this.changeView(false)}
+                    >I noticed a Spot</Button> 
+                  </Col> 
                   <Col className="center">
                     OR
                   </Col>
                   <Col>
-                    <Mutation
-                      mutation={addSpotMutation}
-                      variables={{ lng, lat, type, start_time, end_time, status, street1, street2, zip, city, state, value }}
-                      onCompleted={(data) => this._confirm(data)}
-                    >
-                      {addSpot => (
-                            <Button 
-                              type="button" 
-                              className="noticeSpotBtn"
-                              onClick={(e) => {
-                                this.submitForm(addSpot, e);
-                                this.changeView(false)
-                              }}   
-                            >I noticed a Spot</Button> 
-                      )}
-                      </Mutation>
-                  </Col> 
+                    <Button 
+                      type="button" 
+                      className={'btn btn-primary ' + (this.state.reservedToggle ? 'active': '')} 
+                      onClick={() => this.changeView(true)}
+                    > I am holding a Spot </Button>
+                  </Col>
                 </Row>
                 <Row>
                     <Col>
@@ -237,6 +202,18 @@ class AddSpot extends Component {
                           {this.state.errorText}
                         </Alert>
                         )}
+                        <Mutation
+                          mutation={addSpotMutation}
+                          variables={{ lng, lat, type, start_time, end_time, status, street1, street2, zip, city, state, value }}
+                          onCompleted={(data) => this._confirm(data)}
+                        >
+                        {addSpot => (
+                          <Button 
+                            type="button" 
+                            onClick={(e) => this.submitForm(addSpot, e)}
+                          >List</Button> 
+                        )}
+                        </Mutation>
                       </Form>
                     </Col>
                 </Row>
