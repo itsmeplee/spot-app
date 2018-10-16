@@ -18,7 +18,6 @@ class Login extends Component {
     errorText : ''
   };
 
-
   handleClose = () => {
     this.setState({ show:false });
   };
@@ -38,10 +37,10 @@ class Login extends Component {
   handleLogin = (mutation, e) => {
     e.preventDefault();
     if (this.state.login){
-      if (this.state.email !== '' && this.state.password !== ''){
+      if (this.state.email !== '' && this.state.password !== '') {
         mutation()
           .then((response) => {
-            console.log(response);
+            console.log(response)
           })
           .catch((err) => {
             console.log('error', err);

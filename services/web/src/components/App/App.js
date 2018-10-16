@@ -31,7 +31,7 @@ class App extends Component {
         });
       }
     })
-  }
+  };
   
   _subscribeToUpdatedListings = subscribeToMore => {
     subscribeToMore({
@@ -47,7 +47,7 @@ class App extends Component {
         return toReturn;
       }
     })
-  }
+  };
 
   _removeDups = data => {
     let obj = {};
@@ -61,7 +61,7 @@ class App extends Component {
       }
     }
     return newArray;
-  }
+  };;
 
   renderMap = (listings, userInfo) => {
     let maplistings = listings || [];
@@ -82,7 +82,7 @@ class App extends Component {
         }}
       </Query>
     );
-  }
+  };
 
   render() {
     const authToken = localStorage.getItem(AUTH_TOKEN);
@@ -129,7 +129,7 @@ class App extends Component {
       return (
         this.renderMap()
       );
-    }
+    };
   };
 
 //   render() {
