@@ -65,6 +65,8 @@ class ClaimReserved extends Component {
       spotValue = this.props.location.state.value;
     }
 
+    let spotLister = this.props.location.state.rating;
+
     if (this.state.homeRedirect) {
       return <Redirect to={{
                 pathname: '/',
@@ -84,6 +86,7 @@ class ClaimReserved extends Component {
                 <div>
                   <div>This spot is being held for another {timeLeft}.</div>
                   <div>It can be yours for ${spotValue}.</div>
+                  <div>{spotLister} is the rating</div>
                   <button onClick={this.changeClicked}>Claim Spot</button>
                 </div>
               </Modal.Body>

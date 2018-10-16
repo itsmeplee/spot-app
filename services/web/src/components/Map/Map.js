@@ -33,6 +33,8 @@ class Map extends Component {
     spotType: 0,
     spotValue: null,
     spotId: '',
+    spotListerRating: 0,
+    spotValue: 0,
     listingId: '',
     spotStartTime: '',
     spotEndTime: '',
@@ -170,7 +172,8 @@ class Map extends Component {
       spotType: spot.type,
       spotId: spot.id,
       spotStartTime: spot.start_time,
-      spotEndTime: spot.end_time
+      spotEndTime: spot.end_time,
+      spotListerRating: spot.listing.listing_user.rating
     });
 
     if (spot.type === 1) {
@@ -181,6 +184,8 @@ class Map extends Component {
           listingId: this.state.listingId, 
           start_time: this.state.spotStartTime, 
           end_time: this.state.spotEndTime,
+          value: this.state.spotValue,
+          rating: this.state.spotListerRating,
           value: this.state.spotValue
         }
       });
