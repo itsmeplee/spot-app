@@ -83,7 +83,7 @@ class AddSpot extends Component {
       })
   }
 
-  submitForm = (mutation, event) => {
+  submitForm = (addSpot, event) => {
     event.preventDefault();
     // if holding - check for hold time and value
     if(this.state.reservedToggle) { 
@@ -95,9 +95,8 @@ class AddSpot extends Component {
         return;
       }
     }
-
-    // run mutation to add Spot
-    mutation()
+    // run addSpot to add Spot
+    addSpot()
       .then((response) => {
         console.log(response);
       })
@@ -111,27 +110,53 @@ class AddSpot extends Component {
   };
 
   displayTimeForReservedSpots = () => {
+    const { lng =  (this.props.location.state.lng).toString(),
+      lat = (this.props.location.state.lat).toString(),
+      type =  this.state.reservedToggle ? 1 : 2,
+      start_time =  this.state.start_time,
+      end_time = this.state.end_time,
+      status = 1,
+      street1 = this.state.street1,
+      street2 = this.state.street2,
+      zip = parseInt(this.state.zip, 10),
+      city = this.state.city,
+      state = this.state.state,
+      value = this.state.value } = this.state
+
     if (this.state.reservedToggle) {
       return (
         <React.Fragment>
-          <Form.Group controlId="formHoldSpotTime">
-            <Form.Label>Holding for (min):</Form.Label>
-            <Form.Control type="text" placeholder="Minutes" value={this.state.extra_time.toString()} onChange={(e) => this.handleInputTimeChange(e)}></Form.Control>
-          </Form.Group>
-          <Form.Group controlId="formHoldSpotValue">
-            <Form.Label>Sell for:</Form.Label>
-            <InputGroup>
-              <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
-              </InputGroup.Prepend>
-              <Form.Control type="text" placeholder="Value" value={this.state.value.toString()} onChange={e => this.setState({ value: e.target.value.toString() })} ></Form.Control>
-            </InputGroup>
-          </Form.Group>
+          <div>
+            <Form.Group controlId="formHoldSpotTime">
+              <Form.Label>Holding for (min):</Form.Label>
+              <Form.Control type="text" placeholder="Minutes" value={this.state.extra_time.toString()} onChange={(e) => this.handleInputTimeChange(e)}></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="formHoldSpotValue">
+              <Form.Label>Sell for:</Form.Label>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control type="text" placeholder="Value" value={this.state.value.toString()} onChange={e => this.setState({ value: e.target.value })} ></Form.Control>
+              </InputGroup>
+            </Form.Group>
+          </div>
+          <div> 
+            <Mutation
+              mutation={addSpotMutation}
+              variables={{ lng, lat, type, start_time, end_time, status, street1, street2, zip, city, state, value }}
+              onCompleted={(data) => this._confirm(data)}
+            >
+            {addSpot => (
+              <Button 
+                type="button" 
+                className="holdingSpotBtn"
+                onClick={(e) => this.submitForm(addSpot, e)}
+              >List</Button> 
+            )}
+            </Mutation>
+          </div>
         </React.Fragment>
-      );
-    } else {
-      return (
-          <div className="clickAdd"> Click List </div>
       );
     }
   };
@@ -145,6 +170,7 @@ class AddSpot extends Component {
       pathname: '/',
       state: {}
     }} />;};
+
     const { lng =  (this.props.location.state.lng).toString(),
         lat = (this.props.location.state.lat).toString(),
         type =  this.state.reservedToggle ? 1 : 2,
@@ -157,6 +183,7 @@ class AddSpot extends Component {
         city = this.state.city,
         state = this.state.state,
         value = this.state.value } = this.state
+
     return (
       <React.Fragment>
         <div className="modal-container">
@@ -168,27 +195,38 @@ class AddSpot extends Component {
               <Container className="addSpot">
                 <Row>
                     <Col>
-                      Spot located at {this.state.street1} , {this.state.street2}                    
+                      Spot located at {this.state.street1}, {this.state.street2}                    
                     </Col>
                 </Row>
                 <Row>
                   <Col>
                     <Button 
                       type="button" 
-                      className={'btn btn-primary ' + (this.state.reservedToggle ? '': 'active')} 
-                      onClick={() => this.changeView(false)}
-                    > I noticed a Spot </Button>
+                      className="holdingSpotBtn"
+                      onClick={() => this.changeView(true)}
+                    > I am holding a Spot </Button>
                   </Col>
                   <Col className="center">
                     OR
                   </Col>
                   <Col>
-                    <Button 
-                      type="button" 
-                      className={'btn btn-primary ' + (this.state.reservedToggle ? 'active': '')} 
-                      onClick={() => this.changeView(true)}
-                    > I am holding a Spot </Button>
-                  </Col>
+                    <Mutation
+                      mutation={addSpotMutation}
+                      variables={{ lng, lat, type, start_time, end_time, status, street1, street2, zip, city, state, value }}
+                      onCompleted={(data) => this._confirm(data)}
+                    >
+                      {addSpot => (
+                            <Button 
+                              type="button" 
+                              className="noticeSpotBtn"
+                              onClick={(e) => {
+                                this.submitForm(addSpot, e);
+                                this.changeView(false)
+                              }}   
+                            >I noticed a Spot</Button> 
+                      )}
+                      </Mutation>
+                  </Col> 
                 </Row>
                 <Row>
                     <Col>
@@ -199,15 +237,6 @@ class AddSpot extends Component {
                           {this.state.errorText}
                         </Alert>
                         )}
-                        <Mutation
-                          mutation={addSpotMutation}
-                          variables={{ lng, lat, type, start_time, end_time, status, street1, street2, zip, city, state, value }}
-                          onCompleted={(data) => this._confirm(data)}
-                        >
-                        {mutation => (
-                          <Button type="button" onClick={(e) => this.submitForm(mutation, e)}>List</Button> 
-                        )}
-                        </Mutation>
                       </Form>
                     </Col>
                 </Row>

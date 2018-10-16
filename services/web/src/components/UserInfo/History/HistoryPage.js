@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { withRouter } from 'react-router';
-import { Button, Table, ButtonToolbar } from 'react-bootstrap';
+import { Button, Table, ButtonToolbar, Container, Card, Col, Row } from 'react-bootstrap';
+import Loader from '../../App/Loader';
 import { getHistoryListings } from '../../../queries/queriesHistory';
 import IndividualHistory from './IndividualHistory';
+import './HistoryPage.css';
 
 class HistoryPage extends Component {
   constructor(props) {
@@ -11,12 +13,35 @@ class HistoryPage extends Component {
     this.state = {};
   };
 
+  showRating = () => {
+    let rating = "N/A";
+    if (this.props.history.location.state.rating !== null) {
+      switch(this.props.history.location.state.rating) {
+        case 1:
+          rating = "Red";
+          break;
+        case 2:
+          rating = "Yellow";
+          break;
+        case 3:
+          rating = "Green";
+          break;
+        default: 
+          rating = "Green";
+          break;
+      }
+    }
+    return (
+      rating
+    );
+  };
+
   render() {
     return (
       <div>
         <Query query={getHistoryListings}>
           {({ loading, error, data }) => {
-            if (loading) return <div>Fetching</div>;
+            if (loading) return <Loader></Loader>;
             if (error) {
               return (
                 <div> 
@@ -32,29 +57,47 @@ class HistoryPage extends Component {
               
               return (
                 <div>
-                  <ButtonToolbar>
-                    <Button variant="outline-secondary" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
-                  </ButtonToolbar>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                        <th>Street1</th>
-                        <th>Street2</th>
-                        <th>State</th>
-                        <th>City</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      { rows }
-                    </tbody>
-                  </Table>
-                  <ButtonToolbar>
-                    <Button variant="outline-secondary" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
-                  </ButtonToolbar>
+                  <Container>
+                    <Card>
+                      <Card.Header>
+                        <ButtonToolbar>
+                          <Button variant="outline-dark" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
+                        </ButtonToolbar>
+                      </Card.Header>
+                      <Card.Body>
+                        <Row>
+                          <Col>
+                            <Card.Title>Your Swap History</Card.Title>
+                          </Col>
+                          <Col className="right">
+                            <span className={this.showRating()}>Rating: {this.showRating()}</span>
+                          </Col>
+                        </Row>
+                        <Table bordered>
+                          <thead>
+                            <tr>
+                              <th>Start Time</th>
+                              <th>End Time</th>
+                              <th>Type</th>
+                              <th>Status</th>
+                              <th>Street1</th>
+                              <th>Street2</th>
+                              <th>State</th>
+                              <th>City</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            { rows }
+                          </tbody>
+                        </Table>
+                      </Card.Body>
+                      <Card.Footer>
+                        <ButtonToolbar>
+                          <Button variant="outline-dark" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
+                        </ButtonToolbar>
+                      </Card.Footer>
+                    </Card>
+                  </Container>
                 </div>
               )
             };

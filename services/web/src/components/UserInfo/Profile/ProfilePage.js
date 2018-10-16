@@ -3,6 +3,7 @@ import { Mutation, Query } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { Button, Form, Container, Col, Row, Card, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Loader from '../../App/Loader';
 import CarList from '../Car/CarList/CarList';
 import LocationList from '../Location/LocationList/LocationList';
 import { getUserQuery, mutationUser } from '../../../queries/queriesUser';
@@ -16,6 +17,8 @@ class ProfilePage extends Component {
     username: '',
     firstName: '',
     lastName: '',
+    email: '',
+    password: '',
     balance: 0,
     cars: [],
     locations: [],
@@ -26,23 +29,16 @@ class ProfilePage extends Component {
   getUserInfo = (data) => {
     let balance = data.userInfo.balance ? data.userInfo.balance : this.state.balance
 
-    console.log(data.userInfo.user_cars);
-
     this.setState({
       username: data.userInfo.user_name,
       firstName: data.userInfo.first_name,
       lastName: data.userInfo.last_name,
+      email: data.userInfo.email,
       cars: data.userInfo.user_cars,
       locations: data.userInfo.locations,
       rating: data.userInfo.rating,
       balance: balance,
       empty: false
-    })
-  };
-
-  changeDefaultCar = (car) => {
-    this.setState({
-      default_car: car
     })
   };
 
@@ -55,7 +51,7 @@ class ProfilePage extends Component {
 
   showRating = () => {
     let rating = "N/A";
-    if(this.state.rating != null) {
+    if (this.state.rating !== null) {
       switch(this.state.rating) {
         case 1:
           rating = "Red";
@@ -90,14 +86,14 @@ class ProfilePage extends Component {
         updateStatus: err.message
       })
     });
-  }
+  };
 
   render() {
     if (this.state.empty) {
       return (
         <Query query={getUserQuery}>
           {({ loading, error, data }) => {
-            if (loading) return <div>Fetching</div>;
+            if (loading) return <Loader></Loader>;
             if (error) return <div>Error {console.log('Error: ',{error})}</div>;
             if (data) { 
               this.getUserInfo(data); 
@@ -108,9 +104,14 @@ class ProfilePage extends Component {
       );
     }
     else {
-      let { username, firstName, lastName, balance } = this.state
+      let { username, firstName, lastName, balance, email, password } = this.state
       return (  
         <Container className="profilePage">
+          <Row className="profileRow">
+            <Col>
+              <Button variant="outline-secondary" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
+            </Col>
+          </Row>
           <Row className="profileRow">
             <Col>
             <Form>
@@ -120,20 +121,20 @@ class ProfilePage extends Component {
                   <Row>
                     <Col>
                       <Form.Group controlId="formGroupUsername">
-                      <Form.Label>Username: </Form.Label>
+                      <Form.Label className="profileLabels">Username: </Form.Label>
                       <Form.Control type="text" placeholder="Username" name="username" value={username} 
                         onChange={(evt) => this.handleInputChange(evt)}></Form.Control>
                       </Form.Group>
                     </Col>
                     <Col>
                       <Row>
-                        <Col className={this.showRating() + ' right'}>
-                          Rating : {this.showRating()}
+                        <Col className='right'>
+                          <span className={this.showRating()}>Rating: {this.showRating()}</span>
                         </Col>
                       </Row>
                       <Row>
                         <Col className="right">
-                            Balance : $ {balance}
+                            Balance: $ {balance}
                         </Col>
                       </Row>
                     </Col>
@@ -141,17 +142,39 @@ class ProfilePage extends Component {
                   <Row>
                     <Col>
                       <Form.Group controlId="formGroupFirstname">
-                      <Form.Label>First Name: </Form.Label>
+                      <Form.Label className="profileLabels">First Name: </Form.Label>
                       <Form.Control type="text" placeholder="First Name" name="firstName" value={firstName}
                         onChange={(evt) => this.handleInputChange(evt)}></Form.Control>
                       </Form.Group>
                     </Col>
                     <Col>
                       <Form.Group controlId="formGroupLastname">
-                      <Form.Label>Last Name: </Form.Label>
+                      <Form.Label className="profileLabels">Last Name: </Form.Label>
                       <Form.Control type="text" placeholder="Last Name" name="lastName" value={lastName}
                         onChange={(evt) => this.handleInputChange(evt)}></Form.Control>
                       </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Form.Group controlId="formGroupEmail">
+                      <Form.Label className="profileLabels">Email: </Form.Label>
+                      <Form.Control type="text" placeholder="Email" name="email" value={email}
+                        onChange={(evt) => this.handleInputChange(evt)}></Form.Control>
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Group controlId="formGroupPassword">
+                      <Form.Label className="profileLabels">Password: </Form.Label>
+                      <Form.Control type="text" placeholder="Password" name="password" value={password}
+                        onChange={(evt) => this.handleInputChange(evt)}></Form.Control>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                    </Col>
+                    <Col>
                     </Col>
                   </Row>
                   <Row>
@@ -170,11 +193,13 @@ class ProfilePage extends Component {
                       variables={{
                         user_name: this.state.username,
                         first_name: this.state.firstName,
-                        last_name: this.state.lastName      
+                        last_name: this.state.lastName,
+                        email: this.state.email,
+                        password: this.state.password    
                       }}
                       >
                         {mutation => 
-                          <Button type="submit" onClick={(e) => {this.editUser(mutation,e);}}>Update</Button>
+                          <Button type="submit" variant="secondary" onClick={(e) => {this.editUser(mutation,e);}}>Update</Button>
                         }
                       </Mutation>
                     </Col>
