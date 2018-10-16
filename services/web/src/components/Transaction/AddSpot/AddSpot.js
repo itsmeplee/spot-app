@@ -16,7 +16,7 @@ class AddSpot extends Component {
   state = {
       reservedToggle: false,
       start_time: moment().format(),
-      end_time:  moment().add(30, 'minute').format(),
+      end_time:  moment().add(15, 'minute').format(),
       modalShow: true,
       homeRedirect: false,
       street1: '',
@@ -25,7 +25,7 @@ class AddSpot extends Component {
       state: '',
       zip: '',
       value: 1,
-      extra_time: 10,
+      extra_time: 15,
       errorText: ''
   };
 
