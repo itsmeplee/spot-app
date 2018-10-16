@@ -40,6 +40,7 @@ const getUserQuery = gql`
       rating
       balance
       user_cars {
+        id
         make
         model
         color

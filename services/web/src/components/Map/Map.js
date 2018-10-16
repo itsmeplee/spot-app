@@ -1,60 +1,46 @@
 import React, { Component } from 'react';
-import './Map.css';
+import { withRouter, Switch, Route } from 'react-router-dom';
+import { graphql, compose } from 'react-apollo';
+import { Container, Navbar, Nav, Dropdown, DropdownButton } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import { withRouter, Switch, Route } from 'react-router-dom';
-import SpotsList from './SpotsList/SpotsList';
 import Login from '../Login/Login.js';
 import AddSpot from '../Transaction/AddSpot/AddSpot';
 import LocationList from '../UserInfo/Location/LocationList/LocationList';
 import CarList from '../UserInfo/Car/CarList/CarList';
 import ClaimSpotted from '../Transaction/ClaimSpotted/ClaimSpotted';
 import ClaimReserved from '../Transaction/ClaimReserved/ClaimReserved';
-import { AUTH_TOKEN } from '../../constants';
-import { initializeMap } from '../../utilities/mapHelper';
-import { mutationUserCurrentLocation } from '../../queries/queriesUser';
-import { graphql, compose } from 'react-apollo';
 import ListingStatusPane from '../Transaction/ListingStatusPane';
-import { Container, Navbar, Nav, Dropdown, DropdownButton } from 'react-bootstrap';
-import { addSpot, removeSpot } from '../../utilities/mapHelper';
-import { toggleToReserved, toggleToLooking } from '../../utilities/mapHelper';
+import { mutationUserCurrentLocation } from '../../queries/queriesUser';
+import { addSpot, removeSpot, initializeMap,toggleToReserved, toggleToLooking } from '../../utilities/mapHelper';
+import { AUTH_TOKEN, mapboxgl_accessToken } from '../../constants';
 
-// if (data.myListings.length > 0) {
-                //   toggleToReserved(this.props.map, data.myListings[0]);
-                // } else {
-                //   toggleToLooking(this.props.map)
-                // } */}
+import './Map.css';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
+mapboxgl.accessToken = mapboxgl_accessToken;
 
 class Map extends Component {
-  constructor(props, context){
-    super(props, context);
-    this.state = {
-      lng: -73.9824,
-      lat: 40.7426,
-      zoom: 11.39,
-      listRedirect: false,
-      listSpotLng: 0,
-      listSpotLat: 0,
-      modalShow: true,
-      spotType: 0,
-      spotValue: null,
-      spotId: '',
-      listingId: '',
-      spotStartTime: '',
-      spotEndTime: '',
-      loggedIn: false,
-      map: {}
-    };
-    this.claimSpot = this.claimSpot.bind(this);
-    this.changeLogin = this.changeLogin.bind(this);
-    this.toggleLogin = this.toggleLogin.bind(this);
-    this.moveHandler = this.moveHandler.bind(this);
-    this.clickHandler = this.clickHandler.bind(this);
+  state = {
+    lng: -73.9824,
+    lat: 40.7426,
+    zoom: 11.39,
+    listRedirect: false,
+    listSpotLng: 0,
+    listSpotLat: 0,
+    modalShow: true,
+    spotType: 0,
+    spotValue: null,
+    spotId: '',
+    listingId: '',
+    spotStartTime: '',
+    spotEndTime: '',
+    map: {},
+    loggedIn: false,
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate = (prevProps) => {
     if (this.props.spotChange !== prevProps.spotChange) {
       if (this.props.spotChange.is_available) {
         addSpot(this.props.spotChange, this.state.map, this.claimSpot);
@@ -72,6 +58,8 @@ class Map extends Component {
   }
 
   componentDidMount() {
+    this.changeLogin();
+    
     const { lng, lat, zoom } = this.state;
     let map = initializeMap(lat, lng, zoom, this.mapContainer, this.moveHandler, this.clickHandler);
     
@@ -98,7 +86,7 @@ class Map extends Component {
       map: map
     });
 
-    if ("geolocation" in navigator) {
+    if ("geolocation" in navigator && this.state.loggedIn) {
       /* geolocation is available */
       navigator.geolocation.watchPosition((position) => {
         this.updateUserLocation(position);
@@ -108,8 +96,6 @@ class Map extends Component {
     } else {
       /* geolocation IS NOT available */
     }
-    
-    this.changeLogin();
 
     map.on('load', () => {
       this.displaySpots(this.props.spots);
@@ -121,24 +107,23 @@ class Map extends Component {
     })
   };
 
-  displaySpots(openSpotList) {
+  displaySpots = (openSpotList) => {
     openSpotList.forEach((spot) => {
       addSpot(spot, this.state.map, this.claimSpot);
     });
   };
 
-  updateUserLocation(position) {
+  updateUserLocation = (position) => {
     this.props.userMutation({
       variables: {
         current_lng: (position.coords.longitude).toString(),
         current_lat: (position.coords.latitude).toString()
       },
-      // refetchQueries: [{query: getSpotsQuery, variables: {}}]
     });
     
   };
 
-  moveHandler(lng, lat, zoom) {
+  moveHandler = (lng, lat, zoom) => {
     this.setState({
       lng: lng,
       lat: lat,
@@ -146,7 +131,7 @@ class Map extends Component {
     });
   }
 
-  clickHandler(lat, lng) {
+  clickHandler = (lat, lng) => {
     this.setState({
       listSpotLat: lat,
       listSpotLng: lng
@@ -157,7 +142,13 @@ class Map extends Component {
     });
   }
 
-  changeLogin() {
+  toggleLogin = () => {
+    this.setState({
+      loggedIn: !this.state.loggedIn
+    })
+  };
+
+  changeLogin = () => {
     const authToken = localStorage.getItem(AUTH_TOKEN);
     if (authToken) {
       this.setState({
@@ -166,13 +157,13 @@ class Map extends Component {
     }
   };
 
-  toggleLogin() {
-    this.setState({
-      loggedIn: !this.state.loggedIn
-    })
-  };
-
-  claimSpot(spot) {
+  claimSpot = (spot) => {
+    if(!this.state.loggedIn) {
+      toast.error("Please Login to claim spots.", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+      return;
+    }
     this.setState({
       listingId: spot.listing.id,
       spotValue: spot.listing.value,
@@ -207,58 +198,64 @@ class Map extends Component {
     }
   };
 
+  renderNavBar = () => {
+    return (
+      <Container>
+        <Navbar bg="dark" variant="dark" expand="sm">
+          <Navbar.Brand>
+            <img src="/favicon-256.png" width="30" height="30" alt="swapspot"/>
+          </Navbar.Brand>
+          <div id="geocoder" className="geocoder"></div>
+          {!this.state.loggedIn && (
+            <Nav.Link href="/login">Login</Nav.Link>
+          )}
+          {this.state.loggedIn && (
+            <DropdownButton 
+              id="dropdown-basic-button" 
+              title={<img src="/user-outline.svg"  width="20" height="20" alt="" />} 
+              variant="outline-secondary"
+            >
+              <Dropdown.Item href="/profilePage">Profile</Dropdown.Item>
+              <Dropdown.Item href="/historyPage">Swap History</Dropdown.Item>
+              <Dropdown.Item onClick={() => {
+                  localStorage.removeItem(AUTH_TOKEN);
+                  this.toggleLogin();
+                }}
+              >
+                Logout
+              </Dropdown.Item>
+            </DropdownButton>
+          )}            
+        </Navbar>
+      </Container>
+    );
+  };
+
+  renderMap = () => {
+    return (
+      <React.Fragment>
+        <div ref={el => this.mapContainer = el} id="map-container" />
+        <div id="track-user" className="track-user"></div> 
+      </React.Fragment>
+    );
+  }
+
   render() {
     if (this.state.loggedIn) {
       return (
         <React.Fragment>
           <div id="map">
-            <div ref={el => this.mapContainer = el} id="map-container" />
-            <div id="track-user" className="track-user"></div> 
-            <Container>
-              <Navbar bg="dark" variant="dark" expand="sm">
-                <Navbar.Brand>
-                  <img src="/favicon-256.png" width="30" height="30" alt="swapspot"/>
-                </Navbar.Brand>
-                <div id="geocoder" className="geocoder"></div>
-                  {/* <Nav.Link href="/profilePage">Profile</Nav.Link>
-                  <Nav.Link href="/historyPage">History</Nav.Link>
-                  <Nav.Link onClick={() => {
-                        localStorage.removeItem(AUTH_TOKEN);
-                        this.toggleLogin();
-                      }}
-                  >
-                    Logout
-                  </Nav.Link> */}
-                  <DropdownButton 
-                    id="dropdown-basic-button" 
-                    title={<img src="/user-outline.svg"  width="20" height="20" alt="" />} 
-                    variant="outline-secondary"
-                  >
-                    <div id="attribution">Icons made by <a href="https://www.flaticon.com/authors/spovv" title="spovv">spovv</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-                    <Dropdown.Item href="/profilePage">Profile</Dropdown.Item>
-                    <Dropdown.Item href="/historyPage">Swap History</Dropdown.Item>
-                    <Dropdown.Item onClick={() => {
-                        localStorage.removeItem(AUTH_TOKEN);
-                        this.toggleLogin();
-                      }}
-                    >
-                      Logout
-                    </Dropdown.Item>
-                  </DropdownButton>
-              </Navbar>
-            </Container>
-            {/* {(Object.keys(this.state.map).length !== 0) && <SpotsList map={this.state.map} claimSpot={this.claimSpot} spots={this.props.spots}/>} */}
-            
+            {this.renderMap()}
+            {this.renderNavBar()}
           </div>
           <div id="drawer">
             <ListingStatusPane map={this.state.map} myListings={this.props.listings} userInfo={this.props.userInfo}/>
           </div>
           <Switch>
-            <Route exact path="/addSpot" component={AddSpot} />
             <Route exact path="/login" render={() => {
               return <Login toggleLogin={this.toggleLogin}/>
             }}/>
-            {/* <Route exact path="/spots" component={SpotsList} /> */}
+            <Route exact path="/addSpot" component={AddSpot} />
             <Route exact path="/locations" component={LocationList} />
             <Route exact path="/cars" component={CarList} />
             <Route exact path="/claimSpotted" component={ClaimSpotted} />
@@ -271,22 +268,15 @@ class Map extends Component {
       return (
       <React.Fragment>
         <div id="map">
-          <div ref={el => this.mapContainer = el} id="map-container" />
-          <div id="track-user" className="track-user"></div>
-          <Container>
-            <Navbar bg="dark" variant="dark" expand="sm">
-              <Navbar.Brand><img src="/favicon-256.png" width="30" height="30" alt=""/></Navbar.Brand>
-              <div id="geocoder" className="geocoder"></div>
-              <Nav.Link href="/login">Login</Nav.Link>
-            </Navbar>
-          </Container>
-          {/* {(Object.keys(this.state.map).length !== 0) && <SpotsList map={this.state.map} claimSpot={this.claimSpot} spots={this.props.spots}/>} */}
+          {this.renderMap()}
+          {this.renderNavBar()}
+          <ToastContainer />
         </div>
         <Switch>
-            <Route exact path="/login" render={() => {
-              return <Login toggleLogin={this.toggleLogin}/>
-            }}/>
-          </Switch>
+          <Route exact path="/login" render={() => {
+            return <Login toggleLogin={this.toggleLogin}/>
+          }}/>
+        </Switch>
         </React.Fragment>
       )
     }

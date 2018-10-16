@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { getListingsQuery, CHANGED_LISTINGS_SUBSCRIPTION } from '../../queries/queriesListing';
-import { Query } from 'react-apollo';
 // import { reduceStore } from 'apollo-live-client';
 import Reserving from './HandshakeModals/Reserving';
 import Claimed from './HandshakeModals/Claimed';
@@ -9,7 +7,6 @@ import Failed from './HandshakeModals/Failed';
 import { AUTH_TOKEN } from '../../constants';
 import Expired from './HandshakeModals/Expired';
 import './HandshakeLister.css';
-import { toggleToReserved, toggleToLooking } from '../../utilities/mapHelper';
 
 class ListingStatusDrawer extends Component {
   constructor(props) {

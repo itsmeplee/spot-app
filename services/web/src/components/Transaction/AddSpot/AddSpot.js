@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { graphql, compose, Mutation } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { addSpotMutation } from '../../../queries/queriesSpot';
 import moment from 'moment';
 import { Button, Modal, Row, Col, Container, Form, InputGroup, Alert } from 'react-bootstrap';

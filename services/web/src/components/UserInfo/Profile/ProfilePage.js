@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import { withRouter } from 'react-router';
-import { Button, Form, Container, Col, Row, Card, Alert, CardDeck } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
+import { Button, Form, Container, Col, Row, Card, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import CarList from '../Car/CarList/CarList';
 import LocationList from '../Location/LocationList/LocationList';
 import { getUserQuery, mutationUser } from '../../../queries/queriesUser';
@@ -66,6 +66,9 @@ class ProfilePage extends Component {
         case 3:
           rating = "Green";
           break;
+        default: 
+          rating = "Green";
+          break;
       }
     }
     return (
@@ -95,7 +98,7 @@ class ProfilePage extends Component {
         <Query query={getUserQuery}>
           {({ loading, error, data }) => {
             if (loading) return <div>Fetching</div>;
-            if (error) return <div>Error {console.log({error})}</div>;
+            if (error) return <div>Error {console.log('Error: ',{error})}</div>;
             if (data) { 
               this.getUserInfo(data); 
               return <div></div> 

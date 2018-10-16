@@ -1,6 +1,7 @@
 import mapboxgl from 'mapbox-gl';
+import { mapboxgl_accessToken } from '../constants';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
+mapboxgl.accessToken = mapboxgl_accessToken;
 
 const addSpot = function (spot, map, claimSpot) {
   if ((map.getSource(`${spot.id}`)) === undefined) {

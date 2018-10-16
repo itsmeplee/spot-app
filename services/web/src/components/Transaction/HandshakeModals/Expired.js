@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
+import { Button } from 'react-bootstrap';
 // import { editListingMutation } from '../../../queries/queriesListing';
 import { updateListingMutation } from '../../../queries/queriesListing';
 import moment from 'moment';
@@ -21,10 +22,10 @@ var Expired = function({listing, handleClose}) {
           }}
           onCompleted={() => this.props.history.push('/')}
         >
-          {editListing => <button onClick={() => {
+          {editListing => <Button onClick={() => {
             editListing();
             handleClose();
-          }}>Close</button>}
+          }}>Close</Button>}
         </Mutation>
       </div>
     </React.Fragment>

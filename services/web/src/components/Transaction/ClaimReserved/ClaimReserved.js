@@ -54,6 +54,7 @@ class ClaimReserved extends Component {
   };
 
   render() {
+    console.log(this.props.location.state)
     const timeLeft = moment(this.props.location.state.end_time).fromNow(true);
     let spotValue;
     

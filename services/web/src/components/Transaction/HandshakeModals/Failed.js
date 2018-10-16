@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { updateListingMutation } from '../../../queries/queriesListing';
 import moment from 'moment';
 

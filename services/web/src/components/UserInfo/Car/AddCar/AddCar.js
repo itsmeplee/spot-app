@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import { Button, Modal, Form, Alert } from 'react-bootstrap';
 import './AddCar.css';
-import { getCarsQuery, addCarMutation } from '../../../../queries/queriesCar';
+import { addCarMutation } from '../../../../queries/queriesCar';
 
 class AddCar extends Component {
   state = {

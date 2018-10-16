@@ -12,6 +12,10 @@ const getSpotsQuery = gql`
       listing {
         id
         value
+        listing_user {
+          id
+          rating
+        }
       }
     }
   }
@@ -79,6 +83,10 @@ const NEW_SPOTS_SUBSCRIPTION = gql`
         listing {
           id
           value
+          listing_user {
+            id
+            rating
+          }
         }
       }
     }
