@@ -3,7 +3,7 @@ import { mapboxgl_accessToken } from '../constants';
 
 mapboxgl.accessToken = mapboxgl_accessToken;
 
-const addSpot = function (spot, map, claimSpot) {
+const addSpot = function (spot, map, claimSpot, visible) {
   if ((map.getSource(`${spot.id}`)) === undefined) {
     let geojson = {
       "type": "FeatureCollection",
@@ -29,7 +29,8 @@ const addSpot = function (spot, map, claimSpot) {
       "layout": {
         "icon-image": `${spot.type === 1 ? 'blue-meter' : 'green-meter'}`,
         "icon-size": 0.25,
-        "icon-allow-overlap": true
+        "icon-allow-overlap": true,
+        "visibility": `${visible ? 'none' : 'visible'}`,
       }
     })
 

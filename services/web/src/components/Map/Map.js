@@ -45,7 +45,7 @@ class Map extends Component {
   componentDidUpdate = (prevProps) => {
     if (this.props.spotChange !== prevProps.spotChange) {
       if (this.props.spotChange.is_available) {
-        addSpot(this.props.spotChange, this.state.map, this.claimSpot);
+        addSpot(this.props.spotChange, this.state.map, this.claimSpot, (this.props.listings.length > 0));
       } else {
         removeSpot(this.props.spotChange, this.state.map);
       }
