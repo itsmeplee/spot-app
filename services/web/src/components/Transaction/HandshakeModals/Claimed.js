@@ -53,10 +53,6 @@ class Reserving extends Component {
     const { listing, handleClose } = this.props
     var overtime;
 
-    console.log('listener', listing.listing_user.id);
-    console.log('value', listing.value);
-    console.log('claimer', listing.claiming_user.id);
-
     if (moment(listing.spot.end_time).isBefore(Date.now())) {
       overtime = (
         <Mutation

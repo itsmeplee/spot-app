@@ -16,6 +16,14 @@ import { mutationUserCurrentLocation } from '../../queries/queriesUser';
 import { graphql, compose } from 'react-apollo';
 import ListingStatusPane from '../Transaction/ListingStatusPane';
 import { Container, Navbar, Nav, Dropdown, DropdownButton } from 'react-bootstrap';
+import { addSpot, removeSpot } from '../../utilities/mapHelper';
+import { toggleToReserved, toggleToLooking } from '../../utilities/mapHelper';
+
+// if (data.myListings.length > 0) {
+                //   toggleToReserved(this.props.map, data.myListings[0]);
+                // } else {
+                //   toggleToLooking(this.props.map)
+                // } */}
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag';
 
@@ -45,6 +53,23 @@ class Map extends Component {
     this.moveHandler = this.moveHandler.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
   };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.spotChange !== prevProps.spotChange) {
+      if (this.props.spotChange.is_available) {
+        addSpot(this.props.spotChange, this.state.map, this.claimSpot);
+      } else {
+        removeSpot(this.props.spotChange, this.state.map);
+      }
+    }
+    if (this.props.listings && this.props.listings !== prevProps.listings) {
+      if (this.props.listings.length > 0) {
+        toggleToReserved(this.state.map, this.props.listings[0]);
+      } else {
+        toggleToLooking(this.state.map)
+      }
+    }
+  }
 
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
@@ -85,6 +110,21 @@ class Map extends Component {
     }
     
     this.changeLogin();
+
+    map.on('load', () => {
+      this.displaySpots(this.props.spots);
+      if (this.props.listings.length > 0) {
+        toggleToReserved(this.state.map, this.props.listings[0]);
+      } else {
+        toggleToLooking(this.state.map)
+      }
+    })
+  };
+
+  displaySpots(openSpotList) {
+    openSpotList.forEach((spot) => {
+      addSpot(spot, this.state.map, this.claimSpot);
+    });
   };
 
   updateUserLocation(position) {
@@ -207,22 +247,18 @@ class Map extends Component {
                   </DropdownButton>
               </Navbar>
             </Container>
-            <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
-            Can there be an alternate spots list for the Reserved scenario? 
-            Also can we track the listings (with the subscriptions) in a better way?  Why do we need one array for all.
-                       we can remove from the array if there is something that is 'closed' and then acted upon?
-                          will it stop getting subscriptions? Hopefully
-                      upon new create, we can add to the array and then track. We already know this will recieve subscriptions.
+            {/* {(Object.keys(this.state.map).length !== 0) && <SpotsList map={this.state.map} claimSpot={this.claimSpot} spots={this.props.spots}/>} */}
+            
           </div>
           <div id="drawer">
-            <ListingStatusPane />
+            <ListingStatusPane map={this.state.map} myListings={this.props.listings}/>
           </div>
           <Switch>
             <Route exact path="/addSpot" component={AddSpot} />
             <Route exact path="/login" render={() => {
               return <Login toggleLogin={this.toggleLogin}/>
             }}/>
-            <Route exact path="/spots" component={SpotsList} />
+            {/* <Route exact path="/spots" component={SpotsList} /> */}
             <Route exact path="/locations" component={LocationList} />
             <Route exact path="/cars" component={CarList} />
             <Route exact path="/claimSpotted" component={ClaimSpotted} />
@@ -244,7 +280,7 @@ class Map extends Component {
               <Nav.Link href="/login">Login</Nav.Link>
             </Navbar>
           </Container>
-          <SpotsList map={this.state.map} claimSpot={this.claimSpot}/>
+          {/* {(Object.keys(this.state.map).length !== 0) && <SpotsList map={this.state.map} claimSpot={this.claimSpot} spots={this.props.spots}/>} */}
         </div>
         <Switch>
             <Route exact path="/login" render={() => {

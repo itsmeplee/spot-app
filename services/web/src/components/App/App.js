@@ -8,42 +8,126 @@ import ProfilePage from '../UserInfo/Profile/ProfilePage';
 import HistoryPage from '../UserInfo/History/HistoryPage';
 import AddCar from '../UserInfo/Car/AddCar/AddCar';
 import AddLocation from '../UserInfo/Location/AddLocation/AddLocation';
+import { getListingsQuery, CHANGED_LISTINGS_SUBSCRIPTION } from '../../queries/queriesListing';
+import { getSpotsQuery, NEW_SPOTS_SUBSCRIPTION } from '../../queries/queriesSpot';
+import { Query } from 'react-apollo';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      spotChange: {}
+    };
   };
 
-  handshake() {
+  _subscribeToNewSpots = subscribeToMore => {
+    subscribeToMore({
+      document: NEW_SPOTS_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev
+        const newSpot = subscriptionData.data.newSpot.node;
+        this.setState({
+          spotChange: newSpot
+        });
+      }
+    })
+  }
+  
+  _subscribeToUpdatedListings = subscribeToMore => {
+    subscribeToMore({
+      document: CHANGED_LISTINGS_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const listingUpdate = subscriptionData.data.listingUpdate.node;
+        console.log(prev);
+        console.log(listingUpdate);
+        let newArray = [listingUpdate, ...prev.myListings];
+        newArray = this._removeDups(newArray);
+        var toReturn = Object.assign({}, prev, {
+          myListings: newArray,
+        })
+        return toReturn;
+      }
+    })
+  }
+
+  _removeDups = data => {
+    let obj = {};
+    data.forEach((item) => {
+      obj[item.id] = item;
+    })
+    let newArray = [];
+    for (let keys in obj) {
+      if (obj[keys].time_complete === null){
+        newArray.push(obj[keys]);
+      }
+    }
+    return newArray;
+  }
+
+  render() {
     const authToken = localStorage.getItem(AUTH_TOKEN);
-    if(authToken){
+    if (authToken) {
       return (
-        <HandshakeLister />
+        <React.Fragment>
+          <Switch>
+            <Route exact path="/profilePage" component={ProfilePage} />
+            <Route exact path="/historyPage" component={HistoryPage} />
+            <Route exact path="/addCar" component={AddCar} />
+            <Route exact path="/addLocation" component={AddLocation} />
+            
+          
+            <Query query={getListingsQuery} >
+              {({ loading, error, data, subscribeToMore }) => {
+                if (loading) return <div>Fetching</div>;
+                if (error) return <div>Error</div>;
+    
+                this._subscribeToUpdatedListings(subscribeToMore);
+                console.log(data);
+                let listings = data.myListings
+                return (
+    
+                  <Query query={getSpotsQuery}>
+                    {({ loading, error, data, subscribeToMore }) => {
+                      if (loading) return <div>Fetching</div>;
+                      if (error) return <div>Error</div>;
+                      this._subscribeToNewSpots(subscribeToMore);
+                      console.log(data);
+                      
+                      return (
+                        <div className="App">
+                          <MapComp listings={listings} spots={data.openSpot} spotChange={this.state.spotChange}/>
+                        </div>
+                      );
+                    }}
+                  </Query>
+    
+                );
+              }}
+            </Query>
+          </Switch>
+        </React.Fragment>
       );
     } else {
       return (
-        <React.Fragment></React.Fragment>
-      )
+        <React.Fragment>
+          <Query query={getSpotsQuery}>
+            {({ loading, error, data, subscribeToMore }) => {
+              if (loading) return <div>Fetching</div>;
+              if (error) return <div>Error</div>;
+              this._subscribeToNewSpots(subscribeToMore);
+              console.log(data);
+              
+              return (
+                <div className="App">
+                  <MapComp listings={[]} spots={data.openSpot} spotChange={this.state.spotChange}/>
+                </div>
+              );
+            }}
+          </Query>
+        </React.Fragment>
+      );
     }
-  };
-
-  render() {
-    return (
-      <React.Fragment>
-        <Switch>
-          <Route exact path="/profilePage" component={ProfilePage} />
-          <Route exact path="/historyPage" component={HistoryPage} />
-          <Route exact path="/addCar" component={AddCar} />
-          <Route exact path="/addLocation" component={AddLocation} />
-          <div className="App">
-            <MapComp />
-            <br></br><br></br>
-            {/* {this.handshake()} */}
-          </div>
-        </Switch>
-      </React.Fragment>
-    );
   };
 };
 
