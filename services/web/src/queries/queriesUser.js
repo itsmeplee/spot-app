@@ -38,12 +38,24 @@ const getUserQuery = gql`
       last_name
       rating
       balance
-      user_cars (
-        where: { default_car: true }
-      ){
+      user_cars {
         make
         model
         color
+        default_car
+        plate
+        size
+        state
+      }
+      locations {
+        id
+        lat
+        lng
+        street1
+        street2
+        city
+        state
+        zip
       }
     }
   }

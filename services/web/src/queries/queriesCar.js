@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 
 const getCarsQuery = gql`
 query{
-  cars{
+  getCars {
     id
     make
     model
