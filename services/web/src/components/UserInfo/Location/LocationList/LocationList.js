@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from 'react-apollo';
 import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import Loader from '../../../App/Loader';
 import './LocationList.css';
 import { getLocationsQuery, deleteLocationMutation } from '../../../../queries/queriesLocation';
 
@@ -9,7 +10,7 @@ class LocationList extends Component {
     return (
       <Query query={getLocationsQuery} >
         {({ loading, error, data, subscribeToMore }) => {
-          if (loading) return <div>Fetching</div>;
+          if (loading) return <Loader></Loader>;
           if (error) return <div>Error</div>;
           // return (
           //   data.locations.map((location) => {

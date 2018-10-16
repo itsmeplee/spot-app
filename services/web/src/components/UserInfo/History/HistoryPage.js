@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { Button, Table, ButtonToolbar, Container, Card, Col, Row } from 'react-bootstrap';
+import Loader from '../../App/Loader';
 import { getHistoryListings } from '../../../queries/queriesHistory';
 import IndividualHistory from './IndividualHistory';
 import './HistoryPage.css';
@@ -40,7 +41,7 @@ class HistoryPage extends Component {
       <div>
         <Query query={getHistoryListings}>
           {({ loading, error, data }) => {
-            if (loading) return <div>Fetching</div>;
+            if (loading) return <Loader></Loader>;
             if (error) {
               return (
                 <div> 

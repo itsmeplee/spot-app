@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import './App.css';
-import MapComp from '../Map/Map';
-import { AUTH_TOKEN } from '../../constants';
+import { Query } from 'react-apollo';
 import { Switch, Route } from 'react-router-dom';
+import MapComp from '../Map/Map';
 import ProfilePage from '../UserInfo/Profile/ProfilePage';
 import HistoryPage from '../UserInfo/History/HistoryPage';
 import AddCar from '../UserInfo/Car/AddCar/AddCar';
 import AddLocation from '../UserInfo/Location/AddLocation/AddLocation';
+import Loader from './Loader';
 import { getListingsQuery, CHANGED_LISTINGS_SUBSCRIPTION } from '../../queries/queriesListing';
 import { getSpotsQuery, NEW_SPOTS_SUBSCRIPTION } from '../../queries/queriesSpot';
 import { getUserQuery } from '../../queries/queriesUser';
-import { Query } from 'react-apollo';
+import { AUTH_TOKEN } from '../../constants';
+
+import './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -68,7 +70,7 @@ class App extends Component {
     return (
       <Query query={getSpotsQuery}>
         {({ loading, error, data, subscribeToMore }) => {
-          if (loading) return <div>Fetching</div>;
+          if (loading) return <Loader></Loader>;
           if (error) {
             console.log(error)
             return <div>Error</div>;
@@ -97,7 +99,7 @@ class App extends Component {
             <Route exact path="/addLocation" component={AddLocation} />
             <Query query={getUserQuery}>
               {({ loading, error, data }) => {
-                if (loading) return <div>Fetching</div>;
+                if (loading) return <Loader></Loader>;
                 if (error) {
                   console.log(error)
                   return <div>Error</div>;
@@ -106,7 +108,7 @@ class App extends Component {
                 return (
                   <Query query={getListingsQuery} >
                     {({ loading, error, data, subscribeToMore }) => {
-                      if (loading) return <div>Fetching</div>;
+                      if (loading) return <Loader></Loader>;
                       if (error) {
                         console.log(error)
                         return <div>Error</div>;
@@ -132,82 +134,6 @@ class App extends Component {
     };
   };
 
-//   render() {
-//     const authToken = localStorage.getItem(AUTH_TOKEN);
-    
-//     if (authToken) {
-//       return (
-//         <React.Fragment>
-//           <Switch>
-//             <Route exact path="/profilePage" component={ProfilePage} />
-//             <Route exact path="/historyPage" component={HistoryPage} />
-//             <Route exact path="/addCar" component={AddCar} />
-//             <Route exact path="/addLocation" component={AddLocation} />
-            
-//             <Query query={getUserQuery}>
-//               {({ loading, error, data }) => {
-//                 if (loading) return <div>Fetching</div>;
-//                 if (error) return <div>Error</div>;
-//                 if (data.userInfo && (!this.state.user || data.userInfo.id !== this.state.user.id)) {
-//                   this.setState({
-//                     user: data.userInfo
-//                   })
-//                 }
-//                 return (
-//                   <div>
-//                     <Query query={getListingsQuery} >
-//                       {({ loading, error, data, subscribeToMore }) => {
-//                         if (loading) return <div>Fetching</div>;
-//                         if (error) return <div>Error</div>;
-            
-//                         this._subscribeToUpdatedListings(subscribeToMore);
-//                         let listings = data.myListings
-//                         return (
-            
-//                           <Query query={getSpotsQuery}>
-//                             {({ loading, error, data, subscribeToMore }) => {
-//                               if (loading) return <div>Fetching</div>;
-//                               if (error) return <div>Error</div>;
-//                               this._subscribeToNewSpots(subscribeToMore);
-                              
-//                               return (
-//                                 <div className="App">
-//                                   <MapComp userInfo={this.state.user} listings={listings} spots={data.openSpot} spotChange={this.state.spotChange}/>
-//                                 </div>
-//                               );
-//                             }}
-//                           </Query>
-            
-//                         );
-//                       }}
-//                     </Query>
-//                   </div>
-//                 );
-//                 </Query>
-//             // <Query query={getListingsQuery} >
-//             //   {({ loading, error, data, subscribeToMore }) => {
-//             //     if (loading) return <div>Fetching</div>;
-//             //     if (error) return <div>Error</div>;
-//             //     this._subscribeToUpdatedListings(subscribeToMore);
-//             //     let listings = data.myListings
-//             //     return (
-//             //       this.renderMap(listings)
-//             //     );
-//             //   }}
-//             // </Query>
-//                 )
-//         )}
-            
-//           </Switch>
-//         </React.Fragment>
-//       );
-//     } else {
-//       return (
-//         this.renderMap()
-//       );
-//     }
-//   };
-// };
 };
 
 export default App;
