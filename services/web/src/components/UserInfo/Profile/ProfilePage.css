@@ -1,6 +1,9 @@
 .profilePage {
   padding-top:15px;
 }
+.profileRow {
+  padding-bottom: 15px;
+}
 .centered {
   text-align: center;
 }

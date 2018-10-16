@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal, Form, Container, Row, Col } from 'react-bootstrap';
 import './LocationList.css';
 import { getLocationsQuery } from '../../../../queries/queriesLocation';
 import Location from '../Location/Location.js';
@@ -8,15 +8,8 @@ import AddLocation from '../AddLocation/AddLocation';
 
 
 class LocationList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.displayLocations = this.displayLocations.bind(this);
-    this.displayLocationList = this.displayLocationList.bind(this);
-    this.deleteLocation = this.deleteLocation.bind(this);
-  };
 
-  displayLocations() {
+  displayLocations = () => {
     return (
       <Query query={getLocationsQuery} >
         {({ loading, error, data, subscribeToMore }) => {
@@ -37,7 +30,7 @@ class LocationList extends Component {
     )
   };
   
-  displayLocationList() {
+  displayLocationList =() => {
     return (
       <Form>
       {this.displayLocations()}
@@ -45,7 +38,7 @@ class LocationList extends Component {
     );
   };
 
-  deleteLocation(locationId) {
+  deleteLocation = (locationId) => {
     this.props.deleteLocationMutation({
       variables: {
         id: locationId
@@ -61,13 +54,61 @@ class LocationList extends Component {
 
   render() {
     return (
-      <div className="Locations">
-        <header className="Login-header">
-        </header>
-        {this.displayLocations()}
-      </div>
+      <Container>
+        <Row>
+          <Col>
+            Street 1
+          </Col>
+          <Col>
+            Street 2
+          </Col>
+          <Col>
+            City
+          </Col>
+          <Col>
+            State
+          </Col>
+          <Col>
+            Zip
+          </Col>
+          <Col></Col>
+        </Row>
+        {this.props.locations && (
+          this.props.locations.map((location, index) => {
+            return (
+              <Row key={index}>
+                <Col>
+                  {location.street1}
+                </Col>
+                <Col>
+                  {location.street2}           
+                </Col>
+                <Col>
+                  {location.city}                
+                </Col>
+                <Col>
+                  {location.state}                
+                </Col>
+                <Col>
+                  {location.zip}                
+                </Col>
+                <Col>
+                  <Row>
+                    <Col>
+                      <input type="checkbox"></input>                    
+                    </Col>
+                    <Col>
+                    <input type="checkbox"></input>                    
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            )
+          })
+        )}
+      </Container>
     );
-  };
+  }
 };
 
 export default LocationList;
