@@ -43,7 +43,7 @@ class ListingStatusDrawer extends Component {
     } else if (listing.status === 8) {
       return <Success listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
     } else if (listing.status > 3) {
-      return <Failed listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
+      return <Failed listing={listing} handleClose={this.handleClose}  key={listing.id} userInfo={this.props.userInfo}/>;
     } else {
       if (this.state.Show) {
         this.handleClose();

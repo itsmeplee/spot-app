@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router';
 import { editListingMutation, updateListingMutation } from'../../../queries/queriesListing';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Row, Col } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 
@@ -93,18 +93,20 @@ class ClaimReserved extends Component {
         <React.Fragment>
           <div className="modal-container">
             <Modal show={this.state.modalShow} onHide={this.handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Reserve Spot</Modal.Title>
+              <Modal.Header closeButton className="modelHeader">
+                <Modal.Title className="modelTitle">Reserve Spot</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <div>
-                  <div>This spot is being held for another {timeLeft} by a <span className={this.showRating()}>{this.showRating()}</span> rating user. It can be yours for <b>${spotValue}</b>.</div>
-                  <button onClick={this.changeClicked}>Claim Spot</button>
-                </div>
+                <div>This spot is being held for another {timeLeft} by a <span className={this.showRating()}>{this.showRating()}</span> rating user. It can be yours for <b>${spotValue}</b>.</div>
+                <Row>
+                  <Col className="centered">
+                    <Button id="holdingBtn" onClick={this.changeClicked}>Claim Spot</Button>
+                  </Col>
+                </Row>
               </Modal.Body>
-              <Modal.Footer>
+              {/* <Modal.Footer>
                 <Button onClick={this.handleClose}>Close</Button>
-              </Modal.Footer>
+              </Modal.Footer> */}
             </Modal>
           </div>
         </React.Fragment>
@@ -115,30 +117,36 @@ class ClaimReserved extends Component {
         <React.Fragment>
           <div className="modal-container">
             <Modal show={this.state.modalShow} onHide={this.handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Reserve Spot</Modal.Title>
+              <Modal.Header closeButton className="modelHeader">
+                <Modal.Title className="modelTitle">Reserve Spot</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <div>
-                  <div>This spot will cost you <b>${spotValue}</b>. Are you sure you want to claim it?</div>
-                  <Mutation mutation={editListingMutation}
-                    onCompleted={() => {
-                      this.setState({
-                        homeRedirect: true
-                      })
-                    }}
-                  >
-                    {editSpotListing => (
-                      <Mutation mutation={updateListingMutation}>
-                      {(updateListing) => <button onClick={() => {this.twoFunctionMutation(editSpotListing, updateListing)}}>Claim Spot</button>}
+                  <div>This spot will cost you <b>$ {spotValue}</b>. Are you sure you want to claim it?</div>
+                  <Row></Row>
+                  <Row></Row>
+                  <Row></Row>
+                  <Row>
+                    <Col className="centered">
+                      <Mutation mutation={editListingMutation}
+                        onCompleted={() => {
+                          this.setState({
+                            homeRedirect: true
+                          })
+                        }}
+                      >
+                        {editSpotListing => (
+                          <Mutation mutation={updateListingMutation}>
+                          {(updateListing) => <Button id="holdingBtn" onClick={() => {this.twoFunctionMutation(editSpotListing, updateListing)}}>Claim Spot</Button>}
+                          </Mutation>
+                        )}
                       </Mutation>
-                    )}
-                  </Mutation>
-                </div>
+
+                    </Col>
+                  </Row>
               </Modal.Body>
-              <Modal.Footer>
+              {/* <Modal.Footer>
                 <Button onClick={this.handleClose}>Close</Button>
-              </Modal.Footer>
+              </Modal.Footer> */}
             </Modal>
           </div>
         </React.Fragment>

@@ -4,9 +4,8 @@ button.btn-danger {
 }
 
 .background {
-  background-color:rgb(237, 237, 237, .7);
+  background-color: white;
   border-radius: 5px;
-  
 }
 
 .plate {
@@ -24,3 +23,16 @@ button.btn-danger {
 .license {
   padding-top: 23px;
 }
+
+.drawerReserved {
+  /* background-color: black; */
+}
+
+.reservingCard {
+  border: none;
+  display: inline-block;
+  vertical-align: middle;
+  width: 450px;
+  height: 200px;
+}
+

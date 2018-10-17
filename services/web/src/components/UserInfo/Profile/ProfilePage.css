@@ -21,7 +21,7 @@
 
 .Yellow {
   background-color: Yellow;
-  color: white;
+  color: black;
 }
 
 .Red {
@@ -30,6 +30,17 @@
 }
 
 .profileLabels {
-  font-weight: bold
+  font-weight: bold;
 }
 
+#goToMapBtn {
+  color: #46b2d6;
+  background-color: white;
+  border: 2px solid #46b2d6;
+  padding: 14px 28px;
+}
+
+#goToMapBtn:hover {
+  background-color: #46b2d6;
+  color: white;
+}
