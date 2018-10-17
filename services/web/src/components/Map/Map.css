@@ -55,3 +55,24 @@
 .dropdown-menu{
   left: -100px;
 }
+
+.search .mapboxgl-ctrl-geocoder input {
+  font-size: inherit;
+}
+
+@media (max-width: 600px) {
+  .NavContainer {
+    padding: 0;
+  }
+  .navbar {
+    top: 0;
+  }
+  .search {
+    padding: 0;
+    margin-right: .5rem;
+  }
+  .search .mapboxgl-ctrl-geocoder input {
+    font-size: 12px;
+  }
+}
+

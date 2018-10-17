@@ -7,19 +7,13 @@ import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 
 class ClaimReserved extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      clicked: false,
-      modalShow: true,
-      homeRedirect: false
-    };
-    this.changeClicked = this.changeClicked.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.twoFunctionMutation = this.twoFunctionMutation.bind(this);
+  state = {
+    clicked: false,
+    modalShow: true,
+    homeRedirect: false
   };
 
-  twoFunctionMutation(editSpotListing, updateListing) {
+  twoFunctionMutation = (editSpotListing, updateListing) => {
     const spot_id = this.props.location.state.spotId;
     const listing_id = this.props.location.state.listingId;
     editSpotListing({
@@ -43,7 +37,7 @@ class ClaimReserved extends Component {
     })
   };
 
-  changeClicked() {
+  changeClicked = () => {
     this.setState({
       clicked: true
     })
@@ -72,12 +66,11 @@ class ClaimReserved extends Component {
     );
   };
   
-  handleClose() {
+  handleClose = () => {
     this.setState({ homeRedirect: true });
   };
 
   render() {
-    console.log(this.props.location.state)
     const timeLeft = moment(this.props.location.state.end_time).fromNow(true);
     let spotValue;
     
@@ -118,12 +111,6 @@ class ClaimReserved extends Component {
       );
     }
     else {
-      if (this.state.homeRedirect) {
-        return <Redirect to={{
-                  pathname: '/',
-                  state: {}
-                }} />;
-      };
       return (
         <React.Fragment>
           <div className="modal-container">
@@ -134,8 +121,7 @@ class ClaimReserved extends Component {
               <Modal.Body>
                 <div>
                   <div>This spot will cost you <b>${spotValue}</b>. Are you sure you want to claim it?</div>
-                  <Mutation
-                    mutation={editListingMutation}
+                  <Mutation mutation={editListingMutation}
                     onCompleted={() => {
                       this.setState({
                         homeRedirect: true
@@ -143,9 +129,7 @@ class ClaimReserved extends Component {
                     }}
                   >
                     {editSpotListing => (
-                      <Mutation
-                        mutation={updateListingMutation}
-                      >
+                      <Mutation mutation={updateListingMutation}>
                       {(updateListing) => <button onClick={() => {this.twoFunctionMutation(editSpotListing, updateListing)}}>Claim Spot</button>}
                       </Mutation>
                     )}
