@@ -7,6 +7,8 @@ import Loader from '../../App/Loader';
 import CarList from '../Car/CarList/CarList';
 import LocationList from '../Location/LocationList/LocationList';
 import { getUserQuery, mutationUser } from '../../../queries/queriesUser';
+import CardForm from '../Payments/CardForm';
+
 
 import './ProfilePage.css';
 
@@ -207,6 +209,20 @@ class ProfilePage extends Component {
                 </Card.Body>
               </Card>
               </Form>
+            </Col>
+          </Row>
+          <Row className="profileRow">
+            <Col>
+              <Card>
+                <Card.Header as="h5">Payment</Card.Header>
+                  <Card.Body>
+                    <Row>
+                      <Col>
+                        <CardForm />
+                      </Col>
+                    </Row>
+                  </Card.Body>
+              </Card>
             </Col>
           </Row>
           <Row className="profileRow">
