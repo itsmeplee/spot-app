@@ -15,12 +15,10 @@ import { AUTH_TOKEN } from '../../constants';
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      spotChange: {}
-    };
-  };
+
+  state = {
+    spotChange: {}
+  }
 
   _subscribeToNewSpots = subscribeToMore => {
     subscribeToMore({

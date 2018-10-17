@@ -9,31 +9,27 @@ import Expired from './HandshakeModals/Expired';
 import './HandshakeLister.css';
 
 class ListingStatusDrawer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      drawerShow: true
-    };
-    this.handleClose = this.handleClose.bind(this);
-    this.openDrawer = this.openDrawer.bind(this);
+
+  state = {
+    drawerShow: true
   };
 
-  handleClose() {
+  handleClose = () => {
     this.setState({
       drawerShow: false
     })
   };
 
-  openDrawer() {
+  openDrawer = () => {
     this.setState({
       drawerShow: true
     })
   }
-  componentDidMount() {
+  componentDidMount = () => {
     this.openDrawer();
   }
 
-  displayListingStatus(listing) {
+  displayListingStatus = (listing) => {
     if (listing.status === 1 && listing.spot.is_available) {
       return <Reserving listing={listing} handleClose={this.handleClose} key={listing.id}/>
     } else if (listing.status === 1 && !listing.spot.is_available) {
@@ -51,7 +47,7 @@ class ListingStatusDrawer extends Component {
     }
   };
 
-  displayIt() {
+  displayIt = () => {
     if (this.props.myListings && this.props.myListings.length > 0) {
       return (
         <div id="drawer-content">

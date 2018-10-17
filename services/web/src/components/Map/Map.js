@@ -26,33 +26,25 @@ class Map extends Component {
     lng: -73.9824,
     lat: 40.7426,
     zoom: 11.39,
-    listRedirect: false,
     listSpotLng: 0,
     listSpotLat: 0,
-    modalShow: true,
-    spotType: 0,
-    spotValue: null,
-    spotId: '',
-    spotListerRating: 0,
-    spotValue: 0,
-    listingId: '',
-    spotStartTime: '',
-    spotEndTime: '',
     map: {},
     loggedIn: false,
   };
 
   componentDidUpdate = (prevProps) => {
-    if (this.props.spotChange !== prevProps.spotChange) {
-      if (this.props.spotChange.is_available) {
-        addSpot(this.props.spotChange, this.state.map, this.claimSpot, (this.props.listings.length > 0));
+    let {spotChange, listings, userInfo} = this.props;
+    if (spotChange !== prevProps.spotChange) {
+      if (spotChange.is_available) {
+        addSpot(spotChange, this.state.map, this.claimSpot, (listings.length > 0));
       } else {
-        removeSpot(this.props.spotChange, this.state.map);
+        removeSpot(spotChange, this.state.map);
       }
     }
-    if (this.props.listings && this.props.listings !== prevProps.listings) {
-      if (this.props.listings.length > 0) {
-        toggleToReserved(this.state.map, this.props.listings[0]);
+    if (listings && listings !== prevProps.listings) {
+      if (listings.length > 0) {
+        let claimer = listings[0].claiming_user && listings[0].claiming_user.id === userInfo.id;
+        toggleToReserved(this.state.map, listings[0], claimer);
       } else {
         toggleToLooking(this.state.map)
       }
@@ -100,9 +92,10 @@ class Map extends Component {
     }
 
     map.on('load', () => {
+      let {listings} = this.props;
       this.displaySpots(this.props.spots);
-      if (this.props.listings && this.props.listings.length > 0) {
-        toggleToReserved(this.state.map, this.props.listings[0]);
+      if (listings && listings.length > 0) {
+        toggleToReserved(this.state.map, listings[0]);
       } else {
         toggleToLooking(this.state.map)
       }
@@ -121,8 +114,7 @@ class Map extends Component {
         current_lng: (position.coords.longitude).toString(),
         current_lat: (position.coords.latitude).toString()
       },
-    });
-    
+    }); 
   };
 
   moveHandler = (lng, lat, zoom) => {
@@ -173,36 +165,19 @@ class Map extends Component {
       });
       return;
     }
-    this.setState({
-      listingId: spot.listing.id,
-      spotValue: spot.listing.value,
-      spotType: spot.type,
-      spotId: spot.id,
-      spotStartTime: spot.start_time,
-      spotEndTime: spot.end_time,
-      spotListerRating: spot.listing.listing_user.rating
-    });
-
     if (spot.type === 1) {
+      console.log('here');
       this.props.history.push({
         pathname: '/claimReserved',
         state: { 
-          spotId: this.state.spotId, 
-          listingId: this.state.listingId, 
-          start_time: this.state.spotStartTime, 
-          end_time: this.state.spotEndTime,
-          value: this.state.spotValue,
-          rating: this.state.spotListerRating,
-          value: this.state.spotValue
+          spot: spot
         }
       });
     } else if (spot.type === 2) {
       this.props.history.push({
         pathname: '/claimSpotted',
         state: { 
-          spotId: this.state.spotId, 
-          listingId: this.state.listingId, 
-          start_time: this.state.spotStartTime
+          spot: spot
         }
       });
     } else {

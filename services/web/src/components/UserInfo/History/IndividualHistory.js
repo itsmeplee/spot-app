@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import './HistoryPage.css';
 
 class IndividualHistory extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  };
 
   render() {
     const { item } = this.props; 

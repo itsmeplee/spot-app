@@ -8,10 +8,6 @@ import IndividualHistory from './IndividualHistory';
 import './HistoryPage.css';
 
 class HistoryPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  };
 
   showRating = () => {
     let rating = "N/A";
