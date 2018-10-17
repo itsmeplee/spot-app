@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
-import { Container, Navbar, Nav, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Container, Navbar, Nav, Dropdown,DropdownButton,Button } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import mapboxgl from 'mapbox-gl';
@@ -143,6 +143,12 @@ class Map extends Component {
     });
   }
 
+  clickLogin = () => {
+    this.props.history.push({
+      pathname: '/login',
+    });
+  }
+
   toggleLogin = () => {
     this.setState({
       loggedIn: !this.state.loggedIn
@@ -187,34 +193,30 @@ class Map extends Component {
 
   renderNavBar = () => {
     return (
-      <Container>
-        <Navbar bg="dark" variant="dark" expand="sm">
-          <Navbar.Brand>
-            <img src="/favicon-256.png" width="30" height="30" alt="swapspot"/>
-          </Navbar.Brand>
-          <div id="geocoder" className="geocoder"></div>
+      <Container className="NavContainer">
+        <Navbar bg="dark">
+          <Navbar.Brand href="/"><img src="/favicon-256.png" width="30" height="30" alt="swapspot"/></Navbar.Brand>
+          <div id="geocoder" className="form-control mr-sm-2 mb-sm-0 search"></div>
           {!this.state.loggedIn && (
-            <Nav.Link href="/login">Login</Nav.Link>
+            <Button onClick={this.clickLogin} variant="outline-info">Login</Button>
           )}
           {this.state.loggedIn && (
             <DropdownButton 
               id="dropdown-basic-button" 
               title={<img src="/user-outline.svg"  width="20" height="20" alt="" />} 
-              variant="outline-secondary"
-            >
+              variant="outline-secondary">
               <Dropdown.Item href="/profilePage">Profile</Dropdown.Item>
               <Dropdown.Item onClick={this.clickHistory}>Swap History</Dropdown.Item>
-              {/* <Dropdown.Item href="/historyPage">Swap History</Dropdown.Item> */}
               <Dropdown.Item onClick={() => {
-                  localStorage.removeItem(AUTH_TOKEN);
-                  this.toggleLogin();
-                }}
+                localStorage.removeItem(AUTH_TOKEN);
+                this.toggleLogin();
+              }}
               >
-                Logout
+              Logout
               </Dropdown.Item>
             </DropdownButton>
-          )}            
-        </Navbar>
+          )}
+        </Navbar>           
       </Container>
     );
   };

@@ -96,7 +96,6 @@ class ClaimSpotted extends Component {
         <div className="modal-container">
           <Modal show={this.state.modalShow} onHide={this.handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div>

@@ -72,7 +72,6 @@ class ClaimReserved extends Component {
   };
 
   render() {
-    console.log(this.props.location.state)
     const timeLeft = moment(this.props.location.state.spot.end_time).fromNow(true);
     let spotValue;
     
@@ -113,12 +112,6 @@ class ClaimReserved extends Component {
       );
     }
     else {
-      if (this.state.homeRedirect) {
-        return <Redirect to={{
-                  pathname: '/',
-                  state: {}
-                }} />;
-      };
       return (
         <React.Fragment>
           <div className="modal-container">
@@ -129,8 +122,7 @@ class ClaimReserved extends Component {
               <Modal.Body>
                 <div>
                   <div>This spot will cost you <b>${spotValue}</b>. Are you sure you want to claim it?</div>
-                  <Mutation
-                    mutation={editListingMutation}
+                  <Mutation mutation={editListingMutation}
                     onCompleted={() => {
                       this.setState({
                         homeRedirect: true
@@ -138,9 +130,7 @@ class ClaimReserved extends Component {
                     }}
                   >
                     {editSpotListing => (
-                      <Mutation
-                        mutation={updateListingMutation}
-                      >
+                      <Mutation mutation={updateListingMutation}>
                       {(updateListing) => <button onClick={() => {this.twoFunctionMutation(editSpotListing, updateListing)}}>Claim Spot</button>}
                       </Mutation>
                     )}

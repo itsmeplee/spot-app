@@ -8,7 +8,6 @@ import IndividualHistory from './IndividualHistory';
 import './HistoryPage.css';
 
 class HistoryPage extends Component {
-
   showRating = () => {
     let rating = "N/A";
     if (this.props.history.location.state.rating !== null) {
@@ -50,7 +49,6 @@ class HistoryPage extends Component {
               let rows = data.myListingsHistory.map(item => {
                 return <IndividualHistory key={item.id} item={item} />
               })
-              
               return (
                 <div>
                   <Container>
@@ -69,7 +67,8 @@ class HistoryPage extends Component {
                             <span className={this.showRating()}>Rating: {this.showRating()}</span>
                           </Col>
                         </Row>
-                        <Table bordered>
+                        <div className="table-responsive">
+                        <Table bordered className="table">
                           <thead>
                             <tr>
                               <th>Start Time</th>
@@ -86,6 +85,7 @@ class HistoryPage extends Component {
                             { rows }
                           </tbody>
                         </Table>
+                        </div>
                       </Card.Body>
                       <Card.Footer>
                         <ButtonToolbar>

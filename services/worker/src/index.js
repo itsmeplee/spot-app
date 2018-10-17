@@ -24,7 +24,7 @@ const client = new Lokka({
 });
 
 var the_expire_interval = 60 * 1000; // 1min;
-var the_ranking_interval =  600 * 1000; // 10 min
+var the_ranking_interval =  60 * 1000; // 10 min
 
 setInterval(async function() {
   await expireSpot(client);
