@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 
 class ClaimReserved extends Component {
+
   state = {
     clicked: false,
     modalShow: true,
@@ -14,8 +15,8 @@ class ClaimReserved extends Component {
   };
 
   twoFunctionMutation = (editSpotListing, updateListing) => {
-    const spot_id = this.props.location.state.spotId;
-    const listing_id = this.props.location.state.listingId;
+    const spot_id = this.props.location.state.spot.id;
+    const listing_id = this.props.location.state.spot.listing.id;
     editSpotListing({
       variables: {
         spot_id: spot_id,
@@ -45,8 +46,8 @@ class ClaimReserved extends Component {
 
   showRating = () => {
     let rating = "N/A";
-    if (this.props.location.state.rating !== null) {
-      switch(this.props.location.state.rating) {
+    if (this.props.location.state.spot.listing.listing_user.rating !== null) {
+      switch(this.props.location.state.spot.listing.listing_user.rating) {
         case 1:
           rating = "Red";
           break;
@@ -71,14 +72,14 @@ class ClaimReserved extends Component {
   };
 
   render() {
-    const timeLeft = moment(this.props.location.state.end_time).fromNow(true);
+    const timeLeft = moment(this.props.location.state.spot.end_time).fromNow(true);
     let spotValue;
     
-    if (!this.props.location.state.value) {
+    if (!this.props.location.state.spot.listing.value) {
       spotValue = 0;
     }
     else {
-      spotValue = this.props.location.state.value;
+      spotValue = this.props.location.state.spot.listing.value;
     }
 
     if (this.state.homeRedirect) {
