@@ -12,7 +12,7 @@ var Reserving = function({listing, handleClose}) {
         <Card className="reservingCard" key={listing.id}>
           <Card.Body>
             <div>You are holding a spot to be swapped near </div>
-            <div><b>{listing.spot.street1}, {listing.spot.street2}, {listing.spot.city}</b></div>
+            <div><b>{listing.spot.street1} {listing.spot.street2}, {listing.spot.city}</b></div>
             <div>Your listing of this spot will expire</div>
             <h5><b>{(moment(listing.spot.end_time).fromNow())}</b></h5>
             <div>
@@ -25,7 +25,7 @@ var Reserving = function({listing, handleClose}) {
                 }}
                 onCompleted={() => this.props.history.push('/')}
               >
-                {editListing => <Button variant="danger" onClick={() => {
+                {editListing => <Button id="noticeBtn" onClick={() => {
                   editListing();
                   handleClose();
                 }}>Cancel this listing</Button>}

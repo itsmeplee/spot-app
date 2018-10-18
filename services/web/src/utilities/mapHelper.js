@@ -193,7 +193,7 @@ const initializeMap = function(lat, lng, zoom, mapContainer, moveHandler, clickH
   return map;
 }
 
-const toggleToReserved = function(map, listing, claimer) {
+const toggleToReserved = function(map, listing, lister) {
   map.getStyle().layers.forEach((item) => {
     if (item.layout) {
       if (item.layout['icon-image'] === "blue-meter" || item.layout['icon-image'] === "green-meter") {
@@ -231,6 +231,13 @@ const toggleToReserved = function(map, listing, claimer) {
     });
   }
   if(!(map.getSource(`otherUser`))) {
+    console.log(lister);
+    let coords = [];
+    if (!lister && listing.listing_user) {
+      coords = [listing.listing_user.current_lng, listing.listing_user.current_lat];
+    } else if (lister && listing.claiming_user) {
+      coords = [listing.claiming_user.current_lng, listing.claiming_user.current_lat];
+    }
     let geojson = {
       "type": "FeatureCollection",
       "features": [{
@@ -240,7 +247,7 @@ const toggleToReserved = function(map, listing, claimer) {
           },
           "geometry": {
               "type": "Point",
-              "coordinates": claimer ? [listing.listing_user.current_lng, listing.listing_user.current_lat] : [listing.claiming_user.current_lng, listing.claiming_user.current_lat]
+              "coordinates": coords
           }
       }]
     };
@@ -258,7 +265,10 @@ const toggleToReserved = function(map, listing, claimer) {
         "icon-allow-overlap": true
       }
     });
-  }
+  } 
+  // else {
+  //   map.getSource('otherUser').setData(geojson);
+  // }
 }
 
 const toggleToLooking = function(map) {

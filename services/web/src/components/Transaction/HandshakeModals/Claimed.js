@@ -4,25 +4,21 @@ import { Button, Container, Card, Row, Col } from 'react-bootstrap';
 import { editListingMutation } from '../../../queries/queriesListing';
 import moment from 'moment';
 
-function hashCode(str) { // java String#hashCode
+var colors = ["#F75330", "#ED3EC8", "#0C923E", "#00A392", "#0950B2", "#8F0AB9", "#D60000", "#9EC827", "#277AEC", "#ECB027"];
+
+function hashId(str) { // java String#hashCode
   var hash = 0;
   for (var i = 0; i < str.length; i++) {
      hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
+  hash = Math.abs(parseFloat(hash.toString().slice(0,2)) % 10);
   return hash;
-};
-
-function intToRGB(i){
-  var c = (i & 0x00FFFFFF)
-      .toString(16)
-      .toUpperCase();
-
-  return "00000".substring(0, 6 - c.length) + c;
 };
 
 var Reserving = function({listing, handleClose, userInfo}) {
   var {spot, claiming_user, listing_user} = listing;
   var overtime;
+
   if (moment(listing.spot.end_time).isBefore(Date.now())) {
     overtime = (
       <Container>
@@ -63,10 +59,13 @@ var Reserving = function({listing, handleClose, userInfo}) {
                 }}
                 onCompleted={() => this.props.history.push('/')}
               >
-                {editListing => <Button variant="dark" onClick={() => {
-                  editListing();
-                  handleClose();
-                }}>Confirm Successful Swap</Button>}
+                {editListing => <Button 
+                  className="confirmSwapBtn" 
+                  style={{color: colors[hashId(listing.spot.id)]}}
+                  onClick={() => {
+                    editListing();
+                    handleClose();
+                  }}>Confirm Successful Swap</Button>}
               </Mutation>
             </Col>
           </Row>
@@ -96,9 +95,11 @@ var Reserving = function({listing, handleClose, userInfo}) {
   if (listing_user.id === userInfo.id) {
     return (
       <div key={listing.id}>
-        <Card style={{backgroundColor: '#' + intToRGB(hashCode(listing.spot.id))}}>
+        {/* <Card style={{backgroundColor: '#' + intToRGB(hashCode(listing.spot.id))}}> */}
+        <Card style={{backgroundColor: colors[hashId(listing.spot.id)]}}>
           <Card.Body>
-            <div style={{color: '#' + intToRGB(hashCode(listing.spot.id))}}>
+            {/* <div style={{color: '#' + intToRGB(hashCode(listing.spot.id))}}> */}
+            <div style={{color: colors[hashId(listing.spot.id)]}}>
               <Row>
                 <Col className="centered">
                   <h3><span className="background"><b>{claiming_user && claiming_user.user_name}</b> has claimed the spot!</span></h3>
@@ -112,7 +113,7 @@ var Reserving = function({listing, handleClose, userInfo}) {
               </Row>
               <Row>
                 <Col className="centered">
-                  <span className="background">{spot.street1}, {spot.street2} {spot.city}</span>
+                  <span className="background">{spot.street1} {spot.street2} {spot.city}</span>
                 </Col>
               </Row>
               <Row>
@@ -120,10 +121,12 @@ var Reserving = function({listing, handleClose, userInfo}) {
                   <span className="background"> Show your screen and match colors with the other driver</span>
                 </Col>
               </Row>
+              <Row>
                 <Col className="centered">
                   {buttons}
                   {overtime}
-                </Col>
+                </Col>  
+              </Row>
             </div>
           </Card.Body>
         </Card>
@@ -133,9 +136,11 @@ var Reserving = function({listing, handleClose, userInfo}) {
   else {
     return (
       <div key={listing.id}>
-        <Card style={{backgroundColor: '#' + intToRGB(hashCode(listing.spot.id))}}>
+        {/* <Card style={{backgroundColor: '#' + intToRGB(hashCode(listing.spot.id))}}>  */}
+        <Card style={{backgroundColor: colors[hashId(listing.spot.id)]}}>
           <Card.Body>
-            <div style={{color: '#' + intToRGB(hashCode(listing.spot.id))}}>
+            {/* <div style={{color: '#' + intToRGB(hashCode(listing.spot.id))}}> */}
+            <div style={{color: colors[hashId(listing.spot.id)]}}>
               <Row>
                 <Col className="centered">
                   <h3><span className="background">You have claimed the spot!</span></h3>
@@ -160,9 +165,9 @@ var Reserving = function({listing, handleClose, userInfo}) {
               </Row>
               <Row>
                 <Col className="centered">
-                {buttons}
-                {overtime}
-                </Col>
+                  {buttons}
+                  {overtime}
+                </Col>  
               </Row>
             </div>
           </Card.Body>
@@ -173,105 +178,3 @@ var Reserving = function({listing, handleClose, userInfo}) {
 };
 
 export default Reserving;
-
-
-// import React from 'react';
-// import { Mutation } from 'react-apollo';
-// import { Button } from 'react-bootstrap';
-// import { editListingMutation } from '../../../queries/queriesListing';
-// import moment from 'moment';
-// import { hashCode, intToRGB } from '../../../utilities/ColorHasher';
-
-// var Reserving = function({listing, handleClose, userInfo}) {
-//   var {spot, claiming_user, listing_user} = listing;
-//   var overtime;
-//   if (moment(listing.spot.end_time).isBefore(Date.now())) {
-//     overtime = (
-//       <Mutation
-//         mutation={editListingMutation}
-//         variables={{
-//           spot_id: listing.spot.id,
-//           listing_id: listing.id,
-//           status: 5
-//         }}
-//         onCompleted={() => this.props.history.push('/')}
-//       >
-//         {editListing => <Button variant="link" onClick={() => {
-//           editListing();
-//           handleClose();
-//         }}>{(listing_user.id === userInfo.id ? 'Claimer' : 'Lister')} Never Appeared</Button>}
-//       </Mutation>
-//     )
-//   }
-
-//   var buttons = (
-//     <React.Fragment>
-//       <Mutation
-//         mutation={editListingMutation}
-//         variables={{
-//           spot_id: listing.spot.id,
-//           listing_id: listing.id,
-//           status: 8
-//         }}
-//         onCompleted={() => this.props.history.push('/')}
-//       >
-//         {editListing => <Button variant="secondary" onClick={() => {
-//           editListing();
-//           handleClose();
-//         }}>Confirm Successful Swap</Button>}
-//       </Mutation>
-//       <br/>
-//       <Mutation
-//         mutation={editListingMutation}
-//         variables={{
-//           spot_id: listing.spot.id,
-//           listing_id: listing.id,
-//           status: 6
-//         }}
-//         onCompleted={() => this.props.history.push('/')}
-//       >
-//         {editListing => <Button variant="link" onClick={() => {
-//           editListing();
-//           handleClose();
-//         }}>Cancel Swap</Button>}
-//       </Mutation>
-//     </React.Fragment>
-//   );
-
-//   if (listing_user.id === userInfo.id) {
-//     return (
-//       <div key={listing.id} style={{backgroundColor: '#' + intToRGB(hashCode(listing.spot.id))}}>
-//         <br/>
-//         <h3><span className="background"><b>{claiming_user && claiming_user.user_name}</b> has claimed the spot!</span></h3>
-//         {(claiming_user && claiming_user.user_cars[0])  && <p><span className="background">{claiming_user.user_cars[0].color} {claiming_user.user_cars[0].make} {claiming_user.user_cars[0].model}</span></p>}
-//         {(claiming_user && claiming_user.user_cars[0])  && <div className="plate"><div className="license">{claiming_user.user_cars[0].plate}</div></div>}
-//         <br/>
-//         <p><span className="background">{spot.street1}, {spot.street2} {spot.city}</span></p>
-//         <p><span className="background"> Show your screen and match colors with the other driver</span> </p>
-//         {buttons}
-//         {overtime}
-//         <br/>
-//         <br/>
-//       </div>
-//     );
-//   } else {
-//     return (
-//       <div key={listing.id} style={{backgroundColor: '#' + intToRGB(hashCode(listing.spot.id))}}>
-//         <br/>
-//         <h3><span className="background">You have claimed the spot!</span></h3>
-//         <p><b><span className="background">{spot.street1}, {spot.street2} {spot.city}</span></b></p>
-//         <p><span className="background">You will swap spots with <b>{listing.listing_user.user_name}</b></span></p>
-//         {(listing_user.user_cars[0])  && <p><span className="background">Driving a {listing_user.user_cars[0].color} {listing_user.user_cars[0].make} {listing_user.user_cars[0].model}</span></p>}
-//         {(listing_user.user_cars[0])  && <div className="plate"><div className="license">{listing_user.user_cars[0].plate}</div></div>}
-//         <br/>
-//         <p><span className="background">Show your screen and match colors with the other driver</span></p>
-//         {buttons}
-//         {overtime}
-//         <br/>
-//         <br/>
-//       </div>
-//     );
-//   }
-// }
-
-// export default Reserving;
