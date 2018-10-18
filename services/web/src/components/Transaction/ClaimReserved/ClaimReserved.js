@@ -33,6 +33,9 @@ class ClaimReserved extends Component {
         }
       })
     })
+    .then(() => {
+      this.handleClose();
+    })
     .catch((err) => {
       console.log('Error in twoFunctionMutation in ClaimReserved', err);
     })
@@ -122,19 +125,13 @@ class ClaimReserved extends Component {
                 <Modal.Title className="modelTitle">Reserve Spot</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                  <div>This spot will cost you <b>$ {spotValue}</b>. Are you sure you want to claim it?</div>
+                  <div>This spot will cost you <b>${spotValue}</b>. Are you sure you want to claim it?</div>
                   <Row></Row>
                   <Row></Row>
                   <Row></Row>
                   <Row>
                     <Col className="centered">
-                      <Mutation mutation={editListingMutation}
-                        onCompleted={() => {
-                          this.setState({
-                            homeRedirect: true
-                          })
-                        }}
-                      >
+                      <Mutation mutation={editListingMutation}>
                         {editSpotListing => (
                           <Mutation mutation={updateListingMutation}>
                           {(updateListing) => <Button id="holdingBtn" onClick={() => {this.twoFunctionMutation(editSpotListing, updateListing)}}>Claim Spot</Button>}

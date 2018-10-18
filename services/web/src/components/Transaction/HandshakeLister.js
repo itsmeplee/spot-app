@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import { getListingsQuery, CHANGED_LISTINGS_SUBSCRIPTION } from '../../queries/queriesListing';
 import { Query } from 'react-apollo';
-// import { reduceStore } from 'apollo-live-client';
 import Loader from '../App/Loader';
 import Reserving from './HandshakeModals/Reserving';
 import Claimed from './HandshakeModals/Claimed';
@@ -12,7 +11,6 @@ import Expired from './HandshakeModals/Expired';
 import './HandshakeLister.css';
 
 class HandshakeLister extends Component {
-
   state = {
     modalShow: true,
     homeRedirect: false
