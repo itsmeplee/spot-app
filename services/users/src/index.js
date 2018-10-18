@@ -20,13 +20,12 @@ const server = new GraphQLServer({
     ...req,
     db: new Prisma({
       typeDefs: 'src/generated/prisma.graphql',
-      endpoint: 'https://us1.prisma.sh/milton-lopez/spotswap/dev',
-      secret: 'spotswap',
+      endpoint: process.env.PRISMA_ENDPOINT,
+      secret: process.env.PRISMA_SECRET,
       debug: true,
     })
   })
 });
 
-// server.start(() => console.log(`Server is running on http://localhost:${process.env.PORT}`));
 server.start(() => console.log(`Server is running on http://localhost:4000`));
 
