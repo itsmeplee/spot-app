@@ -7,8 +7,8 @@ import moment from 'moment';
 var Success = function({listing, handleClose}) {
   return (
     <React.Fragment>
-      <Container>
-        <div key={listing.id}>
+      {/* <Container> */}
+        <div key={listing.id} className="centered">
           <Card className="reservingCard">
             <Card.Body>
               <Row>
@@ -51,7 +51,7 @@ var Success = function({listing, handleClose}) {
             </Card.Body>
           </Card>
         </div>
-      </Container>
+      {/* </Container> */}
     </React.Fragment>
   )
 }

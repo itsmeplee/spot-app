@@ -21,7 +21,7 @@ var Expired = function({listing, handleClose}) {
                 status: 3,
                 time_complete: moment().format()
               }}
-              onCompleted={() => this.props.history.push('/')}
+              // onCompleted={() => this.props.history.push('/')}
             >
               {editListing => <Button id="noticeBtn" onClick={() => {
                 editListing();

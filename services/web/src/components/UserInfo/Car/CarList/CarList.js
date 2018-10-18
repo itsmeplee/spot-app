@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
+import { Redirect } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import './CarList.css';
 import { deleteCarMutation } from '../../../../queries/queriesCar';
 
 class CarList extends Component {
+  state = {
+    homeRedirect: false
+  };
+
+  handleClose = () => {
+    this.setState({ homeRedirect: true });
+  };
 
   render() {
+    if (this.state.homeRedirect) {
+      return <Redirect to={{
+                pathname: '/profilePage'
+              }} />;
+    };
+
     return (
       <Container>
         <Row>
@@ -59,7 +73,13 @@ class CarList extends Component {
                       }}
                       >
                         {deleteCar => 
-                          <Button type="submit" id="addSubmitBtn" onClick={() => deleteCar()}>-</Button>
+                          <Button 
+                            type="submit" 
+                            id="addSubmitBtn" 
+                            onClick={() => {
+                              deleteCar();
+                              this.handleClose();
+                            }}>-</Button>
                         }
                       </Mutation>
                     </Col>

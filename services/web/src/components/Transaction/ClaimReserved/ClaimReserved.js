@@ -108,9 +108,6 @@ class ClaimReserved extends Component {
                   </Col>
                 </Row>
               </Modal.Body>
-              {/* <Modal.Footer>
-                <Button onClick={this.handleClose}>Close</Button>
-              </Modal.Footer> */}
             </Modal>
           </div>
         </React.Fragment>
@@ -142,9 +139,6 @@ class ClaimReserved extends Component {
                     </Col>
                   </Row>
               </Modal.Body>
-              {/* <Modal.Footer>
-                <Button onClick={this.handleClose}>Close</Button>
-              </Modal.Footer> */}
             </Modal>
           </div>
         </React.Fragment>
