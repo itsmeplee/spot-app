@@ -1,7 +1,4 @@
 import mapboxgl from 'mapbox-gl';
-import { mapboxgl_accessToken } from '../constants';
-
-mapboxgl.accessToken = mapboxgl_accessToken;
 
 const addSpot = function (spot, map, claimSpot, visible) {
   if ((map.getSource(`${spot.id}`)) === undefined) {

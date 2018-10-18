@@ -86,7 +86,6 @@ class App extends Component {
 
   render() {
     const authToken = localStorage.getItem(AUTH_TOKEN);
-    
     if (authToken) {
       return (
         <React.Fragment>
