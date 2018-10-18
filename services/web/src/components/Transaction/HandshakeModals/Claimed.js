@@ -11,7 +11,7 @@ function hashId(str) { // java String#hashCode
   for (var i = 0; i < str.length; i++) {
      hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
-  hash = parseFloat(hash.toString().slice(0,2)) % 10;
+  hash = Math.abs(parseFloat(hash.toString().slice(0,2)) % 10);
   return hash;
 };
 
