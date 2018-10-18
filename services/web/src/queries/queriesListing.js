@@ -45,6 +45,8 @@ query getListings{
       id
       user_name
       balance
+      current_lat
+      current_lng
       user_cars {
         id
         color
@@ -58,6 +60,8 @@ query getListings{
       id
       user_name
       balance
+      current_lat
+      current_lng
       user_cars {
         id
         color
@@ -107,6 +111,8 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
           user_name
           balance
           id
+          current_lat
+          current_lng
           user_cars {
             id
             color
@@ -120,6 +126,8 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
           user_name
           id
           balance
+          current_lat
+          current_lng
           user_cars {
             id
             color

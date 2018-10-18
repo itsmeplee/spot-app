@@ -88,6 +88,11 @@ const initializeMap = function(lat, lng, zoom, mapContainer, moveHandler, clickH
     map.addImage('swap-meter', image);
   })
 
+  map.loadImage('/car.png', function(error, image) {
+    if (error) console.log(error);
+    map.addImage('user', image);
+  })
+
   map.on('click', 'places', (e) => {
     var coordinates = e.features[0].geometry.coordinates.slice();
     var description = e.features[0].properties.description;
@@ -188,7 +193,7 @@ const initializeMap = function(lat, lng, zoom, mapContainer, moveHandler, clickH
   return map;
 }
 
-const toggleToReserved = function(map, listing) {
+const toggleToReserved = function(map, listing, claimer) {
   map.getStyle().layers.forEach((item) => {
     if (item.layout) {
       if (item.layout['icon-image'] === "blue-meter" || item.layout['icon-image'] === "green-meter") {
@@ -225,12 +230,43 @@ const toggleToReserved = function(map, listing) {
       }
     });
   }
+  if(!(map.getSource(`otherUser`))) {
+    let geojson = {
+      "type": "FeatureCollection",
+      "features": [{
+          "type": "Feature",
+          "properties": {
+            "spot_id": 'otherUser',
+          },
+          "geometry": {
+              "type": "Point",
+              "coordinates": claimer ? [listing.claiming_user.current_lng, listing.claiming_user.current_lat] : [listing.listing_user.current_lng, listing.listing_user.current_lat]
+          }
+      }]
+    };
+    map.addSource('otherUser', {
+      "type": "geojson",
+      "data": geojson
+    });
+    map.addLayer({
+      "id": 'otherUser',
+      "type": "symbol",
+      "source": `otherUser`,
+      "layout": {
+        "icon-image": `user`,
+        "icon-size": 0.20,
+        "icon-allow-overlap": true
+      }
+    });
+  }
 }
 
 const toggleToLooking = function(map) {
   if((map.getSource(`swap`))) {
     map.removeLayer('swap');
     map.removeSource('swap');
+    map.removeLayer('otherUser');
+    map.removeSource('otherUser');
 
     map.getStyle().layers.forEach((item) => {
       if (item.layout) {

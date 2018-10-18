@@ -7,34 +7,30 @@ import './AddLocation.css';
 import { addLocationMutation } from '../../../../queries/queriesLocation';
 
 class AddLocation extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      street1: '',
-      street2: '',
-      city: '',
-      state: '',
-      zip: null,
-      homeRedirect: false,
-      modalShow: true,
-    };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+
+  state = {
+    name: '',
+    street1: '',
+    street2: '',
+    city: '',
+    state: '',
+    zip: null,
+    homeRedirect: false,
+    modalShow: true,
   };
 
-  handleInputChange(evt) {
+  handleInputChange = (evt) => {
     evt.preventDefault();
     this.setState({ 
       [evt.target.name]: evt.target.value 
     })
   };
 
-  handleClose() {
+  handleClose = () => {
     this.setState({ homeRedirect: true });
   };
   
-  render() {
+  render = () => {
     const { name, street1, street2, city, state } = this.state
     const zip = parseInt(this.state.zip, 10)
     if (this.state.homeRedirect) {
