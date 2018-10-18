@@ -12,23 +12,19 @@ import Expired from './HandshakeModals/Expired';
 import './HandshakeLister.css';
 
 class HandshakeLister extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modalShow: true,
-      homeRedirect: false
-    };
-    this.handleClose = this.handleClose.bind(this);
-    this.openModal = this.openModal.bind(this);
+
+  state = {
+    modalShow: true,
+    homeRedirect: false
   };
 
-  handleClose() {
+  handleClose = () => {
     this.setState({
       modalShow: false
     })
   }
 
-  openModal() {
+  openModal = () => {
     this.setState({
       modalShow: true
     })
@@ -63,7 +59,7 @@ class HandshakeLister extends Component {
     return newArray;
   }
 
-  displayListingStatus(listing) {
+  displayListingStatus = (listing) => {
     if (listing.status === 1 && listing.spot.is_available) {
       return <Reserving listing={listing} handleClose={this.handleClose} key={listing.id}/>
     } else if (listing.status === 1 && !listing.spot.is_available) {

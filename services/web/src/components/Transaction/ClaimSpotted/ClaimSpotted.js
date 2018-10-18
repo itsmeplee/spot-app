@@ -8,24 +8,20 @@ import moment from 'moment';
 import './ClaimSpotted.css';
 
 class ClaimSpotted extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      clicked: false,
-      modalShow: true,
-      homeRedirect: false
-    };
-    this.changeClicked = this.changeClicked.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+
+  state = {
+    clicked: false,
+    modalShow: true,
+    homeRedirect: false
   };
 
-  changeClicked() {
+  changeClicked = () => {
     this.setState({
       clicked: true
     })
   };
 
-  handleClose() {
+  handleClose = () => {
     this.setState({ homeRedirect: true });
   };
 
@@ -36,10 +32,10 @@ class ClaimSpotted extends Component {
                 state: {}
               }} />;
     };
-    const spot_id = this.props.location.state.spotId;
-    const listing_id = this.props.location.state.listingId;
-    const timeDiff = moment(this.props.location.state.start_time).from(this.props.location.state.end_time)
-    // const timeDiff = moment(this.props.location.state.start_time).fromNow();
+    const spot_id = this.props.location.state.spot.id;
+    const listing_id = this.props.location.state.spot.listing.id;
+    const timeDiff = moment(this.props.location.state.spot.start_time).from(this.props.location.state.spot.end_time)
+    // const timeDiff = moment(this.props.location.state.spot.start_time).fromNow();
     if (!this.state.clicked) {
       return (
         <React.Fragment>

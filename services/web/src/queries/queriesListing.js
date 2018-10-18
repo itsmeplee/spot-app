@@ -21,11 +21,13 @@ mutation(
   $id: ID, 
   $spot_id: ID, 
   $status: Int,
+  $claimer: Boolean,
   $time_complete: DateTime
 ) {
   editListing(
     id: $id
     spot_id: $spot_id
+    claimer: $claimer
     status: $status
     time_complete: $time_complete
   ){
@@ -45,6 +47,8 @@ query getListings{
       id
       user_name
       balance
+      current_lat
+      current_lng
       user_cars {
         id
         color
@@ -58,6 +62,8 @@ query getListings{
       id
       user_name
       balance
+      current_lat
+      current_lng
       user_cars {
         id
         color
@@ -107,6 +113,8 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
           user_name
           balance
           id
+          current_lat
+          current_lng
           user_cars {
             id
             color
@@ -120,6 +128,8 @@ const CHANGED_LISTINGS_SUBSCRIPTION = gql`
           user_name
           id
           balance
+          current_lat
+          current_lng
           user_cars {
             id
             color
