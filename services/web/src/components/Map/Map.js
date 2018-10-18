@@ -196,7 +196,8 @@ class Map extends Component {
     return (
       <Container className="NavContainer">
         <Navbar bg="dark">
-          <Navbar.Brand href="/"><img src="/favicon-256.png" width="30" height="30" alt="swapspot"/></Navbar.Brand>
+          {/* <Navbar.Brand href="/"><img src="/favicon-256.png" width="30" height="30" alt="swapspot"/></Navbar.Brand> */}
+          <Navbar.Brand href="/"><img src="/spotswap.png" width="50" height="50" alt="swapspot"/></Navbar.Brand>
           <div id="geocoder" className="form-control mr-sm-2 mb-sm-0 search"></div>
           {!this.state.loggedIn && (
             // <Button onClick={this.clickLogin} variant="outline-info">Login</Button>

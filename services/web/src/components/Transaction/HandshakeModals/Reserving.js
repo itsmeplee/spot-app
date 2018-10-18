@@ -25,7 +25,7 @@ var Reserving = function({listing, handleClose}) {
                 }}
                 onCompleted={() => this.props.history.push('/')}
               >
-                {editListing => <Button variant="danger" onClick={() => {
+                {editListing => <Button id="noticeBtn" onClick={() => {
                   editListing();
                   handleClose();
                 }}>Cancel this listing</Button>}

@@ -125,7 +125,7 @@ class ClaimReserved extends Component {
                 <Modal.Title className="modelTitle">Reserve Spot</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                  <div>This spot will cost you <b>$ {spotValue}</b>. Are you sure you want to claim it?</div>
+                  <div>This spot will cost you <b>${spotValue}</b>. Are you sure you want to claim it?</div>
                   <Row></Row>
                   <Row></Row>
                   <Row></Row>
