@@ -24,7 +24,7 @@ class CardDetail extends Component {
         <Form.Group controlId="formGroupCardDetail">
         </Form.Group>
         <Form.Group controlId="formGroupCardDetail">
-          <Button variant="secondary">Add Card</Button> 
+          <Button id="addSubmitBtn">Add Card</Button> 
         </Form.Group>
       </Form>
     );

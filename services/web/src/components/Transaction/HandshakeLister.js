@@ -64,13 +64,13 @@ class HandshakeLister extends Component {
     if (listing.status === 1 && listing.spot.is_available) {
       return <Reserving listing={listing} handleClose={this.handleClose} key={listing.id}/>
     } else if (listing.status === 1 && !listing.spot.is_available) {
-      return <Expired listing={listing} handleClose={this.handleClose}  key={listing.id}/>
+      return <Expired listing={listing} handleClose={this.handleClose} key={listing.id}/>
     } else if (listing.status === 2) {
-      return <Claimed listing={listing} handleClose={this.handleClose}  key={listing.id}/>
+      return <Claimed listing={listing} handleClose={this.handleClose} key={listing.id}/>
     } else if (listing.status === 8) {
-      return <Success listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
+      return <Success listing={listing} handleClose={this.handleClose} key={listing.id}/>;
     } else if (listing.status > 3) {
-      return <Failed listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
+      return <Failed listing={listing} handleClose={this.handleClose} key={listing.id}/>;
     } else {
       if (this.state.modalShow) {
         this.handleClose();
@@ -107,7 +107,7 @@ class HandshakeLister extends Component {
         </Query>
       </React.Fragment>
     );
-  }
+  };
 };
 
 export default HandshakeLister;

@@ -20,13 +20,13 @@ const updateListingMutation = gql`
 mutation(
   $id: ID, 
   $spot_id: ID, 
-  $claimer: Boolean,
+  $status: Int,
   $time_complete: DateTime
 ) {
   editListing(
     id: $id
-    claimer: $claimer
     spot_id: $spot_id
+    status: $status
     time_complete: $time_complete
   ){
     id

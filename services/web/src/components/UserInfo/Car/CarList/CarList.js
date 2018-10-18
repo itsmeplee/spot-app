@@ -59,7 +59,7 @@ class CarList extends Component {
                       }}
                       >
                         {deleteCar => 
-                          <Button type="submit" variant="secondary" onClick={() => deleteCar()}>-</Button>
+                          <Button type="submit" id="addSubmitBtn" onClick={() => deleteCar()}>-</Button>
                         }
                       </Mutation>
                     </Col>

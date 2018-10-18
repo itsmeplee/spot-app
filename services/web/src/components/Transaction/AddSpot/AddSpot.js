@@ -129,12 +129,7 @@ class AddSpot extends Component {
           </div>
         </React.Fragment>
       );
-    }
-    else {
-      return (
-        <div className="clickAdd"> Click List </div>
-      )
-    }
+    };
   };
 
   _confirm = (data) => {
@@ -164,8 +159,8 @@ class AddSpot extends Component {
       <React.Fragment>
         <div className="modal-container">
           <Modal show={this.state.modalShow} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>List a Spot</Modal.Title>
+            <Modal.Header closeButton className="modelHeader">
+              <Modal.Title className="modelTitle">List a Spot</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Container className="addSpot">
@@ -177,6 +172,8 @@ class AddSpot extends Component {
                 <Row>
                   <Col>
                     <Button
+                      id="noticeBtn"
+                      variant="secondary"
                       type="button"  
                       className={'btn btn-primary ' + (this.state.reservedToggle ? '': 'active')} 
                       onClick={() => this.changeView(false)}
@@ -187,12 +184,14 @@ class AddSpot extends Component {
                   </Col>
                   <Col>
                     <Button 
+                      id="holdingBtn"
                       type="button" 
                       className={'btn btn-primary ' + (this.state.reservedToggle ? 'active': '')} 
                       onClick={() => this.changeView(true)}
                     > I am holding a Spot </Button>
                   </Col>
                 </Row>
+                <Row></Row>
                 <Row>
                     <Col>
                       <Form>
@@ -202,6 +201,7 @@ class AddSpot extends Component {
                           {this.state.errorText}
                         </Alert>
                         )}
+                        <Col className="centered">
                         <Mutation
                           mutation={addSpotMutation}
                           variables={{ lng, lat, type, start_time, end_time, status, street1, street2, zip, city, state, value }}
@@ -209,19 +209,18 @@ class AddSpot extends Component {
                         >
                         {addSpot => (
                           <Button 
+                            id="listBtn"
                             type="button" 
                             onClick={(e) => this.submitForm(addSpot, e)}
                           >List</Button> 
                         )}
                         </Mutation>
+                        </Col>
                       </Form>
                     </Col>
                 </Row>
               </Container>
             </Modal.Body>
-            <Modal.Footer>
-              
-            </Modal.Footer>
           </Modal>
         </div>
       </React.Fragment>

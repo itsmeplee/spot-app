@@ -55,7 +55,7 @@ class HistoryPage extends Component {
                     <Card>
                       <Card.Header>
                         <ButtonToolbar>
-                          <Button variant="outline-dark" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
+                          <Button id="goToMapBtn" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
                         </ButtonToolbar>
                       </Card.Header>
                       <Card.Body>
@@ -64,20 +64,18 @@ class HistoryPage extends Component {
                             <Card.Title>Your Swap History</Card.Title>
                           </Col>
                           <Col className="right">
-                            <span className={this.showRating()}>Rating: {this.showRating()}</span>
+                            Rating: <span className={this.showRating()}>{this.showRating()}</span>
                           </Col>
                         </Row>
                         <div className="table-responsive">
                         <Table bordered className="table">
                           <thead>
                             <tr>
-                              <th>Start Time</th>
-                              <th>End Time</th>
+                              <th>Date/Time</th>
                               <th>Type</th>
                               <th>Status</th>
                               <th>Street1</th>
                               <th>Street2</th>
-                              <th>State</th>
                               <th>City</th>
                             </tr>
                           </thead>
@@ -89,7 +87,7 @@ class HistoryPage extends Component {
                       </Card.Body>
                       <Card.Footer>
                         <ButtonToolbar>
-                          <Button variant="outline-dark" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
+                          <Button id="goToMapBtn" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
                         </ButtonToolbar>
                       </Card.Footer>
                     </Card>

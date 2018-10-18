@@ -198,14 +198,15 @@ class Map extends Component {
           <Navbar.Brand href="/"><img src="/favicon-256.png" width="30" height="30" alt="swapspot"/></Navbar.Brand>
           <div id="geocoder" className="form-control mr-sm-2 mb-sm-0 search"></div>
           {!this.state.loggedIn && (
-            <Button onClick={this.clickLogin} variant="outline-info">Login</Button>
+            // <Button onClick={this.clickLogin} variant="outline-info">Login</Button>
+            <Button id="loginBtn" onClick={this.clickLogin}>Login</Button>
           )}
           {this.state.loggedIn && (
             <DropdownButton 
               id="dropdown-basic-button" 
               title={<img src="/user-outline.svg"  width="20" height="20" alt="" />} 
               variant="outline-secondary">
-              <Dropdown.Item href="/profilePage">Profile</Dropdown.Item>
+              <Dropdown.Item id="dropDownItem" href="/profilePage">Profile</Dropdown.Item>
               <Dropdown.Item onClick={this.clickHistory}>Swap History</Dropdown.Item>
               <Dropdown.Item onClick={() => {
                 localStorage.removeItem(AUTH_TOKEN);

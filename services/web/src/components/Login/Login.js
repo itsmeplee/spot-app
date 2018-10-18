@@ -114,8 +114,8 @@ class Login extends Component {
     const { login, email, password, user_name } = this.state
     return (
       <Modal show={this.state.show} onHide={this.handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>{login ? 'Login' : 'Sign Up'}</Modal.Title>
+        <Modal.Header closeButton className="modelHeader">
+          <Modal.Title className="modelTitle">{login ? 'Login' : 'Sign Up'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -144,16 +144,18 @@ class Login extends Component {
                 {this.state.errorText}
               </Alert>
             )}
-            <Mutation
-                mutation={login ? loginQuery : signupQuery}
-                variables={{ email, password, user_name }}
-                onCompleted={(data) => this._confirm(data)}>
-                {mutation => (
-                  <Button type="submit" onClick={(e) => this.handleLogin(mutation, e)}>
-                    {login ? 'Login' : 'Create Account'}
-                  </Button>
-                )}
-              </Mutation>
+            <Form.Group className="centered">
+              <Mutation
+                  mutation={login ? loginQuery : signupQuery}
+                  variables={{ email, password, user_name }}
+                  onCompleted={(data) => this._confirm(data)}>
+                  {mutation => (
+                    <Button type="submit" id="noticeBtn" onClick={(e) => this.handleLogin(mutation, e)}>
+                      {login ? 'Login' : 'Create Account'}
+                    </Button>
+                  )}
+                </Mutation>
+            </Form.Group>
           </Form>
           <Row>
               <Col className="centered">
