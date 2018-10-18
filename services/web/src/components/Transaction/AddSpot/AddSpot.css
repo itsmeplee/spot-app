@@ -1,3 +1,23 @@
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+
 .addSpot .row {
   padding-top: 5px;
 }
@@ -6,34 +26,35 @@
   text-align: center;
 }
 
-.noticeSpotBtn {
-  display:inline-block;
-  background-color: #006df0;
-  padding:0.3em 1.2em;
-  margin:0 0.1em 0.1em 0;
-  border:0.16em solid #2de333;
-  border-radius:2em;
-  box-sizing: border-box;
-  text-decoration:none;
-  font-family:sans-serif;
-  font-weight:300;
-  color:#2de333;
-  text-align:center;
-  transition: all 0.2s;
-} 
+.modelHeader {
+  background-color: #343a40;
+}
 
-.holdingSpotBtn {
-  display:inline-block;
-  background-color: #2de333;
-  padding:0.3em 1.2em;
-  margin:0 0.1em 0.1em 0;
-  border:0.16em solid #006df0;
-  border-radius:2em;
-  box-sizing: border-box;
-  text-decoration:none;
-  font-family:'Roboto',sans-serif;
-  font-weight:300;
-  color: #006df0;
-  text-align:center;
-  transition: all 0.2s;
+.modelTitle {
+  color: white
+}
+
+#noticeBtn {
+  background-color: #a2cc2e;
+  border: none;
+}
+
+#holdingBtn {
+  background-color: #46b2d6;
+  border: none;
+}
+
+#listBtn {
+  background-color: #343a40;
+  border: none;
+  outline: none;
+}
+
+.close {
+  color: #fff; 
+  opacity: 1;
+}
+
+.close:hover {
+  color: #fff; 
 }

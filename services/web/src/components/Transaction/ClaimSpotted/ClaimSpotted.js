@@ -41,8 +41,8 @@ class ClaimSpotted extends Component {
         <React.Fragment>
         <div className="modal-container">
           <Modal show={this.state.modalShow} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Claim Spot</Modal.Title>
+            <Modal.Header closeButton className="modelHeader">
+              <Modal.Title className="modelTitle">Claim Spot</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div id="claim-screen">
@@ -57,7 +57,7 @@ class ClaimSpotted extends Component {
                   }}
                   onCompleted={() => this.props.history.push('/')}
                 >
-                  {editSpotListing => <Button variant="success" onClick={() => {
+                  {editSpotListing => <Button variant="success" id="noticeBtn" onClick={() => {
                     editSpotListing();
                     this.changeClicked();
                   }}>I Parked Here</Button>}
@@ -78,13 +78,11 @@ class ClaimSpotted extends Component {
                     this.changeClicked();
                   }}>Spot No Longer Available</Button>}
                 </Mutation>
-                
-                
               </div>
             </Modal.Body>
-            <Modal.Footer>
+            {/* <Modal.Footer>
               <Button onClick={this.handleClose}>Close</Button>
-            </Modal.Footer>
+            </Modal.Footer> */}
           </Modal>
         </div>
       </React.Fragment>
@@ -95,16 +93,17 @@ class ClaimSpotted extends Component {
         <React.Fragment>
         <div className="modal-container">
           <Modal show={this.state.modalShow} onHide={this.handleClose}>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className="modelHeader">
+              <Modal.Title className="modelTitle">Thanks</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div>
                 Thank you for being a great Spotter!
               </div>
             </Modal.Body>
-            <Modal.Footer>
+            {/* <Modal.Footer>
               <Button onClick={this.handleClose}>Close</Button>
-            </Modal.Footer>
+            </Modal.Footer> */}
           </Modal>
         </div>
       </React.Fragment>

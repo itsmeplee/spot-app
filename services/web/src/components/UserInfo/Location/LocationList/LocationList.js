@@ -101,7 +101,7 @@ class LocationList extends Component {
                         }}
                         >
                           {deleteLocation => 
-                            <Button type="submit" variant="secondary" onClick={() => deleteLocation()}>-</Button>
+                            <Button type="submit" id="addSubmitBtn" onClick={() => deleteLocation()}>-</Button>
                           }
                         </Mutation>
                     </Col>

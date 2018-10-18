@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -25,4 +25,37 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+} */
+
+.addModel {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .addModel:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.addModel-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+
+.labelTitle {
+  font-weight: bold;
+}
+
+.modelTitle {
+  font-weight: bold;
+}
+
+#addSubmitBtn {
+  background-color: #a2cc2e;
+  border: none;
 }

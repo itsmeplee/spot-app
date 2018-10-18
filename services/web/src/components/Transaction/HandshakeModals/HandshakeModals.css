@@ -4,9 +4,8 @@ button.btn-danger {
 }
 
 .background {
-  background-color:rgb(237, 237, 237, .7);
+  background-color: white;
   border-radius: 5px;
-  
 }
 
 .plate {
@@ -23,4 +22,23 @@ button.btn-danger {
 
 .license {
   padding-top: 23px;
+}
+
+.reservingCard {
+  border: none;
+  display: inline-block;
+  vertical-align: middle;
+  width: 450px;
+  height: 200px;
+}
+
+#footLinkResponse {
+  text-decoration: underline;
+  color: #46b2d6;
+}
+
+.btn-link {
+  text-decoration: underline;
+  background-color: none;
+  color: white;
 }

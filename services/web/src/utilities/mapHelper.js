@@ -240,7 +240,7 @@ const toggleToReserved = function(map, listing, claimer) {
           },
           "geometry": {
               "type": "Point",
-              "coordinates": claimer ? [listing.claiming_user.current_lng, listing.claiming_user.current_lat] : [listing.listing_user.current_lng, listing.listing_user.current_lat]
+              "coordinates": claimer ? [listing.listing_user.current_lng, listing.listing_user.current_lat] : [listing.claiming_user.current_lng, listing.claiming_user.current_lat]
           }
       }]
     };

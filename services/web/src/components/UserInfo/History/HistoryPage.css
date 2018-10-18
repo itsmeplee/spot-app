@@ -9,10 +9,22 @@
 
 .Yellow {
   background-color: Yellow;
-  color: white;
+  color: black
 }
 
 .Red {
   background-color: Red;
   color: white;
 }
+
+.redRow {
+  color: Red;
+}
+
+/* .blueRow {
+  color: #46b2d6;
+}
+
+.greenRow {
+  color: #a2cc2e;
+} */

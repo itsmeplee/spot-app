@@ -4,15 +4,16 @@ import { Mutation } from 'react-apollo';
 import { updateListingMutation } from '../../../queries/queriesListing';
 import moment from 'moment';
 
-var Failed = function({listing, handleClose}) {
+var Failed = function({listing, handleClose, userInfo}) {
+  let claimer = (listing.claiming_user.id === this.props.userInfo.id);
   return (
     <React.Fragment>
       <div key={listing.id}>
         <h3>Oops!</h3>
-        {listing.status === 4 && <p>Oops, your spot closed because you weren't there!</p>}
-        {listing.status === 5 && <p>Oops, your spot closed because you weren't there!</p>}
-        {listing.status === 6 && <p>Sorry, the spot swap was cancelled by the other user!</p>}
-        {listing.status === 7 && <p>Sorry, the spot swap was cancelled by the other user!</p>}
+        {listing.status === 4 && !claimer && <p>Oops, your spot closed because you weren't there!</p>}
+        {listing.status === 5 && claimer && <p>Oops, your spot closed because you weren't there!</p>}
+        {listing.status === 6 && !claimer && <p>Sorry, the spot swap was cancelled by the other user!</p>}
+        {listing.status === 7 && claimer && <p>Sorry, the spot swap was cancelled by the other user!</p>}
         <Mutation
           mutation={updateListingMutation}
           variables={{
@@ -21,18 +22,11 @@ var Failed = function({listing, handleClose}) {
             time_complete: moment().format()
           }}
         >
-          {editListing => <Button onClick={() => {
+          {editListing => <Button id="noticeBtn" onClick={() => {
             editListing();
             handleClose();
-          }}>Close</Button>}
+          }}>Closed</Button>}
         </Mutation>
-        
-        {/* <Button onClick={() => {
-            handleClose();
-          }}
-        >
-          Close
-        </Button> */}
       </div>
     </React.Fragment>
   )

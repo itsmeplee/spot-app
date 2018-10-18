@@ -1,9 +1,13 @@
-
 .centered {
   text-align: center;
 }
 .footerLink {
   text-decoration: underline;
   cursor: pointer;
+  color: #46b2d6;
+}
+
+.footerLink:visited {
+  color: #46b2d6;
 }
 

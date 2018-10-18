@@ -9,7 +9,6 @@ import LocationList from '../Location/LocationList/LocationList';
 import { getUserQuery, mutationUser } from '../../../queries/queriesUser';
 import CardForm from '../Payments/CardForm';
 
-
 import './ProfilePage.css';
 
 class ProfilePage extends Component {
@@ -111,7 +110,7 @@ class ProfilePage extends Component {
         <Container className="profilePage">
           <Row className="profileRow">
             <Col>
-              <Button variant="outline-secondary" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
+              <Button id="goToMapBtn" onClick={() => {this.props.history.push(`/`)}}>Go Back To Map</Button>
             </Col>
           </Row>
           <Row className="profileRow">
@@ -131,7 +130,7 @@ class ProfilePage extends Component {
                     <Col>
                       <Row>
                         <Col className='right'>
-                          <span className={this.showRating()}>Rating: {this.showRating()}</span>
+                        Rating: <span className={this.showRating()}>{this.showRating()}</span>
                         </Col>
                       </Row>
                       <Row>
@@ -201,7 +200,7 @@ class ProfilePage extends Component {
                       }}
                       >
                         {mutation => 
-                          <Button type="submit" variant="secondary" onClick={(e) => {this.editUser(mutation,e);}}>Update</Button>
+                          <Button type="submit" id="addSubmitBtn" onClick={(e) => {this.editUser(mutation,e);}}>Update</Button>
                         }
                       </Mutation>
                     </Col>
@@ -237,7 +236,7 @@ class ProfilePage extends Component {
                   </Row>
                   <Row>
                     <Col>
-                    <Link to={'/addCar'}>Add your car</Link><br />
+                    <Link to={'/addCar'} className="footerLink">Add your car</Link><br />
                     </Col>
                   </Row>
                 </Card.Body>
@@ -256,7 +255,7 @@ class ProfilePage extends Component {
                   </Row>
                   <Row>
                     <Col>
-                      <Link to={'/addLocation'}>Add your location</Link><br />
+                      <Link to={'/addLocation'} className="footerLink">Add your location</Link><br />
                     </Col>
                   </Row>
                 </Card.Body>

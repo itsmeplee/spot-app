@@ -30,7 +30,6 @@
   text-align: initial;
 }
 
-
 .geocoder {
   width:100vw;
   margin-right: 16px;
@@ -76,3 +75,34 @@
   }
 }
 
+#loginBtn {
+  background-color: #a2cc2e;
+  color: white;
+  border: none;
+  outline: none;
+}
+
+#loginBtn:hover {
+  border: none;
+  outline: none;
+}
+
+#loginBtn:focus {
+  border: none;
+  outline: none;
+}
+/* 
+#dropDownItem-hover {
+  background-color: #a2cc2e;
+  color: blue;
+}
+
+#dropDownItem.visited {
+  background-color: #a2cc2e;
+  color: blue;
+}
+
+#dropDownItem.active {
+  background-color: #a2cc2e;
+  color: yellow;
+}  */
