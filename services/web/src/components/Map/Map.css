@@ -91,18 +91,7 @@
   border: none;
   outline: none;
 }
-/* 
-#dropDownItem-hover {
-  background-color: #a2cc2e;
-  color: blue;
-}
 
-#dropDownItem.visited {
+.dropdown-item:active {
   background-color: #a2cc2e;
-  color: blue;
 }
-
-#dropDownItem.active {
-  background-color: #a2cc2e;
-  color: yellow;
-}  */
