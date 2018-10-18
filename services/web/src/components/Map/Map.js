@@ -15,11 +15,11 @@ import ClaimReserved from '../Transaction/ClaimReserved/ClaimReserved';
 import ListingStatusPane from '../Transaction/ListingStatusPane';
 import { mutationUserCurrentLocation } from '../../queries/queriesUser';
 import { addSpot, removeSpot, initializeMap,toggleToReserved, toggleToLooking } from '../../utilities/mapHelper';
-import { AUTH_TOKEN, mapboxgl_accessToken } from '../../constants';
+import { AUTH_TOKEN } from '../../constants';
 
 import './Map.css';
 
-mapboxgl.accessToken = mapboxgl_accessToken;
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_APIKEY;
 
 class Map extends Component {
   state = {
