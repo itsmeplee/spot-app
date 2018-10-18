@@ -21,11 +21,13 @@ mutation(
   $id: ID, 
   $spot_id: ID, 
   $status: Int,
+  $claimer: Boolean,
   $time_complete: DateTime
 ) {
   editListing(
     id: $id
     spot_id: $spot_id
+    claimer: $claimer
     status: $status
     time_complete: $time_complete
   ){

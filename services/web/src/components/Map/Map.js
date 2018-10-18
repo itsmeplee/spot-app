@@ -43,8 +43,8 @@ class Map extends Component {
     }
     if (listings && listings !== prevProps.listings) {
       if (listings.length > 0) {
-        let claimer = listings[0].claiming_user && listings[0].claiming_user.id === userInfo.id;
-        toggleToReserved(this.state.map, listings[0], claimer);
+        let lister = listings[0].listing_user && listings[0].listing_user.id === userInfo.id;
+        toggleToReserved(this.state.map, listings[0], lister);
       } else {
         toggleToLooking(this.state.map)
       }

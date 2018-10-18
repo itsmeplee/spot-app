@@ -60,7 +60,7 @@ class HandshakeLister extends Component {
   }
 
   displayListingStatus = (listing) => {
-    console.log(listing.spot.is_available)
+    console.log(listing.spot.is_available);
     if (listing.status === 1 && listing.spot.is_available) {
       return <Reserving listing={listing} handleClose={this.handleClose} key={listing.id}/>
     } else if (listing.status === 1 && !listing.spot.is_available) {

@@ -24,10 +24,6 @@ button.btn-danger {
   padding-top: 23px;
 }
 
-.drawerReserved {
-  /* background-color: black; */
-}
-
 .reservingCard {
   border: none;
   display: inline-block;
@@ -36,3 +32,13 @@ button.btn-danger {
   height: 200px;
 }
 
+#footLinkResponse {
+  text-decoration: underline;
+  color: #46b2d6;
+}
+
+.btn-link {
+  text-decoration: underline;
+  background-color: none;
+  color: white;
+}
