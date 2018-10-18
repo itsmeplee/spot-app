@@ -11,7 +11,7 @@ function hashId(str) { // java String#hashCode
   for (var i = 0; i < str.length; i++) {
      hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
-  hash = parseFloat(hash.toString().slice(0,2)) % 10;
+  hash = Math.abs(parseFloat(hash.toString().slice(0,2)) % 10);
   return hash;
 };
 
@@ -113,7 +113,7 @@ var Reserving = function({listing, handleClose, userInfo}) {
               </Row>
               <Row>
                 <Col className="centered">
-                  <span className="background">{spot.street1}, {spot.street2} {spot.city}</span>
+                  <span className="background">{spot.street1} {spot.street2} {spot.city}</span>
                 </Col>
               </Row>
               <Row>
