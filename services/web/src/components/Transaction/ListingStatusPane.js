@@ -25,8 +25,16 @@ class ListingStatusDrawer extends Component {
       drawerShow: true
     })
   }
+
   componentDidMount = () => {
     this.openDrawer();
+  }
+
+  componentDidUpdate = (prevProps) => {
+    let { myListings } = this.props;
+    if (myListings[0] !== prevProps.myListings[0]) {
+      this.openDrawer();
+    }
   }
 
   displayListingStatus = (listing) => {
@@ -36,7 +44,7 @@ class ListingStatusDrawer extends Component {
       return <Expired listing={listing} handleClose={this.handleClose}  key={listing.id}/>
     } else if (listing.status === 2) {
       return <Claimed listing={listing} handleClose={this.handleClose}  key={listing.id} userInfo={this.props.userInfo}/>
-    } else if (listing.status === 8) {
+    } else if (listing.status === 8 || listing.status === 9) {
       return <Success listing={listing} handleClose={this.handleClose}  key={listing.id}/>;
     } else if (listing.status > 3) {
       return <Failed listing={listing} handleClose={this.handleClose}  key={listing.id} userInfo={this.props.userInfo}/>;

@@ -92,10 +92,11 @@ class Map extends Component {
     }
 
     map.on('load', () => {
-      let {listings} = this.props;
+      let {listings, userInfo} = this.props;
       this.displaySpots(this.props.spots);
       if (listings && listings.length > 0) {
-        toggleToReserved(this.state.map, listings[0]);
+        let lister = listings[0].listing_user && userInfo && listings[0].listing_user.id === userInfo.id;
+        toggleToReserved(this.state.map, listings[0], lister);
       } else {
         toggleToLooking(this.state.map)
       }
