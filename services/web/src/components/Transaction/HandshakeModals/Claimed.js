@@ -112,7 +112,7 @@ var Reserving = function({listing, handleClose, userInfo}) {
               </Row>
               <Row>
                 <Col className="centered">
-                  <span className="background">{spot.street1}, {spot.street2} {spot.city}</span>
+                  <span className="background">{spot.street1} {spot.street2} {spot.city}</span>
                 </Col>
               </Row>
               <Row>
