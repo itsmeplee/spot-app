@@ -38,6 +38,9 @@ class AddCar extends Component {
         updateStatus: 'Added'
       })
     })
+    .then(() => {
+      this.handleClose();
+    })
     .catch((err) => {
       console.log('error', err);
       this.setState({
@@ -106,7 +109,6 @@ class AddCar extends Component {
                       plate: this.state.plate,
                       state: this.state.state
                     }}
-                    // onCompleted={() => this.props.history.push('/profilePage')}
                   >              
                   {mutation => <Button id="addSubmitBtn" onClick={(e) => {this.addCar(mutation, e)}}>Submit</Button>}
                   </Mutation>

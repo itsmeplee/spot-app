@@ -8,7 +8,6 @@ import moment from 'moment';
 import './ClaimSpotted.css';
 
 class ClaimSpotted extends Component {
-
   state = {
     clicked: false,
     modalShow: true,
@@ -55,11 +54,11 @@ class ClaimSpotted extends Component {
                     listing_id: listing_id, 
                     status: 2
                   }}
-                  onCompleted={() => this.props.history.push('/')}
                 >
                   {editSpotListing => <Button variant="success" id="noticeBtn" onClick={() => {
                     editSpotListing();
                     this.changeClicked();
+                    this.handleClose();
                   }}>I Parked Here</Button>}
                 </Mutation>
                 <br/>
@@ -71,18 +70,15 @@ class ClaimSpotted extends Component {
                     listing_id: listing_id,
                     status: 3
                   }}
-                  onCompleted={() => this.props.history.push('/')}
                 >
                   {editSpotListing => <Button variant="outline-secondary"  onClick={() => {
                     editSpotListing();
                     this.changeClicked();
+                    this.handleClose();
                   }}>Spot No Longer Available</Button>}
                 </Mutation>
               </div>
             </Modal.Body>
-            {/* <Modal.Footer>
-              <Button onClick={this.handleClose}>Close</Button>
-            </Modal.Footer> */}
           </Modal>
         </div>
       </React.Fragment>
@@ -101,19 +97,14 @@ class ClaimSpotted extends Component {
                 Thank you for being a great Spotter!
               </div>
             </Modal.Body>
-            {/* <Modal.Footer>
-              <Button onClick={this.handleClose}>Close</Button>
-            </Modal.Footer> */}
           </Modal>
         </div>
       </React.Fragment>
       )
     }
-    
   };
 };
 
 export default withRouter(ClaimSpotted);
-
 
 //beware that in SpotsList and Map, it's called ClaimSpot;

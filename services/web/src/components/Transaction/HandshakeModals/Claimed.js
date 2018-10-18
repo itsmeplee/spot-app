@@ -31,7 +31,7 @@ var Reserving = function({listing, handleClose, userInfo}) {
                 listing_id: listing.id,
                 status: 5
               }}
-              onCompleted={() => this.props.history.push('/')}
+              // onCompleted={() => this.props.history.push('/')}
             >
               {editListing => <Button variant="link" onClick={() => {
                 editListing();
@@ -57,7 +57,7 @@ var Reserving = function({listing, handleClose, userInfo}) {
                   listing_id: listing.id,
                   status: listing.listing_user.id === userInfo.id ? 9 : 8
                 }}
-                onCompleted={() => this.props.history.push('/')}
+                // onCompleted={() => this.props.history.push('/')}
               >
                 {editListing => <Button 
                   className="confirmSwapBtn" 
@@ -78,7 +78,7 @@ var Reserving = function({listing, handleClose, userInfo}) {
                   listing_id: listing.id,
                   status: listing.listing_user.id === userInfo.id ? 7 : 6
                 }}
-                onCompleted={() => this.props.history.push('/')}
+                // onCompleted={() => this.props.history.push('/')}
               >
                 {editListing => <Button variant="link" onClick={() => {
                   editListing();
@@ -95,10 +95,8 @@ var Reserving = function({listing, handleClose, userInfo}) {
   if (listing_user.id === userInfo.id) {
     return (
       <div key={listing.id}>
-        {/* <Card style={{backgroundColor: '#' + intToRGB(hashCode(listing.spot.id))}}> */}
         <Card style={{backgroundColor: colors[hashId(listing.spot.id)]}}>
           <Card.Body>
-            {/* <div style={{color: '#' + intToRGB(hashCode(listing.spot.id))}}> */}
             <div style={{color: colors[hashId(listing.spot.id)]}}>
               <Row>
                 <Col className="centered">
@@ -136,10 +134,8 @@ var Reserving = function({listing, handleClose, userInfo}) {
   else {
     return (
       <div key={listing.id}>
-        {/* <Card style={{backgroundColor: '#' + intToRGB(hashCode(listing.spot.id))}}>  */}
         <Card style={{backgroundColor: colors[hashId(listing.spot.id)]}}>
           <Card.Body>
-            {/* <div style={{color: '#' + intToRGB(hashCode(listing.spot.id))}}> */}
             <div style={{color: colors[hashId(listing.spot.id)]}}>
               <Row>
                 <Col className="centered">

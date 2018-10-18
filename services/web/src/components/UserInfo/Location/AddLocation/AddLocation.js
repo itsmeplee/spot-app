@@ -91,9 +91,13 @@ class AddLocation extends Component {
                         zip: parseInt(this.state.zip, 10),
                         user_id: this.props.user_id
                       }}
-                      onCompleted={() => this.props.history.push('/profilePage')}
                     >              
-                    {addLocation => <Button id="addSubmitBtn" onClick={addLocation}>Submit</Button>}
+                    {addLocation => <Button 
+                      id="addSubmitBtn" 
+                      onClick={() => {
+                        addLocation();
+                        this.handleClose();
+                      }}>Submit</Button>}
                     </Mutation>
                   </Col>
                 </Form.Group>

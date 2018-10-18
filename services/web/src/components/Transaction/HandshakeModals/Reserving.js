@@ -23,7 +23,7 @@ var Reserving = function({listing, handleClose}) {
                   listing_id: listing.id,
                   status: 6
                 }}
-                onCompleted={() => this.props.history.push('/')}
+                // onCompleted={() => this.props.history.push('/')}
               >
                 {editListing => <Button id="noticeBtn" onClick={() => {
                   editListing();
