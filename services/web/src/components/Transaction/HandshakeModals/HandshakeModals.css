@@ -4,8 +4,7 @@ button.btn-danger {
 }
 
 .background {
-  background-color: white;
-  border-radius: 5px;
+  color: white;
 }
 
 .plate {
@@ -32,13 +31,25 @@ button.btn-danger {
   height: 200px;
 }
 
-#footLinkResponse {
-  text-decoration: underline;
-  color: #46b2d6;
-}
-
 .btn-link {
   text-decoration: underline;
   background-color: none;
   color: white;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+  background-color: none;
+  color: white;
+}
+
+.confirmSwapBtn {
+  background-color: white;
+  border: none;
+}
+
+.confirmSwapBtn:hover {
+  color: white;
+  background-color: black;
+  border: none;
 }
