@@ -15,7 +15,7 @@ import './index.css';
 import App from './components/App/App';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000',
+  uri: 'https://server-bgwosrdwvy.now.sh/',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -29,7 +29,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000`,
+  uri: `ws://server-bgwosrdwvy.now.sh`,
   options: {
     reconnect: true,
     connectionParams: {
