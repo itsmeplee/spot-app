@@ -1,2 +1,0 @@
-CREATE DATABASE spots_dev;
-CREATE DATABASE spots_test;
