@@ -1,8 +1,8 @@
 # The HTTP endpoint for your Primsa API
-endpoint: ${env:PRISMA_ENDPOINT}
+endpoint: http://${env:HOST}:4466/spotswap-prisma/dev
 
 # Points to the file that holds your data model
-datamodel: datamodel.graphql
+datamodel: datamodel.prisma
 
 # Seed your service with initial data based on `seed.graphql`.
 # seed:
@@ -11,7 +11,10 @@ datamodel: datamodel.graphql
 # You can only access the API when providing JWTs that are signed with this secret
 secret: ${env:PRISMA_SECRET}
 
-# Deploy hook
+generate:
+  - generator: javascript-client
+    output: ./generated/prisma
+
 hooks:
   post-deploy:
-    -  graphql get-schema --project database
+    - prisma generate

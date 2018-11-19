@@ -6,6 +6,7 @@
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
+    1. [Cloud Deployment](#cloud-deployment)
     1. [Tasks](#roadmap)
 1. [Team](#team)
 1. [Contributing](#contributing)
@@ -55,6 +56,26 @@ npm install
 npm start
 
 ```
+From within the prisma directory:
+
+```
+Start Prisma with Postgres DB:
+- docker-compose up -d 
+- prisma deploy
+- prisma token
+- Use generated token to authenicate in playground (http://localhost:4466/spotswap-prisma/dev)
+- HTTP Header : {
+  "Authorization": "Bearer [token]"
+  }
+  
+```
+
+### Cloud Deployment
+
+
+Prisma
+
+For Digital Ocean [here](https://www.prisma.io/docs/1.14/tutorials/deploy-prisma-servers/digital-ocean-(docker-machine)-texoo9aemu)
 
 ### Roadmap
 

@@ -1,60 +1,18 @@
 version: '2.1'
 
 services:
-  # users-db:
-  #   container_name: users-db
-  #   build: ./services/users/src/database
-  #   ports:
-  #     - '5433:5432' # expose ports - HOST:CONTAINER
-  #   environment:
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
-  #   healthcheck:
-  #     test: exit 0
-
-  # spots-service:
-  #   container_name: spots-service
-  #   build: ./services/spots/
-  #   volumes:
-  #     - './services/spots:/usr/src/app'
-  #     - './services/spots/package.json:/usr/src/package.json'
-  #   ports:
-  #     - '3001:3000' # expose ports - HOST:CONTAINER
-  #   environment:
-  #     - DATABASE_URL=postgres://postgres:postgres@spots-db:5432/spots_dev
-  #     - DATABASE_TEST_URL=postgres://postgres:postgres@spots-db:5432/spots_test
-  #     - NODE_ENV=${NODE_ENV}
-  #     - TOKEN_SECRET=changeme
-  #     - PORT=3000
-  #   depends_on:
-  #     spots-db:
-  #       condition: service_healthy
-  #     users-service:
-  #       condition: service_started
-  #   links:
-  #     - spots-db
-  #     - users-service
-
-  users-service:
-    container_name: users-service
-    build: ./services/users/
+  server-service:
+    container_name: server-service
+    build: ./services/server/
     volumes:
-      - './services/users:/usr/src/app'
-      - './services/users/package.json:/usr/src/package.json'
+      - './services/server:/usr/src/app'
+      - './services/server/package.json:/usr/src/package.json'
     ports:
       - '3000:3000' # expose ports - HOST:CONTAINER
       - '5000:5000'
     environment:
-      # - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
-      # - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
       - NODE_ENV=${NODE_ENV}
-      - TOKEN_SECRET=changeme
       - PORT=3000
-    # depends_on:
-    #   users-db:
-    #     condition: service_healthy
-    # links:
-    #   - users-db
   
   web-service:
     container_name: web-service
@@ -66,31 +24,8 @@ services:
       - '8080:8080' # expose ports - HOST:CONTAINER
     environment:
       - NODE_ENV=${NODE_ENV}
-      - REACT_APP_MAPBOX_API_KEY=pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag
     depends_on:
-      users-service:
+      server-service:
         condition: service_started
-      # spots-service:
-      #   condition: service_started
     links:
-      - users-service
-      # - spots-service
-
-  # swagger:
-  #   container_name: swagger
-  #   build: ./services/spots/swagger/
-  #   volumes:
-  #     - './services/spots/swagger:/usr/src/app'
-  #     - '/usr/src/app/node_modules'
-  #   ports:
-  #     - '3003:3001' # expose ports - HOST:CONTAINER
-  #   environment:
-  #     - NODE_ENV=${NODE_ENV}
-  #   depends_on:
-  #     users-service:
-  #       condition: service_started
-  #     spots-service:
-  #       condition: service_started
-  #   links:
-  #     - users-service
-  #     - spots-service
+      - server-service

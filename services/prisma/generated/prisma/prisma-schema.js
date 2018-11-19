@@ -135,6 +135,16 @@ input CarUpdateInput {
   user: UserUpdateOneWithoutUser_carsInput
 }
 
+input CarUpdateManyMutationInput {
+  default_car: Boolean
+  size: Int
+  make: String
+  model: String
+  color: String
+  plate: String
+  state: String
+}
+
 input CarUpdateManyWithoutUserInput {
   create: [CarCreateWithoutUserInput!]
   delete: [CarWhereUniqueInput!]
@@ -393,6 +403,13 @@ input ListingUpdateInput {
   listing_user: UserUpdateOneWithoutList_listingsInput
   claiming_user: UserUpdateOneWithoutClaim_listingsInput
   spot: SpotUpdateOneWithoutListingInput
+  type: Int
+  status: Int
+  time_complete: DateTime
+  value: Int
+}
+
+input ListingUpdateManyMutationInput {
   type: Int
   status: Int
   time_complete: DateTime
@@ -658,6 +675,17 @@ input LocationUpdateInput {
   user: UserUpdateOneWithoutLocationsInput
 }
 
+input LocationUpdateManyMutationInput {
+  name: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: Int
+  lat: String
+  lng: String
+}
+
 input LocationUpdateManyWithoutUserInput {
   create: [LocationCreateWithoutUserInput!]
   delete: [LocationWhereUniqueInput!]
@@ -825,31 +853,31 @@ scalar Long
 type Mutation {
   createCar(data: CarCreateInput!): Car!
   updateCar(data: CarUpdateInput!, where: CarWhereUniqueInput!): Car
-  updateManyCars(data: CarUpdateInput!, where: CarWhereInput): BatchPayload!
+  updateManyCars(data: CarUpdateManyMutationInput!, where: CarWhereInput): BatchPayload!
   upsertCar(where: CarWhereUniqueInput!, create: CarCreateInput!, update: CarUpdateInput!): Car!
   deleteCar(where: CarWhereUniqueInput!): Car
   deleteManyCars(where: CarWhereInput): BatchPayload!
   createListing(data: ListingCreateInput!): Listing!
   updateListing(data: ListingUpdateInput!, where: ListingWhereUniqueInput!): Listing
-  updateManyListings(data: ListingUpdateInput!, where: ListingWhereInput): BatchPayload!
+  updateManyListings(data: ListingUpdateManyMutationInput!, where: ListingWhereInput): BatchPayload!
   upsertListing(where: ListingWhereUniqueInput!, create: ListingCreateInput!, update: ListingUpdateInput!): Listing!
   deleteListing(where: ListingWhereUniqueInput!): Listing
   deleteManyListings(where: ListingWhereInput): BatchPayload!
   createLocation(data: LocationCreateInput!): Location!
   updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
-  updateManyLocations(data: LocationUpdateInput!, where: LocationWhereInput): BatchPayload!
+  updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
   upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
   deleteLocation(where: LocationWhereUniqueInput!): Location
   deleteManyLocations(where: LocationWhereInput): BatchPayload!
   createSpot(data: SpotCreateInput!): Spot!
   updateSpot(data: SpotUpdateInput!, where: SpotWhereUniqueInput!): Spot
-  updateManySpots(data: SpotUpdateInput!, where: SpotWhereInput): BatchPayload!
+  updateManySpots(data: SpotUpdateManyMutationInput!, where: SpotWhereInput): BatchPayload!
   upsertSpot(where: SpotWhereUniqueInput!, create: SpotCreateInput!, update: SpotUpdateInput!): Spot!
   deleteSpot(where: SpotWhereUniqueInput!): Spot
   deleteManySpots(where: SpotWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
@@ -1033,6 +1061,20 @@ input SpotUpdateInput {
   start_time: DateTime
   end_time: DateTime
   listing: ListingUpdateOneWithoutSpotInput
+}
+
+input SpotUpdateManyMutationInput {
+  lat: String
+  lng: String
+  street1: String
+  street2: String
+  city: String
+  state: String
+  zip: Int
+  is_available: Boolean
+  type: Int
+  start_time: DateTime
+  end_time: DateTime
 }
 
 input SpotUpdateOneWithoutListingInput {
@@ -1443,6 +1485,19 @@ input UserUpdateInput {
   current_lat: String
   claim_listings: ListingUpdateManyWithoutClaiming_userInput
   list_listings: ListingUpdateManyWithoutListing_userInput
+  balance: Int
+}
+
+input UserUpdateManyMutationInput {
+  user_name: String
+  rating: Int
+  first_name: String
+  last_name: String
+  email: String
+  phone_number: String
+  password: String
+  current_lng: String
+  current_lat: String
   balance: Int
 }
 
