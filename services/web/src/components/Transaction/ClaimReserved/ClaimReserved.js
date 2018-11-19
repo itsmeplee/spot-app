@@ -101,7 +101,7 @@ class ClaimReserved extends Component {
                 <Modal.Title className="modelTitle">Reserve Spot</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <div>This spot is being held for another {timeLeft} by a <span className={this.showRating()}>{this.showRating()}</span> rating user. It can be yours for <b>${spotValue}</b>.</div>
+                <div>This spot is being held for another {timeLeft} by a <span className={this.showRating()}>{this.showRating()}</span> rating user.{/*It can be yours for <b>${spotValue}</b>.*/}</div>
                 <Row>
                   <Col className="centered">
                     <Button id="holdingBtn" onClick={this.changeClicked}>Claim Spot</Button>
@@ -122,7 +122,7 @@ class ClaimReserved extends Component {
                 <Modal.Title className="modelTitle">Reserve Spot</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                  <div>This spot will cost you <b>${spotValue}</b>. Are you sure you want to claim it?</div>
+                  <div>{/*This spot will cost you <b>${spotValue}</b>.*/}Are you sure you want to claim it?</div>
                   <Row></Row>
                   <Row></Row>
                   <Row></Row>

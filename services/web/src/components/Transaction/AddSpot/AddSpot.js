@@ -114,7 +114,7 @@ class AddSpot extends Component {
               <Form.Label>Holding for (min):</Form.Label>
               <Form.Control type="text" placeholder="Minutes" value={this.state.extra_time.toString()} onChange={(e) => this.handleInputTimeChange(e)}></Form.Control>
             </Form.Group>
-            <Form.Group controlId="formHoldSpotValue">
+            {/* <Form.Group controlId="formHoldSpotValue">
               <Form.Label>Sell for:</Form.Label>
               <InputGroup>
                 <InputGroup.Prepend>
@@ -122,7 +122,7 @@ class AddSpot extends Component {
                 </InputGroup.Prepend>
                 <Form.Control type="text" placeholder="Value" value={this.state.value.toString()} onChange={e => this.setState({ value: e.target.value })} ></Form.Control>
               </InputGroup>
-            </Form.Group>
+            </Form.Group> */}
           </div>
         </React.Fragment>
       );

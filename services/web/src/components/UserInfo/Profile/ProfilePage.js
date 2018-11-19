@@ -133,11 +133,11 @@ class ProfilePage extends Component {
                         Rating: <span className={this.showRating()}>{this.showRating()}</span>
                         </Col>
                       </Row>
-                      <Row>
+                      {/* <Row>
                         <Col className="right">
                             Balance: $ {balance}
                         </Col>
-                      </Row>
+                      </Row> */}
                     </Col>
                     </Row>
                   <Row>
@@ -210,7 +210,7 @@ class ProfilePage extends Component {
               </Form>
             </Col>
           </Row>
-          <Row className="profileRow">
+          {/* <Row className="profileRow">
             <Col>
               <Card>
                 <Card.Header as="h5">Payment</Card.Header>
@@ -223,7 +223,7 @@ class ProfilePage extends Component {
                   </Card.Body>
               </Card>
             </Col>
-          </Row>
+          </Row> */}
           <Row className="profileRow">
             <Col>
             <Card>

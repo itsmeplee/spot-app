@@ -2,54 +2,39 @@
 
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
-
-There is an approach called "working backwards" that is widely used at Amazon. They work backwards from the customer, rather than starting with an idea for a product and trying to bolt customers onto it. While working backwards can be applied to any specific product decision, using this approach is especially important when developing new products or features.
-
-For new initiatives a product manager typically starts by writing an internal press release announcing the finished product. The target audience for the press release is the new/updated product's customers, which can be retail customers or internal users of a tool or technology. Internal press releases are centered around the customer problem, how current solutions (internal or external) fail, and how the new product will blow away existing solutions.
-
-If the benefits listed don't sound very interesting or exciting to customers, then perhaps they're not (and shouldn't be built). Instead, the product manager should keep iterating on the press release until they've come up with benefits that actually sound like benefits. Iterating on a press release is a lot less expensive than iterating on the product itself (and quicker!).
-
-If the press release is more than a page and a half, it is probably too long. Keep it simple. 3-4 sentences for most paragraphs. Cut out the fat. Don't make it into a spec. You can accompany the press release with a FAQ that answers all of the other business or execution questions so the press release can stay focused on what the customer gets. My rule of thumb is that if the press release is hard to write, then the product is probably going to suck. Keep working at it until the outline for each paragraph flows. 
-
-Oh, and I also like to write press-releases in what I call "Oprah-speak" for mainstream consumer products. Imagine you're sitting on Oprah's couch and have just explained the product to her, and then you listen as she explains it to her audience. That's "Oprah-speak", not "Geek-speak".
-
-Once the project moves into development, the press release can be used as a touchstone; a guiding light. The product team can ask themselves, "Are we building what is in the press release?" If they find they're spending time building things that aren't in the press release (overbuilding), they need to ask themselves why. This keeps product development focused on achieving the customer benefits and not building extraneous stuff that takes longer to build, takes resources to maintain, and doesn't provide real customer benefit (at least not enough to warrant inclusion in the press release).
  -->
  
-## Welcome to Spot Swap! Find street parking or arrange a swap of a parking spot with other users! ##
-  
+Welcome to Spot Swap! Find street parking or arrange a swap of a parking spot with other users!  
 
-## This product is designed for users who want to quickly find and post parking spots. ##
-  
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+Ever wish you could be tipped off when someone was about to leave their parking spot?  
+Ever wished you could sell the information that you are about to leave your parking spot?   
+Use **[Spot Swap](http://www.spotswap.io)** to look for parking spots that are about to open up, or to exchange your current spot with other users!
 
-  
 
-## We noticed as a team that there was no applications that post and find parking spots easily. ##
+## Our Mission ##
 
-  
+### Simplifying Finding Parking  ###
+Many great parking apps exist and provide assistance to the stressed and overwhelmed city driver.  However, we found that most focus on paid parking garages or only provide insight into parking regulations.  We realized the need for a community of parkers who can tip each other off to street parking spots coming available in real time.  
 
-## Solution ##
-  > Describe how your product elegantly solves the problem.
-
-  
-  
-## Quote from You ##
-  > A quote from a spokesperson in your company.
+### The Solution ###
+While hunting for a spot in a busy mall parking lot, our founder had an exchange with a departing shopper who led him to thier spot that they were leaving. 'I should charge you for this!' joked the shopper as they got in their car to depart.  
+Realizing that after having circled the lot, he would have happily paid to know who was about to leave, the idea of Spot Swap was born - *An online community of parkers who conveniently and safely let each other know when they're about to leave a parking spot.*
+Spot Swap now scales the act of following the shopper to parking lots and city streets everywhere!
 
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  Using spot swap is as easy as navigating to **[spotswap.io](http://www.spotswap.io)**!  Search for and post open spots immediatly.  Create an account to reserve or claim a spot to swap with another user.
 
 
-
-## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+## Spot Swap Testimonials ##
+  > "Driving in the city is hard enough without having to circle streets near my destination looking for a spot. Spot Swap leading me straight to a spot saved for me is a huge burden off my shoulders.  I no longer dread driving into the city."
   
+  > "I love the city, but with Spot Swap I love it even more!"
 
+  > "I used to think to myself, 'My parking spot is so good, someone should *pay me* to leave it!'  Now with Spot Swap they can!"
 
-## The app is super easy to use. We encourage you to create an account and try out the features so that you to can see how easy it is to find parking spots. ##
+## Spot Swap is super easy to use. We encourage you to create an account and try out the beta features so that you to can see how easy it is to find parking spots. ##
 
   
