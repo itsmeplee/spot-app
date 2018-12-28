@@ -50,17 +50,19 @@ services:
     container_name: users-service
     build: ./services/users/
     volumes:
-      - './services/users:/usr/src/app'
+      - './services/users:/usr/src/'
       - './services/users/package.json:/usr/src/package.json'
     ports:
-      - '3000:3000' # expose ports - HOST:CONTAINER
-      - '5000:5000'
+      - '3000:3001' # expose ports - HOST:CONTAINER
+      - '5000:4000'
     environment:
       # - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
       # - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
       - NODE_ENV=${NODE_ENV}
       - TOKEN_SECRET=changeme
-      - PORT=3000
+      - PORT=3001
+      - PRISMA_ENDPOINT=http://localhost:4466
+      - PRISMA_SECRET='my-secret-secret'
     # depends_on:
     #   users-db:
     #     condition: service_healthy

@@ -1,11 +1,11 @@
-endpoint: http://104.248.15.112:4466/spotswap-prisma/dev
+endpoint: http://localhost:4466
 datamodel: datamodel.prisma
 
 generate:
   - generator: javascript-client
     output: ./generated/prisma
 
-secret: ${env:PRISMA_SECRET}
+secret: my-secret-secret
 
 hooks:
   post-deploy:

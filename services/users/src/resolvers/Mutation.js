@@ -331,6 +331,9 @@ function editSpotListing (parent, args, context, info) { //working
       }
     )
   })
+  .catch((err) => {
+    console.log(err)
+  })
 };
 
 async function expireSpot (parent, args, context, info) {
