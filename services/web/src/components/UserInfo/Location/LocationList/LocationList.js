@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from 'react-apollo';
-import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+// import * as reactBoostrap from 'react-bootstrap'; //{ Button, Form, Card, Row, Col }
+import { Button, Form, Card, Row, Col } from 'react-bootstrap'; //
 import Loader from '../../../App/Loader';
 import './LocationList.css';
 import { getLocationsQuery, deleteLocationMutation } from '../../../../queries/queriesLocation';
 
+
+
 class LocationList extends Component {
-  displayLocations = () => {
+  displayLocations = () => { 
     return (
       <Query query={getLocationsQuery} >
         {({ loading, error, data, subscribeToMore }) => {
@@ -45,12 +48,12 @@ class LocationList extends Component {
     })
     .catch((err) => {
       console.log(err);
-    })
+    }) 
   };
 
   render() {
     return (
-      <Container>
+      <Card>
         <Row>
           <Col className="locationColTitles">
             Street 1
@@ -111,7 +114,7 @@ class LocationList extends Component {
             )
           })
         )}
-      </Container>
+      </Card>
     );
   };
 };

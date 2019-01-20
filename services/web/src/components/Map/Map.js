@@ -249,6 +249,8 @@ class Map extends Component {
           <Subscription subscription={ CHANGED_LISTINGS_SUBSCRIPTION } >
             {({ data }) => {
               if (data && data.listingUpdate) {
+                console.log(data)
+                console.log(this.props)
                 let listing = data.listingUpdate.node;
                 let lister = listing.listing_user && listing.listing_user.id === this.props.userInfo.id;
                 if (listing.time_complete === null) {
@@ -275,7 +277,7 @@ class Map extends Component {
               if (data && data.newSpot) {
                 let spotChange = data.newSpot.node;
                 if (spotChange.is_available) {
-                  addSpot(spotChange, this.state.map, this.claimSpot, (this.props.listings.length > 0));
+                  addSpot(spotChange, this.state.map, this.claimSpot, (this.props.listings && this.props.listings.length > 0));
                 } else {
                   removeSpot(spotChange, this.state.map);
                 }

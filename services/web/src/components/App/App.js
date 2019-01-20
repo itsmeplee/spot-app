@@ -32,16 +32,19 @@ class App extends Component {
             <Route exact path="/addCar" component={AddCar} />
             <Route exact path="/addLocation" component={AddLocation} />
             <Query query={getUserQuery}>
-              {({ loading: loadingUser, data: { userInfo }, error: userError }) => (
+              {({ loading: loadingUser, data: dataForUser, error: userError }) => (
                 <Query query={getListingsQuery}>
-                  {({ loading: loadingListings, data: { myListings }, error: listingsError}) => (
+                  {({ loading: loadingListings, data: dataForListings, error: listingsError}) => (
                     <Query query={getSpotsQuery}>
-                      {({ loading: loadingSpots, data: { openSpot }, error: spotsError }) => {
+                      {({ loading: loadingSpots, data: dataForSpots, error: spotsError }) => {
                         if (userError || listingsError || spotsError) return (<span>Error in loading, please try again later</span>);
                         if (loadingUser || loadingListings || loadingSpots ) return (<Loader></Loader>);
+                        console.log(dataForListings)
+                        console.log(dataForSpots)
+                        console.log(dataForUser)
                         return (
                           <div className="App">
-                            <MapComp listings={myListings} spots={openSpot} userInfo={userInfo}/>
+                            <MapComp listings={dataForListings.myListings} spots={dataForSpots.openSpot} userInfo={dataForUser.userInfo}/>
                           </div>
                         );
                       }}

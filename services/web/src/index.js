@@ -17,7 +17,7 @@ import App from './components/App/App';
 console.log(JSON.stringify(process.env));
 
 const httpLink = createHttpLink({
-  uri: `http${process.env.REACT_APP_GRAPHQL || '://localhost:4000'}`,
+  uri: `http${process.env.REACT_APP_GRAPHQL || '://localhost:3001'}`,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -31,7 +31,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws${process.env.REACT_APP_GRAPHQL || '://localhost:4000'}`,
+  uri: `ws${process.env.REACT_APP_GRAPHQL || '://localhost:3001'}`,
   options: {
     reconnect: true,
     connectionParams: {

@@ -13,8 +13,7 @@ const resolvers = {
   Subscription
 };
 
-console.log(config.prisma_secret === process.env.PRISMA_SECRET);
-console.log(process.env.PRISMA_SECRET, config.prisma_secret.toString())
+console.log(process.env.PRISMA_ENDPOINT);
 
 const server = new GraphQLServer({
   typeDefs : './src/schema.graphql',
@@ -23,8 +22,8 @@ const server = new GraphQLServer({
     ...req,
     db: new Prisma({
       typeDefs: 'src/generated/prisma.graphql',
-      endpoint: process.env.PRISMA_ENDPOINT || 'http://localhost:4466',
-      secret: config.prisma_secret.toString(),
+      endpoint: process.env.PRISMA_ENDPOINT || 'http://127.0.0.1:4466',
+      secret: process.env.PRISMA_SECRET.toString() || config.prisma_secret.toString(),
       debug: true, 
     })
   })
@@ -38,4 +37,4 @@ const opts = {
   }
 };
 
-server.start((opts) => console.log(`Server is running on http://localhost:${process.env.PORT}`));
+server.start((opts) => console.log(`Server is running within the docker container and locally on http://localhost:${process.env.EXPOSED_PORT}`));

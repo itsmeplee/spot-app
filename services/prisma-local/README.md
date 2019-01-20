@@ -1,4 +1,4 @@
-# main_server
+# Prisma ORM and DB Setup
 Database for local with prisma
 
 Stand up by #docker-compose up#
@@ -17,4 +17,9 @@ WHen you have that token, add it to the playground using HEADERS:
 {
   "Authorization": "Bearer \[token\]"
 }
-Now you should be able to connect using the 
+Now you should be able to connect using the playground
+
+docker exec -it users-service sh
+
+lsof -i for all the ports,  I had an issue where the port was already occupied
+

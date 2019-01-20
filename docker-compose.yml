@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3'
 
 services:
   # users-db:
@@ -45,6 +45,33 @@ services:
   #   links:
   #     - spots-db
   #     - users-service
+  db:
+    container_name: prisma-db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: prisma
+
+  prisma:
+    container_name: spot-app_prisma_1
+    image: prismagraphql/prisma:1.12
+    restart: always
+    ports:
+    - "4466:4466"
+    environment:
+      PRISMA_CONFIG: |
+        managementApiSecret: 'my-secret-secret'
+        port: 4466
+        databases:
+          default:
+            connector: mysql
+            active: true
+            host: prisma-db
+            port: 3306
+            user: root
+            password: prisma
+  
 
   users-service:
     container_name: users-service
@@ -53,16 +80,18 @@ services:
       - './services/users:/usr/src/'
       - './services/users/package.json:/usr/src/package.json'
     ports:
-      - '3000:3001' # expose ports - HOST:CONTAINER
+      - '3001:3001' # expose ports - HOST:CONTAINER
       - '5000:4000'
+      - '3000:3000'
     environment:
       # - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
       # - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
       - NODE_ENV=${NODE_ENV}
       - TOKEN_SECRET=changeme
       - PORT=3001
-      - PRISMA_ENDPOINT=http://localhost:4466
-      - PRISMA_SECRET='my-secret-secret'
+      - PRISMA_ENDPOINT=http://spot-app_prisma_1:4466
+      - PRISMA_SECRET=my-secret-secret
+      - EXPOSED_PORT=3001  # match this to the port above
     # depends_on:
     #   users-db:
     #     condition: service_healthy
@@ -81,8 +110,7 @@ services:
       - NODE_ENV=${NODE_ENV}
       - REACT_APP_MAPBOX_API_KEY=pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag
     depends_on:
-      users-service:
-        condition: service_started
+      - users-service
       # spots-service:
       #   condition: service_started
     links:

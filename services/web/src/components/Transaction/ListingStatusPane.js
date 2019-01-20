@@ -32,7 +32,7 @@ class ListingStatusDrawer extends Component {
 
   componentDidUpdate = (prevProps) => {
     let { myListings } = this.props;
-    if (myListings[0] !== prevProps.myListings[0]) {
+    if (myListings && myListings[0] !== prevProps.myListings[0]) {
       this.openDrawer();
     }
   }
