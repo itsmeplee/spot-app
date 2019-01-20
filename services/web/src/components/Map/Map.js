@@ -22,8 +22,8 @@ import { Subscription } from 'react-apollo';
 
 import './Map.css';
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_APIKEY;
-
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY;
+console.log(process.env.REACT_APP_MAPBOX_API_KEY);
 class Map extends Component {
   state = {
     lng: -73.9824,

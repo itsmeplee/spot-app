@@ -108,7 +108,7 @@ services:
       - '8080:8080' # expose ports - HOST:CONTAINER
     environment:
       - NODE_ENV=${NODE_ENV}
-      - REACT_APP_MAPBOX_API_KEY=pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam11bDQwdGwyeWZ5M3FqcGFuaHRxd3Q2In0.UyaQAvC0nx08Ih7-vq3wag
+      - REACT_APP_MAPBOX_API_KEY=pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam96cm52c2gwcTZqM3ZwNDB6MTJ6bDM3In0._cvW-F5cGFcpwNpTtd-r4w
     depends_on:
       - users-service
       # spots-service:
