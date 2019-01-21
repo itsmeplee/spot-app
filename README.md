@@ -56,7 +56,42 @@ Find us at **[spotswap.io](http://www.spotswap.io)**!
 
 ## Development
 
-### Installing Dependencies
+### Docker 
+| Name             | Service | Container | Tech                 |
+|------------------|---------|-----------|----------------------|
+| Web              | Web     | web       | React, React-Router  |
+| Server           | Server  | server    | Node, Express GQL    |
+| DB               | DB      | db        | Prisma / Postgres    |
+
+To start
+1. Create '.env' in this directory from the .example-env file.  Replace variables with your own.
+  a. REACT_APP_MAPBOX_API_KEY - Create a token from mapbox.com, use this token here
+  b. PRISMA_SECRET - Define your own prisma secret, you will also need to 'prisma deploy' with this secret
+2. Use docker-compose.yml to build the containers for the project
+  a. From this directory, run 
+  ```
+   docker-compose up
+  ```
+3. Deploy the data model to prisma
+  a. Navigate to _services/users/database/_ and find the prisma.yml file. 
+  b. Define an env variable for PRISMA_SECRET, or overwrite the file
+  c. Run 
+  ```
+  prisma deploy
+  ```
+4. If you want to make use of the Prisma Playground for debugging
+  a. From the same directory _services/users/database/_ run 
+  ```
+  prisma token
+  ```
+  b. Within Prisma Playground use the *HTTP HEADERS* option to add the token
+  ```
+  {
+    "Authorization": "Bearer \[token\]"
+  }
+  ```
+
+### Manually
 
 From within the server directory:
 
@@ -78,12 +113,7 @@ From within the web directory:
 npm install
 npm start
 ```
-### Docker Containers
-| Name             | Service | Container | Tech                 |
-|------------------|---------|-----------|----------------------|
-| Web              | Web     | web       | React, React-Router  |
-| Server           | Server  | server    | Node, Express GQL    |
-| DB               | DB      | db        | Prisma / Postgres    |
+
 
 ### Roadmap
 

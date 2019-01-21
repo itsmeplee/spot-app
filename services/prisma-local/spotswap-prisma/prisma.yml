@@ -5,7 +5,7 @@ generate:
   - generator: javascript-client
     output: ./generated/prisma
 
-secret: my-secret-secret
+secret: ${env:PRISMA_SECRET}
 
 hooks:
   post-deploy:
