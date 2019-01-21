@@ -39,9 +39,6 @@ class App extends Component {
                       {({ loading: loadingSpots, data: dataForSpots, error: spotsError }) => {
                         if (userError || listingsError || spotsError) return (<span>Error in loading, please try again later</span>);
                         if (loadingUser || loadingListings || loadingSpots ) return (<Loader></Loader>);
-                        console.log(dataForListings)
-                        console.log(dataForSpots)
-                        console.log(dataForUser)
                         return (
                           <div className="App">
                             <MapComp listings={dataForListings.myListings} spots={dataForSpots.openSpot} userInfo={dataForUser.userInfo}/>

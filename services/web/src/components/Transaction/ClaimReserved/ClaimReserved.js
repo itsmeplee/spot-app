@@ -76,14 +76,8 @@ class ClaimReserved extends Component {
 
   render() {
     const timeLeft = moment(this.props.location.state.spot.end_time).fromNow(true);
-    let spotValue;
-    
-    if (!this.props.location.state.spot.listing.value) {
-      spotValue = 0;
-    }
-    else {
-      spotValue = this.props.location.state.spot.listing.value;
-    }
+
+    // let spotValue = this.props.location.state.spot.listing.value ? 0 : this.props.location.state.spot.listing.value;
 
     if (this.state.homeRedirect) {
       return <Redirect to={{

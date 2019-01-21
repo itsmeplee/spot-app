@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { addSpotMutation } from '../../../queries/queriesSpot';
 import moment from 'moment';
-import { Button, Modal, Row, Col, Container, Form, InputGroup, Alert } from 'react-bootstrap';
+import { Button, Modal, Row, Col, Container, Form, Alert } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';

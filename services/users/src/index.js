@@ -13,8 +13,6 @@ const resolvers = {
   Subscription
 };
 
-console.log(process.env.PRISMA_ENDPOINT);
-
 const server = new GraphQLServer({
   typeDefs : './src/schema.graphql',
   resolvers,

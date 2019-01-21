@@ -1,7 +1,69 @@
 version: '3'
 
 services:
-  # users-db:
+  db:
+    container_name: prisma-db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: prisma
+
+  prisma:
+    container_name: spot-app_prisma_1
+    image: prismagraphql/prisma:1.12
+    restart: always
+    ports:
+    - "4466:4466"
+    environment:
+      PRISMA_CONFIG: |
+        managementApiSecret: 'my-secret-secret'
+        port: 4466
+        databases:
+          default:
+            connector: mysql
+            active: true
+            host: prisma-db
+            port: 3306
+            user: root
+            password: prisma
+
+  users-service:
+    container_name: users-service
+    build: ./services/users/
+    volumes:
+      - './services/users:/usr/src/'
+      - './services/users/package.json:/usr/src/package.json'
+    ports:
+      - '3001:3001' # expose ports - HOST:CONTAINER
+      - '5000:4000'
+      - '3000:3000'
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - TOKEN_SECRET=${TOKEN_SECRET}
+      - PORT=3001
+      - PRISMA_ENDPOINT=http://spot-app_prisma_1:4466
+      - PRISMA_SECRET=${PRISMA_SECRET}
+      - EXPOSED_PORT=3001  # match this to the port above
+  
+  web-service:
+    container_name: web-service
+    build: ./services/web/
+    volumes:
+      - './services/web:/opt/app'
+      - '/opt/app/node_modules'
+    ports:
+      - '8080:8080' # expose ports - HOST:CONTAINER
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - REACT_APP_MAPBOX_API_KEY=${REACT_APP_MAPBOX_API_KEY}
+    depends_on:
+      - users-service
+    links:
+      - users-service
+
+
+        # users-db:
   #   container_name: users-db
   #   build: ./services/users/src/database
   #   ports:
@@ -45,93 +107,3 @@ services:
   #   links:
   #     - spots-db
   #     - users-service
-  db:
-    container_name: prisma-db
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: prisma
-
-  prisma:
-    container_name: spot-app_prisma_1
-    image: prismagraphql/prisma:1.12
-    restart: always
-    ports:
-    - "4466:4466"
-    environment:
-      PRISMA_CONFIG: |
-        managementApiSecret: 'my-secret-secret'
-        port: 4466
-        databases:
-          default:
-            connector: mysql
-            active: true
-            host: prisma-db
-            port: 3306
-            user: root
-            password: prisma
-  
-
-  users-service:
-    container_name: users-service
-    build: ./services/users/
-    volumes:
-      - './services/users:/usr/src/'
-      - './services/users/package.json:/usr/src/package.json'
-    ports:
-      - '3001:3001' # expose ports - HOST:CONTAINER
-      - '5000:4000'
-      - '3000:3000'
-    environment:
-      # - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
-      # - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
-      - NODE_ENV=${NODE_ENV}
-      - TOKEN_SECRET=changeme
-      - PORT=3001
-      - PRISMA_ENDPOINT=http://spot-app_prisma_1:4466
-      - PRISMA_SECRET=my-secret-secret
-      - EXPOSED_PORT=3001  # match this to the port above
-    # depends_on:
-    #   users-db:
-    #     condition: service_healthy
-    # links:
-    #   - users-db
-  
-  web-service:
-    container_name: web-service
-    build: ./services/web/
-    volumes:
-      - './services/web:/opt/app'
-      - '/opt/app/node_modules'
-    ports:
-      - '8080:8080' # expose ports - HOST:CONTAINER
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - REACT_APP_MAPBOX_API_KEY=pk.eyJ1IjoidHJlbnRnb2luZyIsImEiOiJjam96cm52c2gwcTZqM3ZwNDB6MTJ6bDM3In0._cvW-F5cGFcpwNpTtd-r4w
-    depends_on:
-      - users-service
-      # spots-service:
-      #   condition: service_started
-    links:
-      - users-service
-      # - spots-service
-
-  # swagger:
-  #   container_name: swagger
-  #   build: ./services/spots/swagger/
-  #   volumes:
-  #     - './services/spots/swagger:/usr/src/app'
-  #     - '/usr/src/app/node_modules'
-  #   ports:
-  #     - '3003:3001' # expose ports - HOST:CONTAINER
-  #   environment:
-  #     - NODE_ENV=${NODE_ENV}
-  #   depends_on:
-  #     users-service:
-  #       condition: service_started
-  #     spots-service:
-  #       condition: service_started
-  #   links:
-  #     - users-service
-  #     - spots-service

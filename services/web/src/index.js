@@ -14,8 +14,6 @@ import { AUTH_TOKEN } from './constants';
 import './index.css';
 import App from './components/App/App';
 
-console.log(JSON.stringify(process.env));
-
 const httpLink = createHttpLink({
   uri: `http${process.env.REACT_APP_GRAPHQL || '://localhost:3001'}`,
 });

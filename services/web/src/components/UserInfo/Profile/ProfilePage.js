@@ -7,7 +7,6 @@ import Loader from '../../App/Loader';
 import CarList from '../Car/CarList/CarList';
 import LocationList from '../Location/LocationList/LocationList';
 import { getUserQuery, mutationUser } from '../../../queries/queriesUser';
-import CardForm from '../Payments/CardForm';
 
 import './ProfilePage.css';
 
@@ -133,11 +132,11 @@ class ProfilePage extends Component {
                         Rating: <span className={this.showRating()}>{this.showRating()}</span>
                         </Col>
                       </Row>
-                      {/* <Row>
+                      <Row>
                         <Col className="right">
                             Balance: $ {balance}
                         </Col>
-                      </Row> */}
+                      </Row>
                     </Col>
                     </Row>
                   <Row>

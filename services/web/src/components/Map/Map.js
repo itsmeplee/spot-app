@@ -23,7 +23,7 @@ import { Subscription } from 'react-apollo';
 import './Map.css';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY;
-console.log(process.env.REACT_APP_MAPBOX_API_KEY);
+
 class Map extends Component {
   state = {
     lng: -73.9824,
@@ -249,8 +249,6 @@ class Map extends Component {
           <Subscription subscription={ CHANGED_LISTINGS_SUBSCRIPTION } >
             {({ data }) => {
               if (data && data.listingUpdate) {
-                console.log(data)
-                console.log(this.props)
                 let listing = data.listingUpdate.node;
                 let lister = listing.listing_user && listing.listing_user.id === this.props.userInfo.id;
                 if (listing.time_complete === null) {

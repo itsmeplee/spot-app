@@ -1,0 +1,9 @@
+#Fill in the following with your information
+
+NODE_ENV=DEVELOPMENT
+
+TOKEN_SECRET=example
+
+PRISMA_SECRET=create your_own_secret
+
+REACT_APP_MAPBOX_API_KEY=sign_up_at_mapbox.com
